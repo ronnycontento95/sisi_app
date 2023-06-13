@@ -57,14 +57,10 @@ class BodyHome extends StatelessWidget {
     return AnnotatedRegion(
       value: ColorsPalette.colorWhite,
       child: Scaffold(
-        appBar: WidgetAppbarHome(pLogin!.empresaResponse!.imagen!, pLogin!.empresaResponse!.nombre_empresa!),
+        appBar: pLogin!.empresaResponse != null ? WidgetAppbarHome(pLogin!.empresaResponse!.imagen!, pLogin!.empresaResponse!.nombre_empresa!): SizedBox(),
         backgroundColor: ColorsPalette.colorGrey,
         body: Stack(
-          children: [
-            const GoogleMaps(),
-            locationGps(),
-            listNodos()
-          ],
+          children: [const GoogleMaps(), locationGps(), listNodos()],
         ),
       ),
     );
@@ -105,7 +101,7 @@ class BodyHome extends StatelessWidget {
                   initialPage: 0,
                   enlargeCenterPage: true,
                   autoPlay: true,
-                  autoPlayInterval: const  Duration(seconds: 3),
+                  autoPlayInterval: const Duration(seconds: 3),
                   autoPlayAnimationDuration: const Duration(milliseconds: 90),
                   pauseAutoPlayOnTouch: true,
                   enableInfiniteScroll: true,
@@ -114,26 +110,24 @@ class BodyHome extends StatelessWidget {
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
-                        width: MediaQuery.of(context).size.width,
-                        // margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: const BoxDecoration(
-                          color: Colors.grey,
-                        ),
-                        child:Text("${element.nombre}")
-                      );
+                          width: MediaQuery.of(context).size.width,
+                          // margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: const BoxDecoration(
+                            color: Colors.grey,
+                          ),
+                          child: Text("${element.nombre}"));
                     },
                   );
                 }).toList(),
               );
             },
-            gridDelegate:
-                const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 150, childAspectRatio: 2 / 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 150, childAspectRatio: 2 / 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
           ),
         ),
       ],
     );
   }
-
 }
 
 class GoogleMaps extends StatelessWidget {
@@ -155,5 +149,4 @@ class GoogleMaps extends StatelessWidget {
       // markers: Set<Marker>.of(providerCarpool.markersExplorer.values),
     );
   }
-
 }

@@ -11,6 +11,7 @@ import 'package:sisi_iot_app/domain/repositories/repository_interface.dart';
 import 'package:sisi_iot_app/ui/pages/page_home.dart';
 import 'package:sisi_iot_app/ui/pages/page_login.dart';
 import 'package:sisi_iot_app/ui/utils/utils.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class ProviderLogin extends ChangeNotifier {
   final ApiRepositoryLoginInterface? apiRepositoryLoginInterface;
@@ -96,7 +97,6 @@ class ProviderLogin extends ChangeNotifier {
   getUser() async {
     repositoryInterface!.getIdEmpresa().then((value) {
       empresaResponse = value;
-      print('Empresa provider >>> ${empresaResponse}');
       getNodosId(empresaResponse!.id_empresas!);
     });
   }
@@ -107,7 +107,6 @@ class ProviderLogin extends ChangeNotifier {
       if(code == -1){
         empresaNodosResponse =[];
       }else {
-        print('>>>>EMPRESA NODOS RESPONSE ${empresaNodosResponse}');
         empresaNodosResponse =data;
       }
     });
@@ -118,5 +117,28 @@ class ProviderLogin extends ChangeNotifier {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
     Navigator.of(Utils.globalContext.currentContext!).pushNamedAndRemoveUntil(PageLogin.routePage, (Route<dynamic> route) => false);
+  }
+
+  controller(){
+    WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            // Update loading bar.
+          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {},
+          onWebResourceError: (WebResourceError error) {},
+          onNavigationRequest: (NavigationRequest request) {
+            if (request.url.startsWith('https://sisi.com.ec/aplicacion/celular/nodo_individual/30/')) {
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse('https://sisi.com.ec/aplicacion/celular/nodo_individual/30/'));
   }
 }

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/data/repositories/api_global_url.dart';
 import 'package:sisi_iot_app/domain/entities/empresaNodos.dart';
 import 'package:sisi_iot_app/ui/pages/page_menu.dart';
+import 'package:sisi_iot_app/ui/pages/page_web_nodos.dart';
 import 'package:sisi_iot_app/ui/provider/provider_login.dart';
 import 'package:sisi_iot_app/ui/utils/global.dart';
 import 'package:sisi_iot_app/ui/utils/global_color.dart';
@@ -48,8 +49,7 @@ class BodyHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
     pLogin ??= Provider.of<ProviderLogin>(context);
     return AnnotatedRegion(
         value: ColorsPalette.colorWhite,
@@ -58,9 +58,7 @@ class BodyHome extends StatelessWidget {
           body: SafeArea(
             child: SingleChildScrollView(
               child: Column(
-                children: [
-                  widgetCircle()
-                ],
+                children: [widgetCircle()],
               ),
             ),
           ),
@@ -74,10 +72,10 @@ class BodyHome extends StatelessWidget {
         top: 20,
         left: 20,
       ),
-      child: WidgetLabelText()
-          .labelTextTitle(text: "Lista de Nodos", fontSize: 20),
+      child: WidgetLabelText().labelTextTitle(text: "Lista de Nodos", fontSize: 20),
     );
   }
+
   Widget widgetCircle() {
     return Container(
       margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
@@ -89,45 +87,54 @@ class BodyHome extends StatelessWidget {
           return itemNodo(pLogin!.empresaNodosResponse[index]);
         },
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 250,
-            childAspectRatio: 2 / 2,
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 5),
+            maxCrossAxisExtent: 250, childAspectRatio: 2 / 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
       ),
     );
   }
 
   Widget itemNodo(EmpresaNodosResponse? empresaNodos) {
-    return Container(
+    return GestureDetector(
+      onTap: (){
+        Navigator.of(Utils.globalContext.currentContext!).pushNamed(PageWebView.routePage);
+      },
+      child: Container(
         width: 150,
         height: 250,
         color: Colors.black26,
         child: SfRadialGauge(
-            title: GaugeTitle(text: empresaNodos!.nombre!),
-
-            axes: <RadialAxis>[
-              RadialAxis(minimum: 0, maximum: 150, maximumLabels: 5,interval: 20, ranges: <GaugeRange>[
+          title: GaugeTitle(text: empresaNodos!.nombre!),
+          axes: <RadialAxis>[
+            RadialAxis(
+              minimum: 0,
+              maximum: 150,
+              maximumLabels: 5,
+              interval: 20,
+              ranges: <GaugeRange>[
                 GaugeRange(
                     startValue: 0,
                     endValue: 150,
-                    color: empresaNodos.valor! < 55 ? Colors.orange : (empresaNodos.valor! > 55 && empresaNodos.valor! < 80 )? Colors.blue : Colors.red ,
+                    color: empresaNodos.valor! < 55
+                        ? Colors.orange
+                        : (empresaNodos.valor! > 55 && empresaNodos.valor! < 80)
+                            ? Colors.blue
+                            : Colors.red,
                     startWidth: 10,
                     endWidth: 10),
-
-              ], pointers: <GaugePointer>[
-                NeedlePointer(value: empresaNodos.valor!)
-              ], annotations: <GaugeAnnotation>[
+              ],
+              pointers: <GaugePointer>[NeedlePointer(value: empresaNodos.valor!)],
+              annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
-                    widget:  Container(
-                        child: const Text('90.0',
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold))),
+                    widget:
+                        Container(child: const Text('90.0', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))),
                     angle: 90,
                     positionFactor: 0.5)
-              ])
-            ]));
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
-
 
   //TODO CODIGO DE INA IMGEN TRASPATENTE
   Uint8List kTransparentImage = Uint8List.fromList(<int>[

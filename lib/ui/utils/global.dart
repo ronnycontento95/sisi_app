@@ -18,5 +18,6 @@ class Global {
   static const routeHome = "PageHome";
   static const routePageNodos = "PageNodos";
   static const routePageMenu = "PageMenu";
+  static const routePageWebView = "PageWebView";
 
 }
