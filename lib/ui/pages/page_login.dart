@@ -43,8 +43,7 @@ class PageLogin extends StatelessWidget {
                       ),
                     ),
                     Image(
-                      image:
-                          AssetImage("${Global.assetsLogo}logo-estandar.png"),
+                      image: AssetImage("${Global.assetsLogo}logo-estandar.png"),
                       height: 40,
                       width: 200,
                     ),
@@ -60,16 +59,15 @@ class PageLogin extends StatelessWidget {
                             textAlign: TextAlign.center),
                       ],
                     ),
-                    WidgetLabelText().labelTextNormal(
-                        text: GlobalLabel.lblSubWelcome,
-                        fontSize: 14,
-                        colortext: ColorsPalette.colorPrimary),
+                    WidgetLabelText().labelTextNormal(text: GlobalLabel.lblSubWelcome, fontSize: 14, colortext: ColorsPalette.colorPrimary),
                     const SizedBox(
                       height: 25,
                     ),
                     contTextUser(),
                     contTextPassword(),
                     const SizedBox(height: 10),
+                    // Dentro del cuerpo del Widget build() de tu página
+                    if (providerLogin!.errorMessage != null) ...[Text(providerLogin!.errorMessage!)],
                     widgetButonLogin(context),
                   ],
                 ),
@@ -87,9 +85,9 @@ class PageLogin extends StatelessWidget {
       color: ColorsPalette.colorPrimary,
       onTap: () {
         // if (_formKey.currentState!.validate()) {
-          providerLogin!.login();
+        providerLogin!.login();
         // } else {
-          // alertSimpleMessage(context, "¡Aviso!", "Revise que la información ingresada sea correcta e intente nuevamente.", textAccept: "Entendido");
+        // alertSimpleMessage(context, "¡Aviso!", "Revise que la información ingresada sea correcta e intente nuevamente.", textAccept: "Entendido");
         // }
       },
     );
@@ -129,14 +127,11 @@ class PageLogin extends StatelessWidget {
       fontSize: 16,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       suffixIcon: Icon(
-        providerLogin!.visiblePassword
-            ? Icons.remove_red_eye_outlined
-            : Icons.visibility_off_outlined,
+        providerLogin!.visiblePassword ? Icons.remove_red_eye_outlined : Icons.visibility_off_outlined,
         color: ColorsPalette.colorPrimary,
       ),
       onTapSufixIcon: () {
-        providerLogin!.visiblePassword =
-            providerLogin!.visiblePassword ? false : true;
+        providerLogin!.visiblePassword = providerLogin!.visiblePassword ? false : true;
       },
       validator: (val) {
         String text = val!.trim();

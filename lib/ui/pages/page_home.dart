@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -12,8 +13,8 @@ import 'package:sisi_iot_app/ui/provider/provider_login.dart';
 import 'package:sisi_iot_app/ui/utils/global.dart';
 import 'package:sisi_iot_app/ui/utils/global_color.dart';
 import 'package:sisi_iot_app/ui/utils/utils.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_label_text.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+import '../utils/gps.dart';
 
 class PageHome extends StatefulWidget {
   PageHome({Key? key}) : super(key: key);
@@ -32,6 +33,7 @@ class _PageHomeState extends State<PageHome> {
     super.initState();
     pLogin = Provider.of<ProviderLogin>(context, listen: false);
     SchedulerBinding.instance.addPostFrameCallback((_) {
+      Gps().checkGPS().then((value) {});
       pLogin!.getUser();
     });
   }
@@ -49,8 +51,7 @@ class BodyHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
     pLogin ??= Provider.of<ProviderLogin>(context);
     return AnnotatedRegion(
       value: ColorsPalette.colorWhite,
@@ -70,8 +71,7 @@ class BodyHome extends StatelessWidget {
                         return Icon(Icons.person);
                       },
                       placeholder: kTransparentImage,
-                      image:
-                          "${ApiGlobalUrl.GENERAL_LINK}/${pLogin!.empresaResponse?.imagen ?? ""}",
+                      image: "${ApiGlobalUrl.GENERAL_LINK}/${pLogin!.empresaResponse?.imagen ?? ""}",
                       height: 40,
                     ),
                   ),
@@ -82,18 +82,12 @@ class BodyHome extends StatelessWidget {
             textAlign: TextAlign.center,
             text: TextSpan(
               text: 'Hola, ',
-              style: const TextStyle(
-                  fontSize: 24,
-                  color: ColorsPalette.colorlettertitle,
-                  fontFamily: Global.lettertitle),
+              style: const TextStyle(fontSize: 24, color: ColorsPalette.colorlettertitle, fontFamily: Global.lettertitle),
               children: <TextSpan>[
                 TextSpan(
                     text: pLogin!.empresaResponse!.nombre_empresa ?? "",
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: Global.lettertitle,
-                        color: ColorsPalette.colorSecondary,
-                        fontSize: 24)),
+                        fontWeight: FontWeight.bold, fontFamily: Global.lettertitle, color: ColorsPalette.colorSecondary, fontSize: 24)),
               ],
             ),
           ),
@@ -101,11 +95,9 @@ class BodyHome extends StatelessWidget {
           actions: [
             GestureDetector(
                 onTap: () {
-                  Navigator.of(Utils.globalContext.currentContext!)
-                      .pushNamed(PageMenu.routePage);
+                  Navigator.of(Utils.globalContext.currentContext!).pushNamed(PageMenu.routePage);
                 },
-                child: Icon(Icons.menu_sharp,
-                    size: 20, color: ColorsPalette.colorPrimary)),
+                child: Icon(Icons.menu_sharp, size: 20, color: ColorsPalette.colorPrimary)),
             const SizedBox(
               width: 20,
             )
@@ -118,69 +110,81 @@ class BodyHome extends StatelessWidget {
           surfaceTintColor: Colors.white,
           shadowColor: Colors.grey,
           scrolledUnderElevation: 3.0,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(16),
-                  bottomRight: Radius.circular(16))),
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16))),
         ),
         backgroundColor: ColorsPalette.colorGrey,
         body: Stack(
-            children: [
-              GoogleMapas(),
-
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 70,
-                      margin: const EdgeInsets.only(top: 100),
-                      padding: const EdgeInsets.only(right: 30, left: 30, bottom: 10, top: 10),
-                      decoration: BoxDecoration(
-                        color: ColorsPalette.colorWhite,
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(width: 0.4, color: ColorsPalette.colorWhite),
-                      ),
-                      child: Column(
-                        children: [
-                          Icon(Icons.location_on_sharp, color: Colors.red, size: 20,),
-                          Text("Ubicacion")
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.of(Utils.globalContext.currentContext!).pushNamed(PageNodos.routePage);
-                      },
-                      child: Container(
-                        height: 70,
-                        margin: const EdgeInsets.only(top: 100),
-                        padding: const EdgeInsets.only(right: 40, left: 40, bottom: 10, top: 10),
-                        decoration: BoxDecoration(
-                          color: ColorsPalette.colorWhite,
-                          borderRadius: const BorderRadius.all(Radius.circular(10)),
-                          border: Border.all(width: 0.4, color: ColorsPalette.colorWhite),
-                        ),
-                        child: Column(
-                          children: [
-                            Icon(Icons.water_drop_outlined, color: Colors.blue, size: 20,),
-                            Text("Nodos")
-
-                          ],
-                        ),
-                      ),
-                    )
-
-                  ],
-                ),
-              ),
-
-            ],
-          ),
+          children: [
+            GoogleMap(
+              initialCameraPosition: CameraPosition(target: LatLng(Gps.latitude, Gps.longitude), zoom: 16.8),
+              myLocationEnabled: false,
+              zoomControlsEnabled: true,
+              markers: Set<Marker>.of(pLogin!.markersNodo.values),
+            ),
+            locationGps(),
+            listNodos()
+          ],
         ),
+      ),
+    );
+  }
 
+  /// Gps
+  Widget locationGps() {
+    return Container(
+      alignment: Alignment.centerRight,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(Utils.globalContext.currentContext!).pushNamed(PageNodos.routePage);
+        },
+        child: Icon(
+          Icons.gps_fixed,
+          size: 30,
+          color: Colors.red,
+        ),
+      ),
+    );
+  }
+
+  Widget listNodos() {
+    return Container(
+      margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
+      child: GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: pLogin!.empresaNodosResponse.length,
+        itemBuilder: (context, index) {
+          // return CarouselSliderPage(pLogin!.empresaNodosResponse[index]);
+          return CarouselSlider(
+            options: CarouselOptions(
+              height: 200.0,
+              initialPage: 0,
+              enlargeCenterPage: true,
+              autoPlay: true,
+              autoPlayInterval: Duration(seconds: 3),
+              autoPlayAnimationDuration: Duration(milliseconds: 800),
+              pauseAutoPlayOnTouch: true,
+              enableInfiniteScroll: true,
+            ),
+            items: pLogin!.empresaNodosResponse.map((element) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                    ),
+                    child:Text("${element.nombre}")
+                  );
+                },
+              );
+            }).toList(),
+          );
+        },
+        gridDelegate:
+            const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 250, childAspectRatio: 2 / 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
+      ),
     );
   }
 
@@ -274,4 +278,3 @@ class GoogleMapas extends StatelessWidget {
     );
   }
 }
-

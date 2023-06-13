@@ -78,38 +78,6 @@ class BodyHome extends StatelessWidget {
           .labelTextTitle(text: "Lista de Nodos", fontSize: 20),
     );
   }
-
-  Widget itemNodo(EmpresaNodosResponse? empresaNodos) {
-    return Container(
-        width: 150,
-        height: 250,
-        color: Colors.black26,
-        child: SfRadialGauge(
-            title: GaugeTitle(text: empresaNodos!.nombre!),
-
-            axes: <RadialAxis>[
-              RadialAxis(minimum: 0, maximum: 150, maximumLabels: 5,interval: 20, ranges: <GaugeRange>[
-                GaugeRange(
-                    startValue: 0,
-                    endValue: 150,
-                    color: empresaNodos!.valor! < 55 ? Colors.orange : (empresaNodos.valor! > 55 && empresaNodos.valor! < 80 )? Colors.blue : Colors.red ,
-                    startWidth: 10,
-                    endWidth: 10),
-
-              ], pointers: <GaugePointer>[
-                NeedlePointer(value: empresaNodos!.valor!)
-              ], annotations: <GaugeAnnotation>[
-                GaugeAnnotation(
-                    widget: Container(
-                        child: Text('90.0',
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold))),
-                    angle: 90,
-                    positionFactor: 0.5)
-              ])
-            ]));
-  }
-
   Widget widgetCircle() {
     return Container(
       margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
@@ -128,6 +96,38 @@ class BodyHome extends StatelessWidget {
       ),
     );
   }
+
+  Widget itemNodo(EmpresaNodosResponse? empresaNodos) {
+    return Container(
+        width: 150,
+        height: 250,
+        color: Colors.black26,
+        child: SfRadialGauge(
+            title: GaugeTitle(text: empresaNodos!.nombre!),
+
+            axes: <RadialAxis>[
+              RadialAxis(minimum: 0, maximum: 150, maximumLabels: 5,interval: 20, ranges: <GaugeRange>[
+                GaugeRange(
+                    startValue: 0,
+                    endValue: 150,
+                    color: empresaNodos.valor! < 55 ? Colors.orange : (empresaNodos.valor! > 55 && empresaNodos.valor! < 80 )? Colors.blue : Colors.red ,
+                    startWidth: 10,
+                    endWidth: 10),
+
+              ], pointers: <GaugePointer>[
+                NeedlePointer(value: empresaNodos.valor!)
+              ], annotations: <GaugeAnnotation>[
+                GaugeAnnotation(
+                    widget: Container(
+                        child: Text('90.0',
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold))),
+                    angle: 90,
+                    positionFactor: 0.5)
+              ])
+            ]));
+  }
+
 
   //TODO CODIGO DE INA IMGEN TRASPATENTE
   Uint8List kTransparentImage = Uint8List.fromList(<int>[

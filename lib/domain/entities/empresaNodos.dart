@@ -11,6 +11,8 @@ class EmpresaNodosResponse {
     this.valMax,
     this.fechahora,
     this.tipoDato,
+    this.lat,
+    this.lot
   });
 
   int? ide;
@@ -22,6 +24,8 @@ class EmpresaNodosResponse {
   double? valMax;
   String? fechahora;
   String? tipoDato;
+  String? lat;
+  String? lot;
 
   factory EmpresaNodosResponse.fromJson(String str) => EmpresaNodosResponse.fromMap(json.decode(str));
 
@@ -37,6 +41,8 @@ class EmpresaNodosResponse {
     valMax: json["val_max"]?.toDouble(),
     fechahora: json["fechahora"],
     tipoDato: json["tipo_dato"],
+    lat: json["lat"],
+    lot: json["lot"],
   );
 
   Map<String, dynamic> toMap() => {
@@ -49,6 +55,8 @@ class EmpresaNodosResponse {
     "val_max": valMax,
     "fechahora": fechahora,
     "tipo_dato": tipoDato,
+    "lat": lat,
+    "lot": lot,
   };
 
   EmpresaNodosResponse.map(dynamic obj) {
@@ -61,10 +69,12 @@ class EmpresaNodosResponse {
     valMax= obj["val_max"];
     fechahora= obj["fechahora"];
     tipoDato= obj["tipo_dato"];
+    lat= obj["lat"];
+    lot= obj["lot"];
   }
 
   @override
   String toString() {
-    return 'EmpresaNodosResponse{ide: $ide, clase: $clase, nombre: $nombre, datosEnviados: $datosEnviados, valor: $valor, valMin: $valMin, valMax: $valMax, fechahora: $fechahora, tipoDato: $tipoDato}';
+    return 'EmpresaNodosResponse{ide: $ide, clase: $clase, nombre: $nombre, datosEnviados: $datosEnviados, valor: $valor, valMin: $valMin, valMax: $valMax, fechahora: $fechahora, tipoDato: $tipoDato, lat: $lat, lot: $lot}';
   }
 }

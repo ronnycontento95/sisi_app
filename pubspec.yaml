@@ -23,6 +23,11 @@ dependencies:
   sleek_circular_slider: ^2.0.1
   syncfusion_flutter_gauges: ^20.4.52
   google_maps_flutter: ^2.2.5
+  geolocator: ^9.0.2
+  permission_handler: ^10.2.0
+  carousel_slider: ^4.0.0
+
+
 
 dev_dependencies:
   flutter_test:

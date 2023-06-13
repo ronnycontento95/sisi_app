@@ -24,7 +24,7 @@ class RepositorieImplement extends RepositoryInterface {
     if (idEmpresa.isEmpty) {
       return null;
     }
-    print('getIdEmpresa Response${idEmpresa}');
+    print('EMPRESA RESPONSE >>>>>${idEmpresa}');
     return EmpresaResponse.map(decoder.convert(idEmpresa));
   }
 

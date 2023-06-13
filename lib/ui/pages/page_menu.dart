@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sisi_iot_app/ui/provider/provider_login.dart';
 import 'package:sisi_iot_app/ui/utils/global.dart';
 import 'package:sisi_iot_app/ui/utils/global_color.dart';
 import 'package:sisi_iot_app/ui/utils/utils.dart';
@@ -8,11 +10,13 @@ import 'package:sisi_iot_app/ui/widgets/widget_button.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_label_text.dart';
 
 class PageMenu extends StatelessWidget {
-  const PageMenu({Key? key}) : super(key: key);
+  PageMenu({Key? key}) : super(key: key);
   static const routePage = Global.routePageMenu;
+  ProviderLogin? pvLogin;
 
   @override
   Widget build(BuildContext context) {
+    pvLogin ??= Provider.of<ProviderLogin>(context);
     return AnnotatedRegion(
         child: Scaffold(
           backgroundColor: ColorsPalette.colorWhite,
@@ -81,14 +85,11 @@ class PageMenu extends StatelessWidget {
           const Divider(),
           GestureDetector(
             onTap: (){
-              AlertDialog alert = AlertDialog(
-                title: Text("My title"),
-                content: Text("This is my message."),
-                actions: [
-                ],
-              );
+              pvLogin!.signOff();
             },
             child: contInformation("Cerrar secion.png", "Cerrar secion", () {
+
+
               // AlertDialog(
               //   content: SingleChildScrollView(
               //     child: ListBody(

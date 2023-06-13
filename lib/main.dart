@@ -5,31 +5,25 @@ import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
 import 'package:sisi_iot_app/ui/pages/page_home.dart';
-import 'package:sisi_iot_app/ui/pages/page_login.dart';
 import 'package:sisi_iot_app/ui/pages/page_onboarding.dart';
-import 'package:sisi_iot_app/ui/provider/provider_login.dart';
 import 'package:sisi_iot_app/ui/routes/routes_pages.dart';
 import 'package:sisi_iot_app/ui/routes/routes_provider.dart';
 import 'package:sisi_iot_app/ui/utils/global_color.dart';
 import 'package:sisi_iot_app/ui/utils/utils.dart';
+
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();//Inicialice metodos en el main
   HttpOverrides.global= MyHttpOverrides();
   RepositorieImplement repositorieImplement = RepositorieImplement();
   await repositorieImplement.getIdEmpresa().then((idEmpresa){
-    print('id_?????${idEmpresa}');
     if(idEmpresa != null){
-      print('id_?????${idEmpresa}');
       runApp(MyApp(PageHome.routePage));
     }else{
       runApp(MyApp(PageOnboarding.routePage));
     }
   });
-
 }
-
-
 class MyApp extends StatelessWidget {
   String routeInit;
   MyApp(this.routeInit);
