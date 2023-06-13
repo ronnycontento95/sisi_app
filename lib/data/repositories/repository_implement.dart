@@ -6,7 +6,6 @@ import 'package:sisi_iot_app/domain/entities/empresa.dart';
 import 'package:sisi_iot_app/domain/repositories/repository_interface.dart';
 
 class RepositorieImplement extends RepositoryInterface {
-  //keep userEmpresa
   static const userEmpresa = 'userEmpresa';
 
   @override
@@ -24,7 +23,6 @@ class RepositorieImplement extends RepositoryInterface {
     if (idEmpresa.isEmpty) {
       return null;
     }
-    print('EMPRESA RESPONSE >>>>>${idEmpresa}');
     return EmpresaResponse.map(decoder.convert(idEmpresa));
   }
 

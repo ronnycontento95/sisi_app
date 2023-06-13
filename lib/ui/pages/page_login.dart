@@ -16,8 +16,6 @@ final _formKey = GlobalKey<FormState>();
 class PageLogin extends StatelessWidget {
   PageLogin({Key? key}) : super(key: key);
   static const routePage = Global.routePageLogin;
-
-  //Instanse provider
   ProviderLogin? providerLogin;
 
   @override
@@ -42,7 +40,7 @@ class PageLogin extends StatelessWidget {
                         callback: () {},
                       ),
                     ),
-                    Image(
+                    const Image(
                       image: AssetImage("${Global.assetsLogo}logo-estandar.png"),
                       height: 40,
                       width: 200,
@@ -66,7 +64,6 @@ class PageLogin extends StatelessWidget {
                     contTextUser(),
                     contTextPassword(),
                     const SizedBox(height: 10),
-                    // Dentro del cuerpo del Widget build() de tu página
                     if (providerLogin!.errorMessage != null) ...[Text(providerLogin!.errorMessage!)],
                     widgetButonLogin(context),
                   ],

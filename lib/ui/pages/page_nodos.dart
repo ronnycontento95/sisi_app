@@ -118,8 +118,8 @@ class BodyHome extends StatelessWidget {
                 NeedlePointer(value: empresaNodos.valor!)
               ], annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
-                    widget: Container(
-                        child: Text('90.0',
+                    widget:  Container(
+                        child: const Text('90.0',
                             style: TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.bold))),
                     angle: 90,

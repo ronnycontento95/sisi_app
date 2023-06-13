@@ -7,10 +7,4 @@ class GlobalLabel{
   static const lblPassword = 'Contraseña';
   static const lblTextEnterPassword = 'Ingresa la contraseña';
 
-
-  // static const lbl="";
-  // static const lbl="";
-  // static const lbl="";
-  // static const lbl="";
-  // static const lbl="";
 }

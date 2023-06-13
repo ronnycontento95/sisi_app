@@ -35,14 +35,6 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
     try {
       final response = await dio.get("${ApiGlobalUrl.GENERAL_LINK}${ApiGlobalUrl.GET_NODOS_ID}${id}");
       print('RESPONSE GET NODOS ID>>>>${response.data[0]}');
-
-      // response.data((c) => print('?>>>>>>>>>>>${c}')).toList();
-      // print('List ${list}');
-      // list?.forEach((element) {
-      //   print('RESPONSE Nodo>>>>${element}');
-      //
-      // });
-
       List<EmpresaNodosResponse> _empresaNodoResponse = [];
       if(response.data!=null){
         List<dynamic> listNodo = response.data;
