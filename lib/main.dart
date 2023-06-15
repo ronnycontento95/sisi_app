@@ -15,8 +15,8 @@ import 'package:sisi_iot_app/ui/utils/utils.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();//Inicialice metodos en el main
   HttpOverrides.global= MyHttpOverrides();
-  RepositorieImplement repositorieImplement = RepositorieImplement();
-  await repositorieImplement.getIdEmpresa().then((idEmpresa){
+  RepositorieImplement repositoryImplement = RepositorieImplement();
+  await repositoryImplement.getIdEmpresa().then((idEmpresa){
     if(idEmpresa != null){
       runApp(MyApp(PageHome.routePage));
     }else{
@@ -55,8 +55,7 @@ class MyApp extends StatelessWidget {
   }
 }
 class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpCliente(SecurityContext context) {
+  HttpClient repositoryImplement(SecurityContext context) {
     return super.createHttpClient(context)
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;

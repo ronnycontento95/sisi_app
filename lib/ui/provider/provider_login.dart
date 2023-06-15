@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.
 import 'package:sisi_iot_app/domain/repositories/repository_interface.dart';
 import 'package:sisi_iot_app/ui/pages/page_home.dart';
 import 'package:sisi_iot_app/ui/pages/page_login.dart';
+import 'package:sisi_iot_app/ui/utils/styleMapGoogle.dart';
 import 'package:sisi_iot_app/ui/utils/utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -23,11 +25,9 @@ class ProviderLogin extends ChangeNotifier {
   bool _visiblePassword = true;
   TextEditingController _controllerUser = TextEditingController();
   TextEditingController _controllerPassword = TextEditingController();
-
   TextEditingController get controllerUser => _controllerUser;
   EmpresaResponse? _empresaResponse = EmpresaResponse();
   List<EmpresaNodosResponse> _empresaNodosResponse = [];
-
   List<EmpresaNodosResponse> get empresaNodosResponse => _empresaNodosResponse;
   String? _errorMessage;
   GoogleMapController? mapControllerExplorer;
@@ -35,8 +35,9 @@ class ProviderLogin extends ChangeNotifier {
   Map<MarkerId, Marker> _markersExplorer = {};
   final iconLocation = Completer<BitmapDescriptor>();
   int? _position = 0;
+  GoogleMapController? _googleMapController;
 
-
+  ///Init provider
   ProviderLogin(this.apiRepositoryLoginInterface, this.repositoryInterface) {
     Utils().assetToBytes("${Global.assetsImages}pin_origin.png").then((value) {
       final bitmap = BitmapDescriptor.fromBytes(value);
@@ -101,6 +102,14 @@ class ProviderLogin extends ChangeNotifier {
 
   set position(int value) {
     _position = value;
+    notifyListeners();
+  }
+
+
+  GoogleMapController get googleMapController => _googleMapController!;
+
+  set googleMapController(GoogleMapController value) {
+    _googleMapController = value;
     notifyListeners();
   }
 
@@ -211,5 +220,9 @@ class ProviderLogin extends ChangeNotifier {
     mapControllerExplorer!.animateCamera(CameraUpdate.newCameraPosition(
       position,
     ));
+  }
+
+  styleMapGoogle(){
+    return jsonEncode(styleMap);
   }
 }

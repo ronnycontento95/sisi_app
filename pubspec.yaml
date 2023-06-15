@@ -27,6 +27,7 @@ dependencies:
   permission_handler: ^10.2.0
   carousel_slider: ^4.0.0
   webview_flutter: ^4.2.2
+  simple_ripple_animation: ^0.0.3
 
 dev_dependencies:
   flutter_test:

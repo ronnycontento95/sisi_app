@@ -5,6 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_ripple_animation/simple_ripple_animation.dart';
 import 'package:sisi_iot_app/data/repositories/api_global_url.dart';
 import 'package:sisi_iot_app/domain/entities/empresaNodos.dart';
 import 'package:sisi_iot_app/ui/pages/page_menu.dart';
@@ -16,7 +17,7 @@ import 'package:sisi_iot_app/ui/utils/utils.dart';
 
 import '../utils/gps.dart';
 import '../widgets/widget_appbar.dart';
-import '../widgets/widget_flatBanner.dart';
+import '../widgets/widget_carousel.dart';
 
 class PageHome extends StatefulWidget {
   PageHome({Key? key}) : super(key: key);
@@ -66,11 +67,11 @@ class BodyHome extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                locationGps(),
+                waterListNodos(),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
-                GpsLocation(),
+                gpsLocation(),
               ],
             ),
             // listNodos()
@@ -82,34 +83,43 @@ class BodyHome extends StatelessWidget {
   }
 
   /// Gps location
-  Widget locationGps() {
+  Widget waterListNodos() {
     return Container(
       alignment: Alignment.centerRight,
       child: GestureDetector(
         onTap: () {
           Navigator.of(Utils.globalContext.currentContext!).pushNamed(PageNodos.routePage);
         },
-        child: const Icon(
-          Icons.gps_fixed,
-          size: 30,
-          color: Colors.red,
-        ),
+        child: RippleAnimation(
+          repeat: true,
+          ripplesCount: 2,
+          minRadius: 18,
+          color: ColorsPalette.colorGrey,
+          child: const CircleAvatar(
+            backgroundColor: ColorsPalette.colorWhite,
+            radius: 22,
+            backgroundImage: AssetImage("${Global.assetsIcons}watergps.gif"),
+          )
+        )
       ),
     );
   }
 
   /// Gps location
-  Widget GpsLocation() {
+  Widget gpsLocation() {
     return Container(
       alignment: Alignment.centerRight,
       child: GestureDetector(
         onTap: () {
           pLogin!.onCameraCenter(CameraPosition(target: LatLng(Gps.latitude, Gps.longitude), zoom: 15));
         },
-        child: const Icon(
-          Icons.gps_fixed,
-          size: 30,
-          color: Colors.red,
+        child: const CircleAvatar(
+          backgroundColor: Colors.white,
+          child: Icon(
+            Icons.gps_fixed,
+            size: 30,
+            color: Colors.black,
+          ),
         ),
       ),
     );
@@ -125,11 +135,11 @@ class BodyHome extends StatelessWidget {
           child: CarouselSlider.builder(
             itemCount: pLogin!.empresaNodosResponse.length,
             itemBuilder: (context, int index, index2) {
-              // return Text("${pLogin!.empresaNodosResponse[index].nombre}");
               return CarouselSliderNodos(
                 title: pLogin!.empresaNodosResponse[index].nombre,
                 subtitle: pLogin!.empresaNodosResponse[index].fechahora,
                 type: pLogin!.empresaNodosResponse[index].tipoDato,
+                valor: pLogin!.empresaNodosResponse[index].valor,
 
               );
             },
@@ -175,6 +185,8 @@ class GoogleMaps extends StatelessWidget {
       zoomControlsEnabled: false,
       onMapCreated: (controller) {
         pvLogin!.initMapExplorer(controller);
+        pvLogin!.googleMapController = controller;
+        pvLogin!.googleMapController.setMapStyle(pvLogin!.styleMapGoogle());
       },
       // markers: Set<Marker>.of(providerCarpool.markersExplorer.values),
     );

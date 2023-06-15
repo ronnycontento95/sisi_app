@@ -9,6 +9,7 @@ class CarouselSliderNodos extends StatelessWidget {
     this.subtitle,
     this.title,
     this.type,
+    this.valor,
     this.image,
     this.btnText,
     this.imageHeight,
@@ -21,6 +22,7 @@ class CarouselSliderNodos extends StatelessWidget {
   final String? subtitle;
   final String? title;
   final String? type;
+  final double? valor;
   final String? image;
   final String? btnText;
   final Color? buttonColor;
@@ -64,7 +66,7 @@ class CarouselSliderNodos extends StatelessWidget {
             WidgetText.title(text: title ?? ' ',color: ColorsPalette.colorWhite,),
             WidgetText(text: subtitle ?? ' ',color: ColorsPalette.colorWhite,),
             WidgetText(text: type ?? ' ',color: ColorsPalette.colorWhite,),
-
+            WidgetText(text: "Nivel: $valor %" ?? ' ',color: ColorsPalette.colorWhite,),
           ],
         ),
       ),
