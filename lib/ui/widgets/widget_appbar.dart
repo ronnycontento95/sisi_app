@@ -79,14 +79,14 @@ WidgetAppbarHome(
               borderRadius: BorderRadius.circular(50),
               child: FadeInImage.memoryNetwork(
                 imageErrorBuilder: (context, _, __) {
-                  return Icon(Icons.person);
+                  return const Icon(Icons.person);
                 },
                 placeholderErrorBuilder: (_, __, stackTrace) {
-                  return Icon(Icons.person);
+                  return const Icon(Icons.person);
                 },
                 placeholder: kTransparentImage,
                 image:
-                    "${ApiGlobalUrl.GENERAL_LINK}/${imagen_empresa ?? ""}",
+                    "${ApiGlobalUrl.generalLink}/${imagen_empresa ?? ""}",
                 height: 40,
               ),
             ),

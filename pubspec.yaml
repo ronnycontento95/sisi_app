@@ -27,7 +27,6 @@ dependencies:
   permission_handler: ^10.2.0
   carousel_slider: ^4.0.0
   webview_flutter: ^4.2.2
-  icons_launcher: ^2.1.1
 
 dev_dependencies:
   flutter_test:
@@ -35,18 +34,17 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
 
-flutter:
+flutter_icons:
+  android: "ic_launcher"
+  ios: true
 
+flutter:
   uses-material-design: true
   assets:
     - assets/icons/
     - assets/logo/
     - assets/images/
 
-#  fonts:
-#    - family: alegreyaregular
-#      fonts:
-#        - asset: assets/fonts/alegreya-regular.ttf
   fonts:
     - family: walkwayBold
       fonts:
@@ -59,16 +57,3 @@ flutter:
     - family: neuropoliticalrg
       fonts:
         - asset: assets/fonts/neuropoliticalrg.ttf
-
-
-icons_launcher:
-  image_path: "assets/ic_logo_border.png"
-  platforms:
-    android:
-      enable: true
-      image_path: "assets/icons/logolauncher.png"
-      # adaptive_background_color: '#ffffff'
-#      adaptive_background_image: "assets/ic_background.png"
-#      adaptive_foreground_image: "assets/ic_foreground.png"
-#      adaptive_round_image: "assets/ic_logo_round.png"
-#      adaptive_monochrome_image: "assets/ic_logo_monochrome.png"

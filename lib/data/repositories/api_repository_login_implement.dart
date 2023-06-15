@@ -9,7 +9,7 @@ import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.
 
 class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
   // Dio dio = Dio(BaseOptions(
-  //   baseUrl: ApiGlobalUrl.GENERAL_LINK,
+  //   baseUrl: ApiGlobalUrl.generalLink,
   //   connectTimeout: 15000,//tiempo de espera de conexión
   //   receiveTimeout: 15000, //recibirTiempo de espera
   //   // headers: {"Authorization": "Bearer ${Global.token}",}
@@ -19,13 +19,10 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
   @override
   Future login(String username, String password, VoidCallback? Function(int code, dynamic data) callback) async {
     try {
-      final response = await dio.get("${ApiGlobalUrl.GENERAL_LINK}${ApiGlobalUrl.GET_LOGIN}${username}/${password}");
-      print ('logion response>>>> "${ApiGlobalUrl.GENERAL_LINK}${ApiGlobalUrl.GET_LOGIN}${username}/${password}');
-      print ('logion response>>>> $response');
+      final response = await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getLogin}${username}/${password}");
       callback(1, EmpresaResponse.fromMap(response.data));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      print("Eroor${errorMessage}");
       callback(-1, EmpresaResponse(bandera: false));
     }
   }
@@ -33,17 +30,15 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
   @override
   Future getNodoId(int id, VoidCallback? Function(int code, dynamic data) callback) async {
     try {
-      final response = await dio.get("${ApiGlobalUrl.GENERAL_LINK}${ApiGlobalUrl.GET_NODOS_ID}${id}");
+      final response = await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getNodosId}${id}");
       print('RESPONSE GET NODOS ID>>>>${response.data[0]}');
-      List<EmpresaNodosResponse> _empresaNodoResponse = [];
+      List<EmpresaNodosResponse> empresaNodoResponse = [];
       if(response.data!=null){
         List<dynamic> listNodo = response.data;
-        print('>>>>${listNodo}');
-        listNodo.forEach((element) {
-          print('<<<<>>>>>>>>>${element}');
-          _empresaNodoResponse.add(EmpresaNodosResponse.fromMap(element));
-        });
-        callback(1, _empresaNodoResponse);
+        for (var element in listNodo) {
+          empresaNodoResponse.add(EmpresaNodosResponse.fromMap(element));
+        }
+        callback(1, empresaNodoResponse);
       }else{
         callback(-1, "No existe datos");
       }

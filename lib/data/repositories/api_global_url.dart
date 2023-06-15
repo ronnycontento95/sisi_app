@@ -1,8 +1,8 @@
 
 class ApiGlobalUrl {
-  static const GENERAL_LINK ="https://sisi.com.ec/";
+  static const generalLink ="https://sisi.com.ec/";
   //PETICIONES GET
-  static const GET_LOGIN="aplicacion/celular/authenticate/";
-  static const GET_NODOS_ID = "aplicacion/celular/lista_nodos/";
+  static const getLogin="aplicacion/celular/authenticate/";
+  static const getNodosId = "aplicacion/celular/lista_nodos/";
 
 }

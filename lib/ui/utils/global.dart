@@ -20,4 +20,8 @@ class Global {
   static const routePageMenu = "PageMenu";
   static const routePageWebView = "PageWebView";
 
+  /// Global Target Marker
+  static const targetWidth = 80;
+
+
 }

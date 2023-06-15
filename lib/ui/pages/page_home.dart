@@ -57,10 +57,10 @@ class BodyHome extends StatelessWidget {
     return AnnotatedRegion(
       value: ColorsPalette.colorWhite,
       child: Scaffold(
-        appBar: pLogin!.empresaResponse != null ? WidgetAppbarHome(pLogin!.empresaResponse!.imagen!, pLogin!.empresaResponse!.nombre_empresa!): SizedBox(),
+        appBar: WidgetAppbarHome(pLogin!.empresaResponse!.imagen ?? "", pLogin!.empresaResponse!.nombre_empresa ?? ""),
         backgroundColor: ColorsPalette.colorGrey,
         body: Stack(
-          children: [const GoogleMaps(), locationGps(), listNodos()],
+          children: [GoogleMaps(), GpsLocation(), listNodos()],
         ),
       ),
     );
@@ -73,6 +73,23 @@ class BodyHome extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.of(Utils.globalContext.currentContext!).pushNamed(PageNodos.routePage);
+        },
+        child: const Icon(
+          Icons.gps_fixed,
+          size: 30,
+          color: Colors.red,
+        ),
+      ),
+    );
+  }
+
+  /// Gps location
+  Widget GpsLocation() {
+    return Container(
+      alignment: Alignment.centerRight,
+      child: GestureDetector(
+        onTap: () {
+          pLogin!.onCameraCenter(CameraPosition(target: LatLng(Gps.latitude, Gps.longitude), zoom: 15));
         },
         child: const Icon(
           Icons.gps_fixed,
@@ -131,20 +148,21 @@ class BodyHome extends StatelessWidget {
 }
 
 class GoogleMaps extends StatelessWidget {
-  const GoogleMaps({Key? key}) : super(key: key);
+  GoogleMaps({Key? key}) : super(key: key);
+  ProviderLogin? pvLogin;
 
   @override
   Widget build(BuildContext context) {
+    pvLogin ??= Provider.of<ProviderLogin>(context);
     return GoogleMap(
       initialCameraPosition: CameraPosition(
         target: LatLng(Gps.latitude, Gps.longitude),
         zoom: 10.8,
       ),
-
       myLocationEnabled: false,
       zoomControlsEnabled: true,
       onMapCreated: (controller) {
-        // providerCarpool.initMapExplorer(controller);
+        pvLogin!.initMapExplorer(controller);
       },
       // markers: Set<Marker>.of(providerCarpool.markersExplorer.values),
     );
