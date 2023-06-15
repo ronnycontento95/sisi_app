@@ -16,6 +16,7 @@ import 'package:sisi_iot_app/ui/utils/utils.dart';
 
 import '../utils/gps.dart';
 import '../widgets/widget_appbar.dart';
+import '../widgets/widget_flatBanner.dart';
 
 class PageHome extends StatefulWidget {
   PageHome({Key? key}) : super(key: key);
@@ -60,7 +61,21 @@ class BodyHome extends StatelessWidget {
         appBar: WidgetAppbarHome(pLogin!.empresaResponse!.imagen ?? "", pLogin!.empresaResponse!.nombre_empresa ?? ""),
         backgroundColor: ColorsPalette.colorGrey,
         body: Stack(
-          children: [GoogleMaps(), GpsLocation(), listNodos()],
+          children: [
+            GoogleMaps(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                locationGps(),
+                const SizedBox(
+                  height: 10,
+                ),
+                GpsLocation(),
+              ],
+            ),
+            // listNodos()
+            carouselSliderNodo(),
+          ],
         ),
       ),
     );
@@ -100,46 +115,43 @@ class BodyHome extends StatelessWidget {
     );
   }
 
-  /// Lista de nodos
-  Widget listNodos() {
+  /// CarouselSlider nodos
+  Widget carouselSliderNodo() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Container(
-          margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
-          width: double.infinity,
-          child: GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 1,
-            itemBuilder: (context, index) {
-              return CarouselSlider(
-                options: CarouselOptions(
-                  height: 500.0,
-                  initialPage: 0,
-                  enlargeCenterPage: true,
-                  autoPlay: true,
-                  autoPlayInterval: const Duration(seconds: 3),
-                  autoPlayAnimationDuration: const Duration(milliseconds: 90),
-                  pauseAutoPlayOnTouch: true,
-                  enableInfiniteScroll: true,
-                ),
-                items: pLogin!.empresaNodosResponse.map((element) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                          width: MediaQuery.of(context).size.width,
-                          // margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: const BoxDecoration(
-                            color: Colors.grey,
-                          ),
-                          child: Text("${element.nombre}"));
-                    },
-                  );
-                }).toList(),
+        SizedBox(
+          height: 150,
+          child: CarouselSlider.builder(
+            itemCount: pLogin!.empresaNodosResponse.length,
+            itemBuilder: (context, int index, index2) {
+              // return Text("${pLogin!.empresaNodosResponse[index].nombre}");
+              return CarouselSliderNodos(
+                title: pLogin!.empresaNodosResponse[index].nombre,
+                subtitle: pLogin!.empresaNodosResponse[index].fechahora,
+                type: pLogin!.empresaNodosResponse[index].tipoDato,
+
               );
             },
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 150, childAspectRatio: 2 / 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
+            options: CarouselOptions(
+                viewportFraction:
+                    pLogin!.empresaNodosResponse.isNotEmpty && pLogin!.empresaNodosResponse.length > 1 ? 0.9 : 1,
+                scrollDirection: Axis.horizontal,
+                autoPlay: pLogin!.empresaNodosResponse.isNotEmpty && pLogin!.empresaNodosResponse.length > 1 ? true : false,
+                aspectRatio: 1.0,
+                enlargeCenterPage: true,
+                height: 190,
+                onPageChanged: (index, reason) {
+                  pLogin!.position = index;
+                },
+                autoPlayInterval: const Duration(seconds: 8),
+                autoPlayAnimationDuration: const Duration(milliseconds: 2000),
+                enableInfiniteScroll:
+                    pLogin!.empresaNodosResponse.isNotEmpty && pLogin!.empresaNodosResponse.length > 1 ? true : false,
+                enlargeStrategy: CenterPageEnlargeStrategy.height,
+                disableCenter: true,
+                padEnds:
+                    (pLogin!.empresaNodosResponse.isNotEmpty && pLogin!.empresaNodosResponse.length > 1) ? false : true),
           ),
         ),
       ],
@@ -160,7 +172,7 @@ class GoogleMaps extends StatelessWidget {
         zoom: 10.8,
       ),
       myLocationEnabled: false,
-      zoomControlsEnabled: true,
+      zoomControlsEnabled: false,
       onMapCreated: (controller) {
         pvLogin!.initMapExplorer(controller);
       },

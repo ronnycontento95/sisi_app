@@ -34,6 +34,8 @@ class ProviderLogin extends ChangeNotifier {
   Map<MarkerId, Marker> _markersNodo = {};
   Map<MarkerId, Marker> _markersExplorer = {};
   final iconLocation = Completer<BitmapDescriptor>();
+  int? _position = 0;
+
 
   ProviderLogin(this.apiRepositoryLoginInterface, this.repositoryInterface) {
     Utils().assetToBytes("${Global.assetsImages}pin_origin.png").then((value) {
@@ -92,7 +94,15 @@ class ProviderLogin extends ChangeNotifier {
   set markersExplorer(Map<MarkerId, Marker> value) {
     _markersExplorer = value;
     notifyListeners();
-  } //Login
+  }
+
+
+  int get position => _position!;
+
+  set position(int value) {
+    _position = value;
+    notifyListeners();
+  }
 
   Future login() async {
     await apiRepositoryLoginInterface?.login(controllerUser.text.trim(), controllerPassword.text.trim(), (code, data) {
