@@ -67,7 +67,7 @@ class BodyHome extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                waterListNodos(),
+                iconAnimation(),
                 const SizedBox(
                   height: 15,
                 ),
@@ -83,9 +83,10 @@ class BodyHome extends StatelessWidget {
   }
 
   /// Gps location
-  Widget waterListNodos() {
+  Widget iconAnimation() {
     return Container(
       alignment: Alignment.centerRight,
+      margin: const EdgeInsets.only(right: 15),
       child: GestureDetector(
         onTap: () {
           Navigator.of(Utils.globalContext.currentContext!).pushNamed(PageNodos.routePage);
@@ -94,11 +95,12 @@ class BodyHome extends StatelessWidget {
           repeat: true,
           ripplesCount: 2,
           minRadius: 18,
-          color: ColorsPalette.colorGrey,
-          child: const CircleAvatar(
-            backgroundColor: ColorsPalette.colorWhite,
-            radius: 22,
-            backgroundImage: AssetImage("${Global.assetsIcons}watergps.gif"),
+          color: ColorsPalette.colorSecondary,
+          child: const ClipOval(
+            // backgroundColor: ColorsPalette.colorWhite,
+            // radius: 18,
+            child: Icon(Icons.wifi, color: ColorsPalette.colorSecondary),
+            // backgroundImage: AssetImage("${Global.assetsIcons}water.gif"),
           )
         )
       ),

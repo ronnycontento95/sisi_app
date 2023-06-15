@@ -223,6 +223,6 @@ class ProviderLogin extends ChangeNotifier {
   }
 
   styleMapGoogle(){
-    return jsonEncode(styleMap);
+    return jsonEncode(uberMapTheme);
   }
 }

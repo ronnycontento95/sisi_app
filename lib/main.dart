@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
@@ -13,8 +14,15 @@ import 'package:sisi_iot_app/ui/utils/utils.dart';
 
 
 Future main() async {
+  ///Lock device orientation
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   WidgetsFlutterBinding.ensureInitialized();//Inicialice metodos en el main
   HttpOverrides.global= MyHttpOverrides();
+
+  ///Save preferences id empresa
   RepositorieImplement repositoryImplement = RepositorieImplement();
   await repositoryImplement.getIdEmpresa().then((idEmpresa){
     if(idEmpresa != null){
@@ -23,6 +31,7 @@ Future main() async {
       runApp(MyApp(PageOnboarding.routePage));
     }
   });
+
 }
 class MyApp extends StatelessWidget {
   String routeInit;
