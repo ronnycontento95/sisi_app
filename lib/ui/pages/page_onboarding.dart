@@ -2,7 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:sisi_iot_app/ui/pages/page_login.dart';
 import 'package:sisi_iot_app/ui/utils/global.dart';
-import 'package:sisi_iot_app/ui/utils/global_color.dart';
+import 'package:sisi_iot_app/ui/utils/global_palette.dart';
 import 'package:sisi_iot_app/ui/utils/utils.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_button.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_label_text.dart';

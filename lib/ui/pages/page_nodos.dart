@@ -9,7 +9,7 @@ import 'package:sisi_iot_app/ui/pages/page_menu.dart';
 import 'package:sisi_iot_app/ui/pages/page_web_nodos.dart';
 import 'package:sisi_iot_app/ui/provider/provider_login.dart';
 import 'package:sisi_iot_app/ui/utils/global.dart';
-import 'package:sisi_iot_app/ui/utils/global_color.dart';
+import 'package:sisi_iot_app/ui/utils/global_palette.dart';
 import 'package:sisi_iot_app/ui/utils/utils.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_appbar.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_label_text.dart';
@@ -24,15 +24,14 @@ class PageNodos extends StatefulWidget {
 }
 
 class _PageNodosState extends State<PageNodos> {
-  ProviderLogin? pLogin;
+  ProviderLogin? pvLogin;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    pLogin = Provider.of<ProviderLogin>(context, listen: false);
+    pvLogin = Provider.of<ProviderLogin>(context, listen: false);
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      pLogin!.getUser();
+      pvLogin!.getUser();
     });
   }
 
@@ -43,55 +42,45 @@ class _PageNodosState extends State<PageNodos> {
 }
 
 class BodyHome extends StatelessWidget {
-  ProviderLogin? pLogin;
+  ProviderLogin? pvLogin;
 
   BodyHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
-    pLogin ??= Provider.of<ProviderLogin>(context);
+    pvLogin ??= Provider.of<ProviderLogin>(context);
     return AnnotatedRegion(
         value: ColorsPalette.colorWhite,
         child: Scaffold(
-          appBar: widgetAppBar(title: "Dispositovos IoT", fontSize: 25),
+          appBar: widgetNewAppBar(title: "Dispositivos IoT", fontSize: 20),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Column(
-                children: [widgetCircle()],
+                children: [cardNodosList()],
               ),
             ),
           ),
         ));
   }
 
-  //Lisview
-  Widget titleHome() {
-    return Container(
-      margin: const EdgeInsets.only(
-        top: 20,
-        left: 20,
-      ),
-      child: WidgetLabelText().labelTextTitle(text: "Lista de Nodos", fontSize: 20),
-    );
-  }
-
-  Widget widgetCircle() {
+  ///List card nodos
+  Widget cardNodosList() {
     return Container(
       margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
       child: GridView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: pLogin!.empresaNodosResponse.length,
+        itemCount: pvLogin!.empresaNodosResponse.length,
         itemBuilder: (context, index) {
-          return itemNodo(pLogin!.empresaNodosResponse[index]);
+          return itemNodo(pvLogin!.empresaNodosResponse[index]);
         },
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 250, childAspectRatio: 2 / 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
       ),
     );
   }
-
+  /// Item Nodos
   Widget itemNodo(EmpresaNodosResponse? empresaNodos) {
     return GestureDetector(
       onTap: (){
@@ -122,10 +111,10 @@ class BodyHome extends StatelessWidget {
                     endWidth: 10),
               ],
               pointers: <GaugePointer>[NeedlePointer(value: empresaNodos.valor!)],
-              annotations: <GaugeAnnotation>[
+              annotations: const <GaugeAnnotation>[
                 GaugeAnnotation(
                     widget:
-                        Container(child: const Text('90.0', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))),
+                        Text('90.0', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                     angle: 90,
                     positionFactor: 0.5)
               ],
@@ -135,72 +124,4 @@ class BodyHome extends StatelessWidget {
       ),
     );
   }
-
-  //TODO CODIGO DE INA IMGEN TRASPATENTE
-  Uint8List kTransparentImage = Uint8List.fromList(<int>[
-    0x89,
-    0x50,
-    0x4E,
-    0x47,
-    0x0D,
-    0x0A,
-    0x1A,
-    0x0A,
-    0x00,
-    0x00,
-    0x00,
-    0x0D,
-    0x49,
-    0x48,
-    0x44,
-    0x52,
-    0x00,
-    0x00,
-    0x00,
-    0x01,
-    0x00,
-    0x00,
-    0x00,
-    0x01,
-    0x08,
-    0x06,
-    0x00,
-    0x00,
-    0x00,
-    0x1F,
-    0x15,
-    0xC4,
-    0x89,
-    0x00,
-    0x00,
-    0x00,
-    0x0A,
-    0x49,
-    0x44,
-    0x41,
-    0x54,
-    0x78,
-    0x9C,
-    0x63,
-    0x00,
-    0x01,
-    0x00,
-    0x00,
-    0x05,
-    0x00,
-    0x01,
-    0x0D,
-    0x0A,
-    0x2D,
-    0xB4,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x49,
-    0x45,
-    0x4E,
-    0x44,
-    0xAE,
-  ]);
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/global_color.dart';
+import '../utils/global_palette.dart';
 import '../utils/style_text.dart';
 
 class WidgetText extends StatelessWidget {

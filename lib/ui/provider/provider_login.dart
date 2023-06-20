@@ -17,7 +17,7 @@ import 'package:sisi_iot_app/ui/utils/utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../utils/global.dart';
-import '../utils/gps.dart';
+import '../utils/global_gps.dart';
 
 class ProviderLogin extends ChangeNotifier {
   final ApiRepositoryLoginInterface? apiRepositoryLoginInterface;

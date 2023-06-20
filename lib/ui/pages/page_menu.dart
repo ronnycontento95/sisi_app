@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/provider/provider_login.dart';
 import 'package:sisi_iot_app/ui/utils/global.dart';
-import 'package:sisi_iot_app/ui/utils/global_color.dart';
+import 'package:sisi_iot_app/ui/utils/global_palette.dart';
 import 'package:sisi_iot_app/ui/utils/utils.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_appbar.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_button.dart';
@@ -21,7 +21,7 @@ class PageMenu extends StatelessWidget {
         value: ColorsPalette.colorWhite,
         child: Scaffold(
           backgroundColor: ColorsPalette.colorWhite,
-          appBar: widgetAppBar(title: "Menu", fontSize: 25),
+          appBar: widgetNewAppBar(title: "Menu", fontSize: 25),
           body: SafeArea(
             child: Column(
               children: [

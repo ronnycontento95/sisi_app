@@ -1,10 +1,11 @@
 import 'dart:ui';
 
 class ColorsPalette {
+  ///Color primary
   static const colorPrimary = Color(0xFF274171);
   static const colorPrimary100 = Color(0xFF001b45);
   static const colorPrimary200 = Color(0xFF576ca0);
-
+  ///Color secondary
   static const colorSecondary = Color(0xFF3885ac);
   static const colorSecondary100 = Color(0xFF6eb5de);
   static const colorSecondary200 = Color(0xFFa2e7ff);

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/provider/provider_login.dart';
 import 'package:sisi_iot_app/ui/utils/global.dart';
-import 'package:sisi_iot_app/ui/utils/global_color.dart';
+import 'package:sisi_iot_app/ui/utils/global_palette.dart';
 import 'package:sisi_iot_app/ui/utils/global_formatters.dart';
 import 'package:sisi_iot_app/ui/utils/global_label.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_black_arrow.dart';

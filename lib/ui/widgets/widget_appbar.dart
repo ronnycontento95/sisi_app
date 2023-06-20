@@ -3,12 +3,13 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:sisi_iot_app/ui/pages/page_menu.dart';
 import 'package:sisi_iot_app/ui/utils/global.dart';
-import 'package:sisi_iot_app/ui/utils/global_color.dart';
+import 'package:sisi_iot_app/ui/utils/global_palette.dart';
+import 'package:sisi_iot_app/ui/utils/global_integration.dart';
 import 'package:sisi_iot_app/ui/utils/utils.dart';
 
 import '../../data/repositories/api_global_url.dart';
 
-widgetAppBar(
+widgetNewAppBar(
     {Key? key,
     required double fontSize,
     required title,
@@ -22,19 +23,14 @@ widgetAppBar(
     double scrolledUnderElevation = 3.0,
     TextAlign textAlign = TextAlign.start,
     Color colortext = ColorsPalette.colorlettertitle,
-    // ImageProvider<Object>? icon,
     IconData? icon = Icons.arrow_back,
     BoxFit fitIcon = BoxFit.fitHeight}) {
   return AppBar(
       title: Text(
         title,
         style: TextStyle(
-            fontFamily: Global.letterWalkwayBold,
-            color: colortext,
-            fontSize: fontSize,
-            fontWeight: fontWeight),
+            fontFamily: Global.letterWalkwayBold, color: colortext, fontSize: fontSize, fontWeight: fontWeight),
         textAlign: textAlign,
-        // st
       ),
       toolbarHeight: 90,
       centerTitle: true,
@@ -60,18 +56,16 @@ widgetAppBar(
       shadowColor: Colors.grey,
       scrolledUnderElevation: scrolledUnderElevation,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(16),
-              bottomRight: Radius.circular(16))),
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16))),
       actions: actions);
 }
 
-WidgetAppbarHome(
-  String imagen_empresa,
-  String nombre_empresa,
+widgetAppBarHome(
+  String? image,
+  String? business,
 ) {
   return AppBar(
-    leading: imagen_empresa != null
+    leading: image != null
         ? CircleAvatar(
             radius: 20,
             backgroundColor: ColorsPalette.colorWhite,
@@ -84,9 +78,8 @@ WidgetAppbarHome(
                 placeholderErrorBuilder: (_, __, stackTrace) {
                   return const Icon(Icons.person);
                 },
-                placeholder: kTransparentImage,
-                image:
-                    "${ApiGlobalUrl.generalLink}/${imagen_empresa ?? ""}",
+                placeholder: GlobalIntegration().getTransparentImage(),
+                image: "${ApiGlobalUrl.generalLink}/${image ?? ""}",
                 height: 40,
               ),
             ),
@@ -97,13 +90,10 @@ WidgetAppbarHome(
       textAlign: TextAlign.center,
       text: TextSpan(
         text: 'Hola, ',
-        style: const TextStyle(
-            fontSize: 24,
-            color: ColorsPalette.colorlettertitle,
-            fontFamily: Global.lettertitle),
+        style: const TextStyle(fontSize: 24, color: ColorsPalette.colorlettertitle, fontFamily: Global.lettertitle),
         children: <TextSpan>[
           TextSpan(
-              text: nombre_empresa ?? "",
+              text: business ?? "",
               style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontFamily: Global.lettertitle,
@@ -116,11 +106,9 @@ WidgetAppbarHome(
     actions: [
       GestureDetector(
           onTap: () {
-            Navigator.of(Utils.globalContext.currentContext!)
-                .pushNamed(PageMenu.routePage);
+            Navigator.of(Utils.globalContext.currentContext!).pushNamed(PageMenu.routePage);
           },
-          child: Icon(Icons.menu_sharp,
-              size: 20, color: ColorsPalette.colorPrimary)),
+          child: const Icon(Icons.menu_sharp, size: 20, color: ColorsPalette.colorPrimary)),
       const SizedBox(
         width: 20,
       )
@@ -134,74 +122,6 @@ WidgetAppbarHome(
     shadowColor: Colors.grey,
     scrolledUnderElevation: 3.0,
     shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16))),
+        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16))),
   );
 }
-
-Uint8List kTransparentImage = Uint8List.fromList(<int>[
-  0x89,
-  0x50,
-  0x4E,
-  0x47,
-  0x0D,
-  0x0A,
-  0x1A,
-  0x0A,
-  0x00,
-  0x00,
-  0x00,
-  0x0D,
-  0x49,
-  0x48,
-  0x44,
-  0x52,
-  0x00,
-  0x00,
-  0x00,
-  0x01,
-  0x00,
-  0x00,
-  0x00,
-  0x01,
-  0x08,
-  0x06,
-  0x00,
-  0x00,
-  0x00,
-  0x1F,
-  0x15,
-  0xC4,
-  0x89,
-  0x00,
-  0x00,
-  0x00,
-  0x0A,
-  0x49,
-  0x44,
-  0x41,
-  0x54,
-  0x78,
-  0x9C,
-  0x63,
-  0x00,
-  0x01,
-  0x00,
-  0x00,
-  0x05,
-  0x00,
-  0x01,
-  0x0D,
-  0x0A,
-  0x2D,
-  0xB4,
-  0x00,
-  0x00,
-  0x00,
-  0x00,
-  0x49,
-  0x45,
-  0x4E,
-  0x44,
-  0xAE,
-]);

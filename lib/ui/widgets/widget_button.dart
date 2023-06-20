@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sisi_iot_app/ui/utils/global.dart';
-import 'package:sisi_iot_app/ui/utils/global_color.dart';
+import 'package:sisi_iot_app/ui/utils/global_palette.dart';
 
 class WidgetButton extends StatelessWidget {
   final String text;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_text.dart';
 
-import '../utils/global_color.dart';
+import '../utils/global_palette.dart';
 
 class CarouselSliderNodos extends StatelessWidget {
   const CarouselSliderNodos({

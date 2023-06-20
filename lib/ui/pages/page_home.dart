@@ -12,15 +12,15 @@ import 'package:sisi_iot_app/ui/pages/page_menu.dart';
 import 'package:sisi_iot_app/ui/pages/page_nodos.dart';
 import 'package:sisi_iot_app/ui/provider/provider_login.dart';
 import 'package:sisi_iot_app/ui/utils/global.dart';
-import 'package:sisi_iot_app/ui/utils/global_color.dart';
+import 'package:sisi_iot_app/ui/utils/global_palette.dart';
 import 'package:sisi_iot_app/ui/utils/utils.dart';
 
-import '../utils/gps.dart';
+import '../utils/global_gps.dart';
 import '../widgets/widget_appbar.dart';
 import '../widgets/widget_carousel.dart';
 
 class PageHome extends StatefulWidget {
-  PageHome({Key? key}) : super(key: key);
+  const PageHome({Key? key}) : super(key: key);
   static const routePage = Global.routeHome;
 
   @override
@@ -48,9 +48,9 @@ class _PageHomeState extends State<PageHome> {
 }
 
 class BodyHome extends StatelessWidget {
+  BodyHome({Key? key}) : super(key: key);
   ProviderLogin? pLogin;
 
-  BodyHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class BodyHome extends StatelessWidget {
     return AnnotatedRegion(
       value: ColorsPalette.colorWhite,
       child: Scaffold(
-        appBar: WidgetAppbarHome(pLogin!.empresaResponse!.imagen ?? "", pLogin!.empresaResponse!.nombre_empresa ?? ""),
+        appBar: widgetAppBarHome(pLogin!.empresaResponse!.imagen ?? "", pLogin!.empresaResponse!.nombre_empresa ?? ""),
         backgroundColor: ColorsPalette.colorGrey,
         body: Stack(
           children: [

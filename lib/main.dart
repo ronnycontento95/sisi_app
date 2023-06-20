@@ -11,7 +11,7 @@ import 'package:sisi_iot_app/ui/pages/page_home.dart';
 import 'package:sisi_iot_app/ui/pages/page_onboarding.dart';
 import 'package:sisi_iot_app/ui/routes/routes_pages.dart';
 import 'package:sisi_iot_app/ui/routes/routes_provider.dart';
-import 'package:sisi_iot_app/ui/utils/global_color.dart';
+import 'package:sisi_iot_app/ui/utils/global_palette.dart';
 import 'package:sisi_iot_app/ui/utils/utils.dart';
 
 

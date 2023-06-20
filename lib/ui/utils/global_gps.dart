@@ -5,8 +5,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geolocator/geolocator.dart' as geolocator;
 import 'package:permission_handler/permission_handler.dart' as permiso;
 
+
 class Gps {
-  //Location location = Location();
   static double? _latitude = 0.0;
   static double? _longitude = 0.0;
   static Position? _position;
