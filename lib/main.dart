@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
@@ -36,10 +38,14 @@ Future main() async {
 class MyApp extends StatelessWidget {
   String routeInit;
   MyApp(this.routeInit);
-
-  // This widget is the root of your application.
+  /// Verificar el estado de la coneccion
+  final Connectivity _connectivity = Connectivity();
+  StreamSubscription<ConnectivityResult>? _connectivityStreamSubscription;
   @override
   Widget build(BuildContext context) {
+    if(_connectivityStreamSubscription == null){
+
+    }
     return MultiProvider(
       providers: providers(),
       child: OKToast(

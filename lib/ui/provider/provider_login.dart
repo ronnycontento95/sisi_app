@@ -12,7 +12,7 @@ import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.
 import 'package:sisi_iot_app/domain/repositories/repository_interface.dart';
 import 'package:sisi_iot_app/ui/pages/page_home.dart';
 import 'package:sisi_iot_app/ui/pages/page_login.dart';
-import 'package:sisi_iot_app/ui/utils/styleMapGoogle.dart';
+import 'package:sisi_iot_app/ui/utils/style_map_google.dart';
 import 'package:sisi_iot_app/ui/utils/utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -39,7 +39,7 @@ class ProviderLogin extends ChangeNotifier {
 
   ///Init provider
   ProviderLogin(this.apiRepositoryLoginInterface, this.repositoryInterface) {
-    Utils().assetToBytes("${Global.assetsImages}pin_origin.png").then((value) {
+    Utils().assetsCoverToBytes("${Global.assetsImages}pin_origin.png").then((value) {
       final bitmap = BitmapDescriptor.fromBytes(value);
       iconLocation.complete(bitmap);
     });
