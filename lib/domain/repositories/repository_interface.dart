@@ -1,9 +1,7 @@
-import 'package:sisi_iot_app/domain/entities/empresa.dart';
+import 'package:sisi_iot_app/domain/entities/company.dart';
 
 abstract class RepositoryInterface {
-   Future saveUser(EmpresaResponse idEmpresa);
-   Future<EmpresaResponse?> getIdEmpresa();
+   Future saveUser(Company idEmpresa);
+   Future<Company?> getIdEmpresa();
    Future deleteUser();
-
-
 }

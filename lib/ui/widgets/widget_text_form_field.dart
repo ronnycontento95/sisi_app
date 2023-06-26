@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sisi_iot_app/ui/utils/global.dart';
-import 'package:sisi_iot_app/ui/utils/global_palette.dart';
+
+import '../global/global.dart';
+import '../global/global_palette.dart';
 
 //se crea el input text personalizado
 enum enumTypeText {

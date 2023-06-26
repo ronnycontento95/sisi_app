@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-class EmpresaNodosResponse {
-  EmpresaNodosResponse({
+class Device {
+  Device({
     this.ide,
     this.clase,
     this.nombre,
@@ -27,11 +27,11 @@ class EmpresaNodosResponse {
   String? lat;
   String? lot;
 
-  factory EmpresaNodosResponse.fromJson(String str) => EmpresaNodosResponse.fromMap(json.decode(str));
+  factory Device.fromJson(String str) => Device.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory EmpresaNodosResponse.fromMap(Map<String, dynamic> json) => EmpresaNodosResponse(
+  factory Device.fromMap(Map<String, dynamic> json) => Device(
     ide: json["ide"],
     clase: json["clase"],
     nombre: json["nombre"],
@@ -59,7 +59,7 @@ class EmpresaNodosResponse {
     "lot": lot,
   };
 
-  EmpresaNodosResponse.map(dynamic obj) {
+  Device.map(dynamic obj) {
     ide= obj["ide"];
     clase= obj["clase"];
     nombre= obj["nombre"];
@@ -75,6 +75,6 @@ class EmpresaNodosResponse {
 
   @override
   String toString() {
-    return 'EmpresaNodosResponse{ide: $ide, clase: $clase, nombre: $nombre, datosEnviados: $datosEnviados, valor: $valor, valMin: $valMin, valMax: $valMax, fechahora: $fechahora, tipoDato: $tipoDato, lat: $lat, lot: $lot}';
+    return 'Device{ide: $ide, clase: $clase, nombre: $nombre, datosEnviados: $datosEnviados, valor: $valor, valMin: $valMin, valMax: $valMax, fechahora: $fechahora, tipoDato: $tipoDato, lat: $lat, lot: $lot}';
   }
 }

@@ -1,26 +1,30 @@
+///Import
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:sisi_iot_app/ui/provider/provider_login.dart';
-import 'package:sisi_iot_app/ui/utils/global.dart';
-import 'package:sisi_iot_app/ui/utils/global_palette.dart';
-import 'package:sisi_iot_app/ui/utils/global_formatters.dart';
-import 'package:sisi_iot_app/ui/utils/global_label.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_black_arrow.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_button.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_label_text.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_text_form_field.dart';
+import '../global/global.dart';
+import '../global/global_formatters.dart';
+import '../global/global_label.dart';
+import '../global/global_palette.dart';
+///Provider
+import '../provider/provider_principal.dart';
+///Utils
+
+///Widgets
+import '../widgets/widget_button_view.dart';
+import '../widgets/widget_label_text.dart';
+import '../widgets/widget_text_form_field.dart';
+
 
 final _formKey = GlobalKey<FormState>();
 
-class PageLogin extends StatelessWidget {
-  PageLogin({Key? key}) : super(key: key);
-  static const routePage = Global.routePageLogin;
-  ProviderLogin? providerLogin;
+class ScreenLogin extends StatelessWidget {
+  ScreenLogin({Key? key}) : super(key: key);
+  static const routePage = Global.routeScreenLogin;
+  ProviderPrincipal? _providerPrincipal;
 
   @override
   Widget build(BuildContext context) {
-    providerLogin ??= Provider.of<ProviderLogin>(context);
+    _providerPrincipal ??= Provider.of<ProviderPrincipal>(context);
     return AnnotatedRegion(
       value: ColorsPalette.colorWhite,
       child: Scaffold(
@@ -34,12 +38,13 @@ class PageLogin extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: WidgetBlackArrow(
-                        callback: () {},
-                      ),
-                    ),
+                    ///TODO agregar icono return
+                    // Align(
+                    //   alignment: Alignment.topLeft,
+                    //   child: WidgetBlackArrow(
+                    //     callback: () {},
+                    //   ),
+                    // ),
                     const Image(
                       image: AssetImage("${Global.assetsLogo}logo-estandar.png"),
                       height: 40,
@@ -49,7 +54,7 @@ class PageLogin extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        WidgetLabelText().labelTextTitle(
+                        WidgetViewLabelText().labelTextTitle(
                             text: GlobalLabel.lblWelcome,
                             fontSize: 25,
                             fontWeight: FontWeight.w900,
@@ -57,14 +62,14 @@ class PageLogin extends StatelessWidget {
                             textAlign: TextAlign.center),
                       ],
                     ),
-                    WidgetLabelText().labelTextNormal(text: GlobalLabel.lblSubWelcome, fontSize: 14, colortext: ColorsPalette.colorPrimary),
+                    WidgetViewLabelText().labelTextNormal(text: GlobalLabel.lblSubWelcome, fontSize: 14, colortext: ColorsPalette.colorPrimary),
                     const SizedBox(
                       height: 25,
                     ),
                     contTextUser(),
                     contTextPassword(),
                     const SizedBox(height: 10),
-                    if (providerLogin!.errorMessage != null) ...[Text(providerLogin!.errorMessage!)],
+                    if (_providerPrincipal!.errorMessage != null) ...[Text(_providerPrincipal!.errorMessage!)],
                     widgetButonLogin(context),
                   ],
                 ),
@@ -77,12 +82,12 @@ class PageLogin extends StatelessWidget {
   }
 
   Widget widgetButonLogin(BuildContext context) {
-    return WidgetButton(
+    return WidgetButtonView(
       text: "Ingresar",
       color: ColorsPalette.colorPrimary,
       onTap: () {
         // if (_formKey.currentState!.validate()) {
-        providerLogin!.login();
+        _providerPrincipal!.login();
         // } else {
         // alertSimpleMessage(context, "¡Aviso!", "Revise que la información ingresada sea correcta e intente nuevamente.", textAccept: "Entendido");
         // }
@@ -93,7 +98,7 @@ class PageLogin extends StatelessWidget {
   Widget contTextUser() {
     return WidgetTextFormField(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      controller: providerLogin!.controllerUser,
+      controller: _providerPrincipal!.controllerUser,
       labelTitle: GlobalLabel.lblUser,
       keyboardType: TextInputType.emailAddress,
       inputFormatters: formattersUser(),
@@ -114,8 +119,8 @@ class PageLogin extends StatelessWidget {
   Widget contTextPassword() {
     return WidgetTextFormField(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      obscureText: providerLogin!.visiblePassword,
-      controller: providerLogin!.controllerPassword,
+      obscureText: _providerPrincipal!.visiblePassword,
+      controller: _providerPrincipal!.controllerPassword,
       labelTitle: GlobalLabel.lblPassword,
       keyboardType: TextInputType.visiblePassword,
       inputFormatters: formattersPassword(),
@@ -124,11 +129,11 @@ class PageLogin extends StatelessWidget {
       fontSize: 16,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       suffixIcon: Icon(
-        providerLogin!.visiblePassword ? Icons.remove_red_eye_outlined : Icons.visibility_off_outlined,
+        _providerPrincipal!.visiblePassword ? Icons.remove_red_eye_outlined : Icons.visibility_off_outlined,
         color: ColorsPalette.colorPrimary,
       ),
       onTapSufixIcon: () {
-        providerLogin!.visiblePassword = providerLogin!.visiblePassword ? false : true;
+        _providerPrincipal!.visiblePassword = _providerPrincipal!.visiblePassword ? false : true;
       },
       validator: (val) {
         String text = val!.trim();

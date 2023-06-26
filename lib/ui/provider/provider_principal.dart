@@ -6,29 +6,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sisi_iot_app/domain/entities/empresa.dart';
-import 'package:sisi_iot_app/domain/entities/empresaNodos.dart';
+import 'package:sisi_iot_app/domain/entities/company.dart';
+import 'package:sisi_iot_app/domain/entities/device.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 import 'package:sisi_iot_app/domain/repositories/repository_interface.dart';
-import 'package:sisi_iot_app/ui/pages/page_home.dart';
-import 'package:sisi_iot_app/ui/pages/page_login.dart';
-import 'package:sisi_iot_app/ui/utils/style_map_google.dart';
-import 'package:sisi_iot_app/ui/utils/utils.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
-import '../utils/global.dart';
-import '../utils/global_gps.dart';
+import '../global/global.dart';
+import '../global/global_gps.dart';
+import '../global/global_style_map.dart';
+import '../global/utils.dart';
+import '../screen/screen_home.dart';
+import '../screen/screen_login.dart';
 
-class ProviderLogin extends ChangeNotifier {
+class ProviderPrincipal extends ChangeNotifier {
   final ApiRepositoryLoginInterface? apiRepositoryLoginInterface;
   final RepositoryInterface? repositoryInterface;
   bool _visiblePassword = true;
   TextEditingController _controllerUser = TextEditingController();
   TextEditingController _controllerPassword = TextEditingController();
   TextEditingController get controllerUser => _controllerUser;
-  EmpresaResponse? _empresaResponse = EmpresaResponse();
-  List<EmpresaNodosResponse> _empresaNodosResponse = [];
-  List<EmpresaNodosResponse> get empresaNodosResponse => _empresaNodosResponse;
+  Company? _empresaResponse = Company();
+  List<Device>? _listDevice = [];
   String? _errorMessage;
   GoogleMapController? mapControllerExplorer;
   Map<MarkerId, Marker> _markersNodo = {};
@@ -37,8 +35,7 @@ class ProviderLogin extends ChangeNotifier {
   int? _position = 0;
   GoogleMapController? _googleMapController;
 
-  ///Init provider
-  ProviderLogin(this.apiRepositoryLoginInterface, this.repositoryInterface) {
+  ProviderPrincipal(this.apiRepositoryLoginInterface, this.repositoryInterface) {
     Utils().assetsCoverToBytes("${Global.assetsImages}pin_origin.png").then((value) {
       final bitmap = BitmapDescriptor.fromBytes(value);
       iconLocation.complete(bitmap);
@@ -46,14 +43,17 @@ class ProviderLogin extends ChangeNotifier {
     notifyListeners();
   }
 
-  set empresaNodosResponse(List<EmpresaNodosResponse> value) {
-    _empresaNodosResponse = value;
+
+  List<Device> get listDevice => _listDevice!;
+
+  set listDevice(List<Device> value) {
+    _listDevice = value;
     notifyListeners();
   }
 
-  EmpresaResponse? get empresaResponse => _empresaResponse;
+  Company? get empresaResponse => _empresaResponse;
 
-  set empresaResponse(EmpresaResponse? value) {
+  set empresaResponse(Company? value) {
     _empresaResponse = value;
     notifyListeners();
   }
@@ -120,7 +120,7 @@ class ProviderLogin extends ChangeNotifier {
         if (empresaResponse!.bandera!) {
           debugPrint("RESPONSE PROVIDER ${data}");
           Navigator.of(Utils.globalContext.currentContext!)
-              .pushNamedAndRemoveUntil(PageHome.routePage, (Route<dynamic> route) => false);
+              .pushNamedAndRemoveUntil(ScreenHome.routePage, (Route<dynamic> route) => false);
         } else {
           //TODO ERROR DE LOGIN
           debugPrint("RESPONSE PROVIDER LOGIN ${data}");
@@ -134,51 +134,29 @@ class ProviderLogin extends ChangeNotifier {
   getUser() async {
     repositoryInterface!.getIdEmpresa().then((value) {
       empresaResponse = value;
-      getNodosId(empresaResponse!.id_empresas!);
+      getDevice(empresaResponse!.id_empresas!);
     });
   }
 
-  //Get nodos id bussiness
-  getNodosId(int id) async {
+  /// Get nodos id bussiness
+  getDevice(int id) async {
     await apiRepositoryLoginInterface?.getNodoId(id, (code, data) {
       if (code == -1) {
-        empresaNodosResponse = [];
+        listDevice = [];
       } else {
-        empresaNodosResponse = data;
+        listDevice = data;
       }
     });
   }
 
-  // Sign off
+  /// Sign off device
   signOff() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
     Navigator.of(Utils.globalContext.currentContext!)
-        .pushNamedAndRemoveUntil(PageLogin.routePage, (Route<dynamic> route) => false);
+        .pushNamedAndRemoveUntil(ScreenLogin.routePage, (Route<dynamic> route) => false);
   }
 
-  // controller(){
-  //   WebViewController()
-  //     ..setJavaScriptMode(JavaScriptMode.unrestricted)
-  //     ..setBackgroundColor(const Color(0x00000000))
-  //     ..setNavigationDelegate(
-  //       NavigationDelegate(
-  //         onProgress: (int progress) {
-  //           // Update loading bar.
-  //         },
-  //         onPageStarted: (String url) {},
-  //         onPageFinished: (String url) {},
-  //         onWebResourceError: (WebResourceError error) {},
-  //         onNavigationRequest: (NavigationRequest request) {
-  //           if (request.url.startsWith('https://sisi.com.ec/aplicacion/celular/nodo_individual/30/')) {
-  //             return NavigationDecision.prevent;
-  //           }
-  //           return NavigationDecision.navigate;
-  //         },
-  //       ),
-  //     )
-  //     ..loadRequest(Uri.parse('https://sisi.com.ec/aplicacion/celular/nodo_individual/30/'));
-  // }
   void initMapExplorer(GoogleMapController controller) {
     mapControllerExplorer = controller;
     addMarker(
@@ -223,6 +201,6 @@ class ProviderLogin extends ChangeNotifier {
   }
 
   styleMapGoogle(){
-    return jsonEncode(uberMapTheme);
+    return jsonEncode(styleMapGoogle);
   }
 }

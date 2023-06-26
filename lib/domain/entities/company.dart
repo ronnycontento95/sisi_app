@@ -1,8 +1,8 @@
 
 import 'dart:convert';
 
-class EmpresaResponse {
-  EmpresaResponse({
+class Company {
+  Company({
     this.bandera,
     this.topic,
     this.nombre_empresa,
@@ -16,11 +16,12 @@ class EmpresaResponse {
   int? id_empresas;
   String? imagen;
 
-  factory EmpresaResponse.fromJson(String str) => EmpresaResponse.fromMap(json.decode(str));
+
+  factory Company.fromJson(String str) => Company.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory EmpresaResponse.fromMap(Map<String, dynamic> json) => EmpresaResponse(
+  factory Company.fromMap(Map<String, dynamic> json) => Company(
     bandera: json["bandera"],
     topic: json["topic"],
     nombre_empresa: json["nombre_empresa"],
@@ -37,7 +38,7 @@ class EmpresaResponse {
   };
 
   // cover to map
-  EmpresaResponse.map(dynamic obj) {
+  Company.map(dynamic obj) {
     bandera= obj["bandera"];
     topic= obj["topic"];
     nombre_empresa= obj["nombre_empresa"];
@@ -47,6 +48,6 @@ class EmpresaResponse {
 
   @override
   String toString() {
-    return 'EmpresaResponse{bandera: $bandera, topic: $topic, nombre_empresa: $nombre_empresa, id_empresas: $id_empresas, imagen: $imagen}';
+    return 'Company{bandera: $bandera, topic: $topic, nombre_empresa: $nombre_empresa, id_empresas: $id_empresas, imagen: $imagen}';
   }
 }

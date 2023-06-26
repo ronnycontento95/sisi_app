@@ -1,15 +1,16 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:sisi_iot_app/ui/pages/page_login.dart';
-import 'package:sisi_iot_app/ui/utils/global.dart';
-import 'package:sisi_iot_app/ui/utils/global_palette.dart';
-import 'package:sisi_iot_app/ui/utils/utils.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_button.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_label_text.dart';
 
-class PageOnboarding extends StatelessWidget {
-  const PageOnboarding({Key? key}) : super(key: key);
-  static const routePage = Global.routePageOnboarding;
+import '../global/global.dart';
+import '../global/global_palette.dart';
+import '../global/utils.dart';
+import '../widgets/widget_button_view.dart';
+import '../widgets/widget_label_text.dart';
+import 'screen_login.dart';
+
+class ScreenOnBoarding extends StatelessWidget {
+  const ScreenOnBoarding({Key? key}) : super(key: key);
+  static const routePage = Global.routeScreenOnBoarding;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +69,7 @@ class PageOnboarding extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          WidgetLabelText().labelTextNormal(
+          WidgetViewLabelText().labelTextNormal(
               text: text,
               fontSize: 16,
               textAlign: TextAlign.center,
@@ -149,12 +150,12 @@ class PageOnboarding extends StatelessWidget {
       margin: const EdgeInsets.only(top: 10),
       child: Column(
         children: [
-          WidgetButton(
+          WidgetButtonView(
             text: "Ingresar ahora",
             color: ColorsPalette.colorPrimary,
             onTap: () {
-              // Navigator.pushNamed(context, PageLogin.routePage);
-              Navigator.of(Utils.globalContext.currentContext!).pushNamed(PageLogin.routePage);
+              // Navigator.pushNamed(context, ScreenLogin.routePage);
+              Navigator.of(Utils.globalContext.currentContext!).pushNamed(ScreenLogin.routePage);
             },
           ),
         ],

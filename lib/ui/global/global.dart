@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 class Global {
   //Routes Images
   static const assetsIcons = "assets/icons/";
@@ -13,12 +11,13 @@ class Global {
   static const letterWalkwaySemiBold = 'walkwaysemiBold';
 
   //routerPage
-  static const routePageOnboarding = 'PageOnboarding';
-  static const routePageLogin = "PageLogin";
-  static const routeHome = "PageHome";
-  static const routePageNodos = "PageNodos";
-  static const routePageMenu = "PageMenu";
-  static const routePageWebView = "PageWebView";
+  static const routeScreenOnBoarding = 'ScreenOnBoarding';
+  static const routeScreenLogin = "ScreenLogin";
+  static const routeHome = "ScreenHome";
+  static const routeScreenDevice = "ScreenDevice";
+  static const routeScreenMenu = "ScreenMenu";
+  static const routeScreenwebView = "ScreenwebView";
+  static const routeScreenSpash= "ScreenSpash";
 
   /// Global Target Marker
   static const targetWidth = 80;

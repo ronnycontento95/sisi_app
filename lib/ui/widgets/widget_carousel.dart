@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_text.dart';
+import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 
-import '../utils/global_palette.dart';
+import '../global/global_palette.dart';
 
-class CarouselSliderNodos extends StatelessWidget {
-  const CarouselSliderNodos({
+
+class WidgetViewCarousel extends StatelessWidget {
+  const WidgetViewCarousel({
     Key? key,
     this.subtitle,
     this.title,
@@ -46,27 +47,20 @@ class CarouselSliderNodos extends StatelessWidget {
   Widget _description(){
     return Container(
       width: double.infinity,
-      height: 140,
+      height: 130,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors:[
-              Colors.grey[100]!.withOpacity(0.0),
-              Colors.black,
-            ] ,
-            begin: FractionalOffset.topCenter,
-            end: FractionalOffset.bottomCenter
-        ),
+        color: Colors.white,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            WidgetText.title(text: title ?? ' ',color: ColorsPalette.colorWhite,),
-            WidgetText(text: subtitle ?? ' ',color: ColorsPalette.colorWhite,),
-            WidgetText(text: type ?? ' ',color: ColorsPalette.colorWhite,),
-            WidgetText(text: "Nivel: $valor %" ?? ' ',color: ColorsPalette.colorWhite,),
+            WidgetTextView.title(text: title ?? ' ',color: ColorsPalette.colorPrimary,),
+            WidgetTextView(text: subtitle ?? ' ',color: ColorsPalette.colorPrimary,),
+            WidgetTextView(text: type ?? ' ',color: ColorsPalette.colorPrimary,),
+            WidgetTextView(text: "Nivel: $valor %" ?? ' ',color: ColorsPalette.colorPrimary,),
           ],
         ),
       ),

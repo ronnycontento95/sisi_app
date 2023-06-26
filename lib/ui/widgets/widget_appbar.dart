@@ -1,13 +1,12 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:sisi_iot_app/ui/pages/page_menu.dart';
-import 'package:sisi_iot_app/ui/utils/global.dart';
-import 'package:sisi_iot_app/ui/utils/global_palette.dart';
-import 'package:sisi_iot_app/ui/utils/global_integration.dart';
-import 'package:sisi_iot_app/ui/utils/utils.dart';
-
 import '../../data/repositories/api_global_url.dart';
+import '../global/global.dart';
+import '../global/global_integration.dart';
+import '../global/global_palette.dart';
+import '../global/utils.dart';
+import '../screen/screen_menu.dart';
 
 widgetNewAppBar(
     {Key? key,
@@ -90,7 +89,7 @@ widgetAppBarHome(
       textAlign: TextAlign.center,
       text: TextSpan(
         text: 'Hola, ',
-        style: const TextStyle(fontSize: 24, color: ColorsPalette.colorlettertitle, fontFamily: Global.lettertitle),
+        style: const TextStyle(fontSize: 14, color: ColorsPalette.colorlettertitle, fontFamily: Global.lettertitle),
         children: <TextSpan>[
           TextSpan(
               text: business ?? "",
@@ -98,7 +97,7 @@ widgetAppBarHome(
                   fontWeight: FontWeight.bold,
                   fontFamily: Global.lettertitle,
                   color: ColorsPalette.colorSecondary,
-                  fontSize: 24)),
+                  fontSize: 16)),
         ],
       ),
     ),
@@ -106,14 +105,14 @@ widgetAppBarHome(
     actions: [
       GestureDetector(
           onTap: () {
-            Navigator.of(Utils.globalContext.currentContext!).pushNamed(PageMenu.routePage);
+            Navigator.of(Utils.globalContext.currentContext!).pushNamed(ScreenMenu.routePage);
           },
           child: const Icon(Icons.menu_sharp, size: 20, color: ColorsPalette.colorPrimary)),
       const SizedBox(
         width: 20,
       )
     ],
-    toolbarHeight: 90,
+    toolbarHeight: 70,
     elevation: 1.0,
     titleSpacing: 0,
     automaticallyImplyLeading: false,

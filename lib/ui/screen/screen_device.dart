@@ -1,35 +1,33 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:sisi_iot_app/data/repositories/api_global_url.dart';
-import 'package:sisi_iot_app/domain/entities/empresaNodos.dart';
-import 'package:sisi_iot_app/ui/pages/page_menu.dart';
-import 'package:sisi_iot_app/ui/pages/page_web_nodos.dart';
-import 'package:sisi_iot_app/ui/provider/provider_login.dart';
-import 'package:sisi_iot_app/ui/utils/global.dart';
-import 'package:sisi_iot_app/ui/utils/global_palette.dart';
-import 'package:sisi_iot_app/ui/utils/utils.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_appbar.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_label_text.dart';
+import 'package:sisi_iot_app/ui/global/global_label.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class PageNodos extends StatefulWidget {
-  PageNodos({Key? key}) : super(key: key);
-  static const routePage = Global.routePageNodos;
+import '../../domain/entities/device.dart';
+import '../global/global.dart';
+import '../global/global_palette.dart';
+import '../global/utils.dart';
+import '../provider/provider_principal.dart';
+import '../widgets/widget_appbar.dart';
+import 'screen_web_device.dart';
+
+class ScreenDevice extends StatefulWidget {
+  const ScreenDevice({Key? key}) : super(key: key);
+  static const routePage = Global.routeScreenDevice;
 
   @override
-  State<PageNodos> createState() => _PageNodosState();
+  State<ScreenDevice> createState() => _ScreenDeviceState();
 }
 
-class _PageNodosState extends State<PageNodos> {
-  ProviderLogin? pvLogin;
+class _ScreenDeviceState extends State<ScreenDevice> {
+  ProviderPrincipal? pvLogin;
 
   @override
   void initState() {
     super.initState();
-    pvLogin = Provider.of<ProviderLogin>(context, listen: false);
+    pvLogin = Provider.of<ProviderPrincipal>(context, listen: false);
     SchedulerBinding.instance.addPostFrameCallback((_) {
       pvLogin!.getUser();
     });
@@ -42,18 +40,18 @@ class _PageNodosState extends State<PageNodos> {
 }
 
 class BodyHome extends StatelessWidget {
-  ProviderLogin? pvLogin;
+  ProviderPrincipal? pvLogin;
 
   BodyHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
-    pvLogin ??= Provider.of<ProviderLogin>(context);
+    pvLogin ??= Provider.of<ProviderPrincipal>(context);
     return AnnotatedRegion(
         value: ColorsPalette.colorWhite,
         child: Scaffold(
-          appBar: widgetNewAppBar(title: "Dispositivos IoT", fontSize: 20),
+          appBar: widgetNewAppBar(title: GlobalLabel.lblSearhDevice, fontSize: 20),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Column(
@@ -64,6 +62,19 @@ class BodyHome extends StatelessWidget {
         ));
   }
 
+  /// Search device
+  Widget searchText(){
+    return Container(
+      padding: const EdgeInsets.all(10),
+      child: Row(
+        children: [
+          Expanded(child: Icon(Icons.search))
+          // Expanded(child: child)
+        ],
+      ),
+    );
+  }
+
   ///List card nodos
   Widget cardNodosList() {
     return Container(
@@ -71,9 +82,9 @@ class BodyHome extends StatelessWidget {
       child: GridView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: pvLogin!.empresaNodosResponse.length,
+        itemCount: pvLogin!.listDevice.length,
         itemBuilder: (context, index) {
-          return itemNodo(pvLogin!.empresaNodosResponse[index]);
+          return itemNodo(pvLogin!.listDevice[index]);
         },
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 250, childAspectRatio: 2 / 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
@@ -81,10 +92,10 @@ class BodyHome extends StatelessWidget {
     );
   }
   /// Item Nodos
-  Widget itemNodo(EmpresaNodosResponse? empresaNodos) {
+  Widget itemNodo(Device? empresaNodos) {
     return GestureDetector(
       onTap: (){
-        Navigator.of(Utils.globalContext.currentContext!).pushNamed(PageWebView.routePage);
+        Navigator.of(Utils.globalContext.currentContext!).pushNamed(ScreenwebView.routePage);
       },
       child: Container(
         width: 150,

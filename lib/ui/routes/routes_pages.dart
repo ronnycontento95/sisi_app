@@ -1,18 +1,21 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sisi_iot_app/ui/pages/page_home.dart';
-import 'package:sisi_iot_app/ui/pages/page_login.dart';
-import 'package:sisi_iot_app/ui/pages/page_menu.dart';
-import 'package:sisi_iot_app/ui/pages/page_nodos.dart';
-import 'package:sisi_iot_app/ui/pages/page_onboarding.dart';
-import 'package:sisi_iot_app/ui/pages/page_web_nodos.dart';
+
+import '../screen/screen_home.dart';
+import '../screen/screen_login.dart';
+import '../screen/screen_menu.dart';
+import '../screen/screen_device.dart';
+import '../screen/screen_onboarding.dart';
+import '../screen/screen_splash.dart';
+import '../screen/screen_web_device.dart';
 
 Map<String, WidgetBuilder> routes() {
   return <String, WidgetBuilder>{
-    PageOnboarding.routePage: (_) => const PageOnboarding(),
-    PageLogin.routePage: (_) => PageLogin(),
-    PageHome.routePage: (_) => PageHome(),
-    PageNodos.routePage: (_) => PageNodos(),
-    PageMenu.routePage: (_) => PageMenu(),
-    PageWebView.routePage: (_) => PageWebView()
+    ScreenOnBoarding.routePage: (_) => const ScreenOnBoarding(),
+    ScreenLogin.routePage: (_) => ScreenLogin(),
+    ScreenHome.routePage: (_) => const ScreenHome(),
+    ScreenDevice.routePage: (_) => ScreenDevice(),
+    ScreenMenu.routePage: (_) => ScreenMenu(),
+    ScreenwebView.routePage: (_) => ScreenwebView(),
+    ScreenSpash.routePage:(_) => const ScreenSpash()
   };
 }

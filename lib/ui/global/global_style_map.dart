@@ -1,4 +1,4 @@
-const uberMapTheme = [
+const styleMapGoogle = [
   {
     "featureType": "all",
     "elementType": "labels.text.fill",

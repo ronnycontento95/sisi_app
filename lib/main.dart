@@ -6,13 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
-import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
-import 'package:sisi_iot_app/ui/pages/page_home.dart';
-import 'package:sisi_iot_app/ui/pages/page_onboarding.dart';
-import 'package:sisi_iot_app/ui/routes/routes_pages.dart';
-import 'package:sisi_iot_app/ui/routes/routes_provider.dart';
-import 'package:sisi_iot_app/ui/utils/global_palette.dart';
-import 'package:sisi_iot_app/ui/utils/utils.dart';
+
+import 'data/repositories/repository_implement.dart';
+import 'ui/global/global_palette.dart';
+import 'ui/global/utils.dart';
+import 'ui/routes/routes_pages.dart';
+import 'ui/routes/routes_provider.dart';
+import 'ui/screen/screen_home.dart';
+import 'ui/screen/screen_onboarding.dart';
 
 
 Future main() async {
@@ -28,9 +29,9 @@ Future main() async {
   RepositorieImplement repositoryImplement = RepositorieImplement();
   await repositoryImplement.getIdEmpresa().then((idEmpresa){
     if(idEmpresa != null){
-      runApp(MyApp(PageHome.routePage));
+      runApp(MyApp(ScreenHome.routePage));
     }else{
-      runApp(MyApp(PageOnboarding.routePage));
+      runApp(MyApp(ScreenOnBoarding.routePage));
     }
   });
 

@@ -1,43 +1,47 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
+///Import
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
-import 'package:sisi_iot_app/data/repositories/api_global_url.dart';
-import 'package:sisi_iot_app/domain/entities/empresaNodos.dart';
-import 'package:sisi_iot_app/ui/pages/page_menu.dart';
-import 'package:sisi_iot_app/ui/pages/page_nodos.dart';
-import 'package:sisi_iot_app/ui/provider/provider_login.dart';
-import 'package:sisi_iot_app/ui/utils/global.dart';
-import 'package:sisi_iot_app/ui/utils/global_palette.dart';
-import 'package:sisi_iot_app/ui/utils/utils.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
-import '../utils/global_gps.dart';
+import '../global/global.dart';
+import '../global/global_gps.dart';
+import '../global/global_palette.dart';
+import '../global/utils.dart';
+///Utils
+
+///Widgets
 import '../widgets/widget_appbar.dart';
 import '../widgets/widget_carousel.dart';
 
-class PageHome extends StatefulWidget {
-  const PageHome({Key? key}) : super(key: key);
+///Pages
+import 'screen_device.dart';
+
+/// Provider
+import '../provider/provider_principal.dart';
+
+class ScreenHome extends StatefulWidget {
+  const ScreenHome({Key? key}) : super(key: key);
   static const routePage = Global.routeHome;
 
   @override
-  State<PageHome> createState() => _PageHomeState();
+  State<ScreenHome> createState() => _ScreenHomeState();
 }
 
-class _PageHomeState extends State<PageHome> {
-  ProviderLogin? pLogin;
+class _ScreenHomeState extends State<ScreenHome> {
+  ProviderPrincipal? pvPrincipal;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    pLogin = Provider.of<ProviderLogin>(context, listen: false);
+    pvPrincipal = Provider.of<ProviderPrincipal>(context, listen: false);
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Gps().checkGPS().then((value) {});
-      pLogin!.getUser();
+      pvPrincipal!.getUser();
     });
   }
 
@@ -49,17 +53,15 @@ class _PageHomeState extends State<PageHome> {
 
 class BodyHome extends StatelessWidget {
   BodyHome({Key? key}) : super(key: key);
-  ProviderLogin? pLogin;
-
-
+  ProviderPrincipal? pvPrincipal;
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
-    pLogin ??= Provider.of<ProviderLogin>(context);
+    pvPrincipal ??= Provider.of<ProviderPrincipal>(context);
     return AnnotatedRegion(
       value: ColorsPalette.colorWhite,
       child: Scaffold(
-        appBar: widgetAppBarHome(pLogin!.empresaResponse!.imagen ?? "", pLogin!.empresaResponse!.nombre_empresa ?? ""),
+        appBar: widgetAppBarHome(pvPrincipal!.empresaResponse!.imagen ?? "", pvPrincipal!.empresaResponse!.nombre_empresa ?? ""),
         backgroundColor: ColorsPalette.colorGrey,
         body: Stack(
           children: [
@@ -71,7 +73,7 @@ class BodyHome extends StatelessWidget {
                 const SizedBox(
                   height: 15,
                 ),
-                gpsLocation(),
+                // gpsLocation(),
               ],
             ),
             // listNodos()
@@ -89,7 +91,7 @@ class BodyHome extends StatelessWidget {
       margin: const EdgeInsets.only(right: 15),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(Utils.globalContext.currentContext!).pushNamed(PageNodos.routePage);
+          Navigator.of(Utils.globalContext.currentContext!).pushNamed(ScreenDevice.routePage);
         },
         child: RippleAnimation(
           repeat: true,
@@ -113,7 +115,7 @@ class BodyHome extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: GestureDetector(
         onTap: () {
-          pLogin!.onCameraCenter(CameraPosition(target: LatLng(Gps.latitude, Gps.longitude), zoom: 15));
+          pvPrincipal!.onCameraCenter(CameraPosition(target: LatLng(Gps.latitude, Gps.longitude), zoom: 15));
         },
         child: const CircleAvatar(
           backgroundColor: Colors.white,
@@ -135,35 +137,35 @@ class BodyHome extends StatelessWidget {
         SizedBox(
           height: 150,
           child: CarouselSlider.builder(
-            itemCount: pLogin!.empresaNodosResponse.length,
+            itemCount: pvPrincipal!.listDevice.length,
             itemBuilder: (context, int index, index2) {
-              return CarouselSliderNodos(
-                title: pLogin!.empresaNodosResponse[index].nombre,
-                subtitle: pLogin!.empresaNodosResponse[index].fechahora,
-                type: pLogin!.empresaNodosResponse[index].tipoDato,
-                valor: pLogin!.empresaNodosResponse[index].valor,
+              return WidgetViewCarousel(
+                title: pvPrincipal!.listDevice[index].nombre,
+                subtitle: pvPrincipal!.listDevice[index].fechahora,
+                type: pvPrincipal!.listDevice[index].tipoDato,
+                valor: pvPrincipal!.listDevice[index].valor,
 
               );
             },
             options: CarouselOptions(
                 viewportFraction:
-                    pLogin!.empresaNodosResponse.isNotEmpty && pLogin!.empresaNodosResponse.length > 1 ? 0.9 : 1,
+                    pvPrincipal!.listDevice.isNotEmpty && pvPrincipal!.listDevice.length > 1 ? 0.9 : 1,
                 scrollDirection: Axis.horizontal,
-                autoPlay: pLogin!.empresaNodosResponse.isNotEmpty && pLogin!.empresaNodosResponse.length > 1 ? true : false,
+                autoPlay: pvPrincipal!.listDevice.isNotEmpty && pvPrincipal!.listDevice.length > 1 ? true : false,
                 aspectRatio: 1.0,
                 enlargeCenterPage: true,
                 height: 190,
                 onPageChanged: (index, reason) {
-                  pLogin!.position = index;
+                  pvPrincipal!.position = index;
                 },
                 autoPlayInterval: const Duration(seconds: 8),
                 autoPlayAnimationDuration: const Duration(milliseconds: 2000),
                 enableInfiniteScroll:
-                    pLogin!.empresaNodosResponse.isNotEmpty && pLogin!.empresaNodosResponse.length > 1 ? true : false,
+                    pvPrincipal!.listDevice.isNotEmpty && pvPrincipal!.listDevice.length > 1 ? true : false,
                 enlargeStrategy: CenterPageEnlargeStrategy.height,
                 disableCenter: true,
                 padEnds:
-                    (pLogin!.empresaNodosResponse.isNotEmpty && pLogin!.empresaNodosResponse.length > 1) ? false : true),
+                    (pvPrincipal!.listDevice.isNotEmpty && pvPrincipal!.listDevice.length > 1) ? false : true),
           ),
         ),
       ],
@@ -173,24 +175,26 @@ class BodyHome extends StatelessWidget {
 
 class GoogleMaps extends StatelessWidget {
   GoogleMaps({Key? key}) : super(key: key);
-  ProviderLogin? pvLogin;
+  ProviderPrincipal? pvPrincipal;
 
   @override
   Widget build(BuildContext context) {
-    pvLogin ??= Provider.of<ProviderLogin>(context);
+    pvPrincipal ??= Provider.of<ProviderPrincipal>(context);
     return GoogleMap(
       initialCameraPosition: CameraPosition(
         target: LatLng(Gps.latitude, Gps.longitude),
         zoom: 10.8,
       ),
-      myLocationEnabled: false,
+      myLocationEnabled: true,
       zoomControlsEnabled: false,
       onMapCreated: (controller) {
-        pvLogin!.initMapExplorer(controller);
-        pvLogin!.googleMapController = controller;
-        pvLogin!.googleMapController.setMapStyle(pvLogin!.styleMapGoogle());
+        pvPrincipal!.initMapExplorer(controller);
+        pvPrincipal!.googleMapController = controller;
+        pvPrincipal!.googleMapController.setMapStyle(pvPrincipal!.styleMapGoogle());
+        pvPrincipal!.googleMapController.animateCamera(CameraUpdate.newLatLng(LatLng(Gps.latitude, Gps.longitude)));
       },
-      // markers: Set<Marker>.of(providerCarpool.markersExplorer.values),
+      myLocationButtonEnabled: true,
+      markers: Set<Marker>.of(pvPrincipal!.markersExplorer.values),
     );
   }
 }

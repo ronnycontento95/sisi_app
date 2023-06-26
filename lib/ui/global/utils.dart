@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+///Utilidades widgets
+/// Utils metodos
 class Utils {
   static GlobalKey<NavigatorState> globalContext = GlobalKey<NavigatorState>();
 
