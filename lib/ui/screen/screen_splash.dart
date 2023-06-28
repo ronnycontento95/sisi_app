@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 
-import '../global/global.dart';
 
 class ScreenSpash extends StatelessWidget {
   const ScreenSpash({Key? key}) : super(key: key);
-  static const routePage = Global.routeScreenSpash;
+  static const routePage = UsefulLabel.routeScreenSpash;
 
 
   @override

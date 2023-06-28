@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-class ColorsPalette {
+class UsefulColor {
   ///Color primary
   static const colorPrimary = Color(0xFF274171);
   static const colorPrimary100 = Color(0xFF001b45);

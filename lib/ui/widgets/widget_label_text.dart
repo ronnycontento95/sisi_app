@@ -1,8 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-import '../global/global.dart';
-import '../global/global_palette.dart';
+import '../useful/useful_label.dart';
+import '../useful/useful_palette.dart';
+
 
 class WidgetViewLabelText {
   Widget labelTextTitle(
@@ -10,13 +11,13 @@ class WidgetViewLabelText {
       required double fontSize,
       FontWeight fontWeight = FontWeight.bold,
       TextAlign textAlign = TextAlign.start,
-      Color colortext = ColorsPalette.colorlettertitle}) {
+      Color colortext = UsefulColor.colorlettertitle}) {
     return AutoSizeText(
       text,
       overflow: TextOverflow.ellipsis,
       maxLines: 2,
       style: TextStyle(
-          fontFamily: Global.letterWalkwayBold,
+          fontFamily: UsefulLabel.letterWalkwayBold,
           color: colortext,
           fontSize: fontSize,
           fontWeight: fontWeight),
@@ -29,12 +30,12 @@ class WidgetViewLabelText {
       required double fontSize,
       FontWeight fontWeight = FontWeight.bold,
       TextAlign textAlign = TextAlign.start,
-      Color colortext = ColorsPalette.colorGrey}) {
+      Color colortext = UsefulColor.colorGrey}) {
     return AutoSizeText(
       text,
       maxLines: 2,
       style: TextStyle(
-          fontFamily: Global.letterWalkwaySemiBold,
+          fontFamily: UsefulLabel.letterWalkwaySemiBold,
           color: colortext,
           fontSize: fontSize,
           fontWeight: fontWeight),
@@ -48,13 +49,13 @@ class WidgetViewLabelText {
       required double fontSize,
       FontWeight fontWeight = FontWeight.normal,
       TextAlign textAlign = TextAlign.start,
-      Color colortext = ColorsPalette.colorGrey,
+      Color colortext = UsefulColor.colorGrey,
       int maxLines = 2}) {
     return AutoSizeText(
       text,
       maxLines: maxLines,
       style: TextStyle(
-          fontFamily: Global.letterWalkwayBold,
+          fontFamily: UsefulLabel.letterWalkwayBold,
           color: colortext,
           fontSize: fontSize,
           fontWeight: fontWeight),
@@ -65,11 +66,10 @@ class WidgetViewLabelText {
 
   Widget labelTextLogo(String titulo, double tamanio,
       {FontWeight fontWeight = FontWeight.normal,
-      Color colortext = ColorsPalette.colorSecondary}) {
+      Color colortext = UsefulColor.colorSecondary}) {
     return Text(titulo,
         style: TextStyle(
-            fontFamily: Global.lettertitle,
-
+            fontFamily: UsefulLabel.lettertitle,
             color: colortext,
             fontSize: tamanio,
             fontWeight: fontWeight));

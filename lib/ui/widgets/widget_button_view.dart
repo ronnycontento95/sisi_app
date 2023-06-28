@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../global/global.dart';
-import '../global/global_palette.dart';
+import '../useful/useful_label.dart';
+import '../useful/useful_palette.dart';
 
 class WidgetButtonView extends StatelessWidget {
   final String text;
@@ -37,7 +37,7 @@ class WidgetButtonView extends StatelessWidget {
               surfaceTintColor: Colors.white,
               shape: RoundedRectangleBorder(
                 side: const BorderSide(
-                    color: ColorsPalette.colorPrimary, width: 1),
+                    color: UsefulColor.colorPrimary, width: 1),
                 borderRadius: BorderRadius.circular(10),
               )),
           onPressed: onTap == null ? null : () => onTap!(),
@@ -46,8 +46,8 @@ class WidgetButtonView extends StatelessWidget {
             children: [
               const Icon(Icons.percent),
               Text(text,  style: const TextStyle(
-                  fontFamily: Global.letterWalkwaySemiBold,
-                  color: ColorsPalette.colorWhite, fontSize: 16),)
+                  fontFamily: UsefulLabel.letterWalkwaySemiBold,
+                  color: UsefulColor.colorWhite, fontSize: 16),)
             ],
           )),
     );

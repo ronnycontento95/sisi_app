@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-
-import '../global/global_palette.dart';
-import '../global/style_text.dart';
+import '../useful/useful_palette.dart';
+import '../useful/useful_style_text.dart';
 
 class WidgetTextView extends StatelessWidget {
   WidgetTextView(
       {required this.text,
         this.size = 14,
-        this.color = ColorsPalette.colorPrimary,
+        this.color = UsefulColor.colorPrimary,
         Key? key, this.maxLines})
       : textStyle = NormalStyle(size: size, color: color),
         super(key: key);
@@ -15,7 +14,7 @@ class WidgetTextView extends StatelessWidget {
   WidgetTextView.title(
       {required this.text,
       this.size = 20,
-      this.color = ColorsPalette.colorPrimary,
+      this.color = UsefulColor.colorPrimary,
       Key? key, this.maxLines})
       : textStyle = TitleStyle(size: size, color: color),
         super(key: key);
@@ -23,7 +22,7 @@ class WidgetTextView extends StatelessWidget {
   WidgetTextView.subTitle(
       {required this.text,
       this.size = 14,
-      this.color = ColorsPalette.colorGrey,
+      this.color = UsefulColor.colorGrey,
       Key? key, this.maxLines})
       : textStyle = SubtitleStyle(size: size, color: color),
         super(key: key);

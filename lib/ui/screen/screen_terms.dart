@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../global/global_palette.dart';
+import '../useful/useful_palette.dart';
+
 
 class ScreenTermCondition extends StatelessWidget {
   const ScreenTermCondition({Key? key}) : super(key: key);
@@ -18,6 +19,6 @@ class ScreenTermCondition extends StatelessWidget {
             ),
           ),
         ),
-        value: ColorsPalette.colorWhite);
+        value: UsefulColor.colorWhite);
   }
 }

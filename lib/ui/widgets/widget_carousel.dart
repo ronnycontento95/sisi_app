@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 
-import '../global/global_palette.dart';
+import '../useful/useful_palette.dart';
 
 
 class WidgetViewCarousel extends StatelessWidget {
@@ -15,8 +15,8 @@ class WidgetViewCarousel extends StatelessWidget {
     this.btnText,
     this.imageHeight,
     this.imageWidth = 65,
-    this.buttonColor = ColorsPalette.colorPrimary,
-    this.color = ColorsPalette.colorWhite,
+    this.buttonColor = UsefulColor.colorPrimary,
+    this.color = UsefulColor.colorWhite,
     this.onPressed,
     this.onTap,
   }) : super(key: key);
@@ -48,7 +48,7 @@ class WidgetViewCarousel extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 130,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
       ),
       child: Padding(
@@ -57,10 +57,10 @@ class WidgetViewCarousel extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            WidgetTextView.title(text: title ?? ' ',color: ColorsPalette.colorPrimary,),
-            WidgetTextView(text: subtitle ?? ' ',color: ColorsPalette.colorPrimary,),
-            WidgetTextView(text: type ?? ' ',color: ColorsPalette.colorPrimary,),
-            WidgetTextView(text: "Nivel: $valor %" ?? ' ',color: ColorsPalette.colorPrimary,),
+            WidgetTextView.title(text: title ?? ' ',color: UsefulColor.colorPrimary,),
+            WidgetTextView(text: subtitle ?? ' ',color: UsefulColor.colorPrimary,),
+            WidgetTextView(text: type ?? ' ',color: UsefulColor.colorPrimary,),
+            WidgetTextView(text: "Nivel: $valor %" ?? ' ',color: UsefulColor.colorPrimary,),
           ],
         ),
       ),

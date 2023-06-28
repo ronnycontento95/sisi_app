@@ -1,16 +1,16 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 
-import '../global/global.dart';
-import '../global/global_palette.dart';
-import '../global/utils.dart';
+import '../useful/useful.dart';
+import '../useful/useful_palette.dart';
 import '../widgets/widget_button_view.dart';
 import '../widgets/widget_label_text.dart';
 import 'screen_login.dart';
 
 class ScreenOnBoarding extends StatelessWidget {
   const ScreenOnBoarding({Key? key}) : super(key: key);
-  static const routePage = Global.routeScreenOnBoarding;
+  static const routePage = UsefulLabel.routeScreenOnBoarding;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class ScreenOnBoarding extends StatelessWidget {
             margin: const EdgeInsets.all(20),
             child: Column(
               children: [
-                Image(image: AssetImage("${Global.assetsLogo}logo-estandar.png"), height: 40, width: 200,),
+                const Image(image: AssetImage("${UsefulLabel.assetsLogo}logo-estandar.png"), height: 40, width: 200,),
                 SizedBox(
                   height: 390,
                   child: PageView(
@@ -73,7 +73,7 @@ class ScreenOnBoarding extends StatelessWidget {
               text: text,
               fontSize: 16,
               textAlign: TextAlign.center,
-              colortext: ColorsPalette.colorlettertitle,
+              colortext: UsefulColor.colorlettertitle,
               fontWeight: FontWeight.w300,
               maxLines: 4),
         ],
@@ -84,7 +84,7 @@ class ScreenOnBoarding extends StatelessWidget {
   Widget widgetOnboard() {
     return const Padding(
       padding: EdgeInsets.all(15),
-      child: Image(image: AssetImage("${Global.assetsImages}onboard.png"),)
+      child: Image(image: AssetImage("${UsefulLabel.assetsImages}onboard.png"),)
     );
   }
 
@@ -99,11 +99,9 @@ class ScreenOnBoarding extends StatelessWidget {
           activeShape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
           color: Colors.grey.shade300,
-          activeColor: ColorsPalette.colorPrimary,
+          activeColor: UsefulColor.colorPrimary,
         ),
         dotsCount: 3,
-        // position:
-        // double.parse(_providerConfiguracion!.posicionSlider.toString())
       ),
     );
   }
@@ -120,23 +118,23 @@ class ScreenOnBoarding extends StatelessWidget {
                 text: "!",
                 style: const TextStyle(
                     fontSize: 30,
-                    fontFamily: Global.lettertitle,
-                    color: ColorsPalette.colorPrimary200),
+                    fontFamily: UsefulLabel.lettertitle,
+                    color: UsefulColor.colorPrimary200),
                 children: <TextSpan>[
                   TextSpan(
                     text: text,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontFamily: Global.lettertitle,
-                      color: ColorsPalette.colorPrimary,
+                      fontFamily: UsefulLabel.lettertitle,
+                      color: UsefulColor.colorPrimary,
                     ),
                   ),
                   const TextSpan(
                     text: '!',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontFamily: Global.lettertitle,
-                        color: ColorsPalette.colorPrimary200),
+                        fontFamily: UsefulLabel.lettertitle,
+                        color: UsefulColor.colorPrimary200),
                   )
                 ]),
           ),
@@ -152,10 +150,10 @@ class ScreenOnBoarding extends StatelessWidget {
         children: [
           WidgetButtonView(
             text: "Ingresar ahora",
-            color: ColorsPalette.colorPrimary,
+            color: UsefulColor.colorPrimary,
             onTap: () {
               // Navigator.pushNamed(context, ScreenLogin.routePage);
-              Navigator.of(Utils.globalContext.currentContext!).pushNamed(ScreenLogin.routePage);
+              Navigator.of(Useful.globalContext.currentContext!).pushNamed(ScreenLogin.routePage);
             },
           ),
         ],

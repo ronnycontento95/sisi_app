@@ -10,12 +10,13 @@ import 'package:sisi_iot_app/domain/entities/company.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 import 'package:sisi_iot_app/domain/repositories/repository_interface.dart';
+import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 
-import '../global/global.dart';
-import '../global/global_gps.dart';
-import '../global/utils.dart';
+
 import '../screen/screen_home.dart';
 import '../screen/screen_login.dart';
+import '../useful/useful.dart';
+import '../useful/useful_gps.dart';
 
 class ProviderPrincipal extends ChangeNotifier {
   final ApiRepositoryLoginInterface? apiRepositoryLoginInterface;
@@ -39,7 +40,7 @@ class ProviderPrincipal extends ChangeNotifier {
 
 
   ProviderPrincipal(this.apiRepositoryLoginInterface, this.repositoryInterface) {
-    Utils().assetsCoverToBytes("${Global.assetsImages}pin_origin.png").then((value) {
+    Useful().assetsCoverToBytes("${UsefulLabel.assetsImages}pin_origin.png").then((value) {
       final bitmap = BitmapDescriptor.fromBytes(value);
       iconLocation.complete(bitmap);
     });
@@ -133,7 +134,7 @@ class ProviderPrincipal extends ChangeNotifier {
       _companyResponse = data;
       repositoryInterface!.saveUser(_companyResponse!).then((value) {
         if (_companyResponse!.bandera!) {
-          Navigator.of(Utils.globalContext.currentContext!)
+          Navigator.of(Useful.globalContext.currentContext!)
               .pushNamedAndRemoveUntil(ScreenHome.routePage, (Route<dynamic> route) => false);
         } else {
           //TODO ERROR DE LOGIN
@@ -171,7 +172,7 @@ class ProviderPrincipal extends ChangeNotifier {
   signOff() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
-    Navigator.of(Utils.globalContext.currentContext!)
+    Navigator.of(Useful.globalContext.currentContext!)
         .pushNamedAndRemoveUntil(ScreenLogin.routePage, (Route<dynamic> route) => false);
   }
 
@@ -180,8 +181,8 @@ class ProviderPrincipal extends ChangeNotifier {
     addMarker(
       _markersExplorer,
       "locationMarker",
-      LatLng(Gps.latitude, Gps.longitude),
-      "${Global.assetsIcons}pin_origin.png",
+      LatLng(UsefulGps.latitude, UsefulGps.longitude),
+      "${UsefulLabel.assetsIcons}pin_origin.png",
       size: 60,
     );
   }
@@ -189,7 +190,7 @@ class ProviderPrincipal extends ChangeNotifier {
   void addMarker(markers, String idMarker, LatLng latLng, String icon,
       {Function? function,
       String? text = "",
-      int size = Global.targetWidth,
+      int size = UsefulLabel.targetWidth,
       bool draggable = false,
       String? networkImage,
       Function(LatLng)? onDragEnd}) async {

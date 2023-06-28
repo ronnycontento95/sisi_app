@@ -1,12 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import '../../data/repositories/api_global_url.dart';
-import '../global/global.dart';
-import '../global/global_integration.dart';
-import '../global/global_palette.dart';
-import '../global/utils.dart';
 import '../screen/screen_menu.dart';
+import '../useful/useful.dart';
+import '../useful/useful_palette.dart';
 
 widgetNewAppBar(
     {Key? key,
@@ -21,14 +20,14 @@ widgetNewAppBar(
     double sizeIcon = 24,
     double scrolledUnderElevation = 3.0,
     TextAlign textAlign = TextAlign.start,
-    Color colortext = ColorsPalette.colorlettertitle,
+    Color colortext = UsefulColor.colorlettertitle,
     IconData? icon = Icons.arrow_back,
     BoxFit fitIcon = BoxFit.fitHeight}) {
   return AppBar(
       title: Text(
         title,
         style: TextStyle(
-            fontFamily: Global.letterWalkwayBold, color: colortext, fontSize: fontSize, fontWeight: fontWeight),
+            fontFamily: UsefulLabel.letterWalkwayBold, color: colortext, fontSize: fontSize, fontWeight: fontWeight),
         textAlign: textAlign,
       ),
       toolbarHeight: 90,
@@ -42,7 +41,7 @@ widgetNewAppBar(
                   if (onTap != null) {
                     onTap();
                   } else {
-                    Navigator.of(Utils.globalContext.currentContext!).pop();
+                    Navigator.of(Useful.globalContext.currentContext!).pop();
                   }
                 },
                 child: Icon(icon),
@@ -67,7 +66,7 @@ widgetAppBarHome(
     leading: image != null
         ? CircleAvatar(
             radius: 20,
-            backgroundColor: ColorsPalette.colorWhite,
+            backgroundColor: UsefulColor.colorWhite,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: FadeInImage.memoryNetwork(
@@ -77,7 +76,7 @@ widgetAppBarHome(
                 placeholderErrorBuilder: (_, __, stackTrace) {
                   return const Icon(Icons.person);
                 },
-                placeholder: GlobalIntegration().getTransparentImage(),
+                placeholder: UsefulImagen().getTransparentImage(),
                 image: "${ApiGlobalUrl.generalLink}/${image ?? ""}",
                 height: 40,
               ),
@@ -89,14 +88,14 @@ widgetAppBarHome(
       textAlign: TextAlign.center,
       text: TextSpan(
         text: 'Hola, ',
-        style: const TextStyle(fontSize: 14, color: ColorsPalette.colorlettertitle, fontFamily: Global.lettertitle),
+        style: const TextStyle(fontSize: 14, color: UsefulColor.colorlettertitle, fontFamily: UsefulLabel.lettertitle),
         children: <TextSpan>[
           TextSpan(
               text: business ?? "",
               style: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontFamily: Global.lettertitle,
-                  color: ColorsPalette.colorSecondary,
+                  fontFamily: UsefulLabel.lettertitle,
+                  color: UsefulColor.colorSecondary,
                   fontSize: 16)),
         ],
       ),
@@ -105,9 +104,9 @@ widgetAppBarHome(
     actions: [
       GestureDetector(
           onTap: () {
-            Navigator.of(Utils.globalContext.currentContext!).pushNamed(ScreenMenu.routePage);
+            Navigator.of(Useful.globalContext.currentContext!).pushNamed(ScreenMenu.routePage);
           },
-          child: const Icon(Icons.menu_sharp, size: 20, color: ColorsPalette.colorPrimary)),
+          child: const Icon(Icons.menu_sharp, size: 20, color: UsefulColor.colorPrimary)),
       const SizedBox(
         width: 20,
       )

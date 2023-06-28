@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'global.dart';
-import 'global_palette.dart';
+import 'useful.dart';
+import 'useful_palette.dart';
 
 class TitleStyle extends TextStyle {
   final double size;
   final Color color;
 
-  const TitleStyle({this.size = 20, this.color = ColorsPalette.colorlettertitle})
+  const TitleStyle({this.size = 20, this.color = UsefulColor.colorlettertitle})
       : super(
     color: color,
     fontWeight: FontWeight.bold,
@@ -19,7 +19,7 @@ class NumberBoldStyle extends TextStyle {
   final double size;
   final Color color;
 
-  const NumberBoldStyle({this.size = 20, this.color = ColorsPalette.colorlettertitle})
+  const NumberBoldStyle({this.size = 20, this.color = UsefulColor.colorlettertitle})
       : super(
     color: color,
     fontWeight: FontWeight.bold,
@@ -32,12 +32,11 @@ class SubtitleStyle extends TextStyle {
   final double size;
   final Color color;
 
-  const SubtitleStyle({this.size = 20, this.color = ColorsPalette.colorlettertitle})
+  const SubtitleStyle({this.size = 20, this.color = UsefulColor.colorlettertitle})
       : super(
     color: color,
-    // fontWeight: FontWeight.bold,
     fontSize: size,
-    fontFamily: Global.lettersubtitle,
+    fontFamily: "metaheadbold",
   );
 }
 
@@ -45,7 +44,7 @@ class NormalStyle extends TextStyle {
   final double size;
   final Color color;
 
-  const NormalStyle({this.size = 16, this.color = ColorsPalette.colorlettertitle})
+  const NormalStyle({this.size = 16, this.color = UsefulColor.colorlettertitle})
       : super(
     color: color,
     fontSize: size,

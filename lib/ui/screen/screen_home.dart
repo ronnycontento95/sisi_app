@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 
-import '../global/global.dart';
-import '../global/global_gps.dart';
-import '../global/global_palette.dart';
-import '../global/utils.dart';
-///Utils
+import '../useful/useful.dart';
+import '../useful/useful_gps.dart';
+import '../useful/useful_palette.dart';
+///Useful
 
 ///Widgets
 import '../widgets/widget_appbar.dart';
@@ -25,7 +25,7 @@ import '../provider/provider_principal.dart';
 
 class ScreenHome extends StatefulWidget {
   const ScreenHome({Key? key}) : super(key: key);
-  static const routePage = Global.routeHome;
+  static const routePage = UsefulLabel.routeHome;
 
   @override
   State<ScreenHome> createState() => _ScreenHomeState();
@@ -40,7 +40,7 @@ class _ScreenHomeState extends State<ScreenHome> {
     super.initState();
     pvPrincipal = Provider.of<ProviderPrincipal>(context, listen: false);
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      Gps().checkGPS().then((value) {});
+      UsefulGps().checkGPS().then((value) {});
       pvPrincipal!.getUser();
     });
   }
@@ -59,10 +59,10 @@ class BodyHome extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
     pvPrincipal ??= Provider.of<ProviderPrincipal>(context);
     return AnnotatedRegion(
-      value: ColorsPalette.colorWhite,
+      value: UsefulColor.colorWhite,
       child: Scaffold(
         appBar: widgetAppBarHome(pvPrincipal!.companyResponse.imagen ?? "", pvPrincipal!.companyResponse.nombre_empresa ?? ""),
-        backgroundColor: ColorsPalette.colorGrey,
+        backgroundColor: UsefulColor.colorGrey,
         body: Stack(
           children: [
             GoogleMaps(),
@@ -91,17 +91,17 @@ class BodyHome extends StatelessWidget {
       margin: const EdgeInsets.only(right: 15),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(Utils.globalContext.currentContext!).pushNamed(ScreenDevice.routePage);
+          Navigator.of(Useful.globalContext.currentContext!).pushNamed(ScreenDevice.routePage);
         },
         child: RippleAnimation(
           repeat: true,
           ripplesCount: 2,
           minRadius: 18,
-          color: ColorsPalette.colorSecondary,
+          color: UsefulColor.colorSecondary,
           child: const ClipOval(
-            // backgroundColor: ColorsPalette.colorWhite,
+            // backgroundColor: UsefulColor.colorWhite,
             // radius: 18,
-            child: Icon(Icons.wifi, color: ColorsPalette.colorSecondary),
+            child: Icon(Icons.wifi, color: UsefulColor.colorSecondary),
             // backgroundImage: AssetImage("${Global.assetsIcons}water.gif"),
           )
         )
@@ -115,7 +115,7 @@ class BodyHome extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: GestureDetector(
         onTap: () {
-          pvPrincipal!.onCameraCenter(CameraPosition(target: LatLng(Gps.latitude, Gps.longitude), zoom: 15));
+          pvPrincipal!.onCameraCenter(CameraPosition(target: LatLng(UsefulGps.latitude, UsefulGps.longitude), zoom: 15));
         },
         child: const CircleAvatar(
           backgroundColor: Colors.white,
@@ -182,7 +182,7 @@ class GoogleMaps extends StatelessWidget {
     pvPrincipal ??= Provider.of<ProviderPrincipal>(context);
     return GoogleMap(
       initialCameraPosition: CameraPosition(
-        target: LatLng(Gps.latitude, Gps.longitude),
+        target: LatLng(UsefulGps.latitude, UsefulGps.longitude),
         zoom: 10.8,
       ),
       myLocationEnabled: true,
@@ -191,7 +191,7 @@ class GoogleMaps extends StatelessWidget {
         pvPrincipal!.initMapExplorer(controller);
         pvPrincipal!.googleMapController = controller;
         pvPrincipal!.googleMapController.setMapStyle(pvPrincipal!.styleMapGoogle());
-        pvPrincipal!.googleMapController.animateCamera(CameraUpdate.newLatLng(LatLng(Gps.latitude, Gps.longitude)));
+        pvPrincipal!.googleMapController.animateCamera(CameraUpdate.newLatLng(LatLng(UsefulGps.latitude, UsefulGps.longitude)));
       },
       myLocationButtonEnabled: true,
       markers: Set<Marker>.of(pvPrincipal!.markersExplorer.values),

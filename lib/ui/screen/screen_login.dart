@@ -1,13 +1,13 @@
 ///Import
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../global/global.dart';
-import '../global/global_formatters.dart';
-import '../global/global_label.dart';
-import '../global/global_palette.dart';
+import 'package:sisi_iot_app/ui/useful/useful_label.dart';
+
 ///Provider
 import '../provider/provider_principal.dart';
-///Utils
+import '../useful/useful_formatters.dart';
+import '../useful/useful_palette.dart';
+///Useful
 
 ///Widgets
 import '../widgets/widget_button_view.dart';
@@ -19,16 +19,16 @@ final _formKey = GlobalKey<FormState>();
 
 class ScreenLogin extends StatelessWidget {
   ScreenLogin({Key? key}) : super(key: key);
-  static const routePage = Global.routeScreenLogin;
+  static const routePage = UsefulLabel.routeScreenLogin;
   ProviderPrincipal? _providerPrincipal;
 
   @override
   Widget build(BuildContext context) {
     _providerPrincipal ??= Provider.of<ProviderPrincipal>(context);
     return AnnotatedRegion(
-      value: ColorsPalette.colorWhite,
+      value: UsefulColor.colorWhite,
       child: Scaffold(
-        backgroundColor: ColorsPalette.colorWhite,
+        backgroundColor: UsefulColor.colorWhite,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(
@@ -46,7 +46,7 @@ class ScreenLogin extends StatelessWidget {
                     //   ),
                     // ),
                     const Image(
-                      image: AssetImage("${Global.assetsLogo}logo-estandar.png"),
+                      image: AssetImage("${UsefulLabel.assetsLogo}logo-estandar.png"),
                       height: 40,
                       width: 200,
                     ),
@@ -55,14 +55,14 @@ class ScreenLogin extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         WidgetViewLabelText().labelTextTitle(
-                            text: GlobalLabel.lblWelcome,
+                            text: UsefulLabel.lblWelcome,
                             fontSize: 25,
                             fontWeight: FontWeight.w900,
-                            colortext: ColorsPalette.colorPrimary,
+                            colortext: UsefulColor.colorPrimary,
                             textAlign: TextAlign.center),
                       ],
                     ),
-                    WidgetViewLabelText().labelTextNormal(text: GlobalLabel.lblSubWelcome, fontSize: 14, colortext: ColorsPalette.colorPrimary),
+                    WidgetViewLabelText().labelTextNormal(text: UsefulLabel.lblSubWelcome, fontSize: 14, colortext: UsefulColor.colorPrimary),
                     const SizedBox(
                       height: 25,
                     ),
@@ -84,7 +84,7 @@ class ScreenLogin extends StatelessWidget {
   Widget widgetButonLogin(BuildContext context) {
     return WidgetButtonView(
       text: "Ingresar",
-      color: ColorsPalette.colorPrimary,
+      color: UsefulColor.colorPrimary,
       onTap: () {
         // if (_formKey.currentState!.validate()) {
         _providerPrincipal!.login();
@@ -99,7 +99,7 @@ class ScreenLogin extends StatelessWidget {
     return WidgetTextFormField(
       padding: const EdgeInsets.symmetric(vertical: 10),
       controller: _providerPrincipal!.controllerUser,
-      labelTitle: GlobalLabel.lblUser,
+      labelTitle: UsefulLabel.lblUser,
       keyboardType: TextInputType.emailAddress,
       inputFormatters: formattersUser(),
       hintText: 'Ingrese su usuario',
@@ -109,7 +109,7 @@ class ScreenLogin extends StatelessWidget {
       validator: (val) {
         String text = val!.trim();
         if (text.isEmpty) {
-          return GlobalLabel.lblTextEnterUser;
+          return UsefulLabel.lblTextEnterUser;
         }
         return null;
       },
@@ -121,7 +121,7 @@ class ScreenLogin extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       obscureText: _providerPrincipal!.visiblePassword,
       controller: _providerPrincipal!.controllerPassword,
-      labelTitle: GlobalLabel.lblPassword,
+      labelTitle: UsefulLabel.lblPassword,
       keyboardType: TextInputType.visiblePassword,
       inputFormatters: formattersPassword(),
       colorWhenFocus: true,
@@ -130,7 +130,7 @@ class ScreenLogin extends StatelessWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       suffixIcon: Icon(
         _providerPrincipal!.visiblePassword ? Icons.remove_red_eye_outlined : Icons.visibility_off_outlined,
-        color: ColorsPalette.colorPrimary,
+        color: UsefulColor.colorPrimary,
       ),
       onTapSufixIcon: () {
         _providerPrincipal!.visiblePassword = _providerPrincipal!.visiblePassword ? false : true;
@@ -138,7 +138,7 @@ class ScreenLogin extends StatelessWidget {
       validator: (val) {
         String text = val!.trim();
         if (text.isEmpty) {
-          return GlobalLabel.lblTextEnterPassword;
+          return UsefulLabel.lblTextEnterPassword;
         }
         return null;
       },

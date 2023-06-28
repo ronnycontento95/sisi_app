@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:sisi_iot_app/ui/global/global_label.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../../domain/entities/device.dart';
-import '../global/global.dart';
-import '../global/global_palette.dart';
-import '../global/utils.dart';
 import '../provider/provider_principal.dart';
+import '../useful/useful.dart';
+import '../useful/useful_label.dart';
+import '../useful/useful_palette.dart';
 import '../widgets/widget_appbar.dart';
 import 'screen_web_device.dart';
 
 class ScreenDevice extends StatefulWidget {
   const ScreenDevice({Key? key}) : super(key: key);
-  static const routePage = Global.routeScreenDevice;
+  static const routePage = UsefulLabel.routeScreenDevice;
 
   @override
   State<ScreenDevice> createState() => _ScreenDeviceState();
@@ -49,9 +48,9 @@ class BodyHome extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
     pvPrincipal ??= Provider.of<ProviderPrincipal>(context);
     return AnnotatedRegion(
-        value: ColorsPalette.colorWhite,
+        value: UsefulColor.colorWhite,
         child: Scaffold(
-          appBar: widgetNewAppBar(title: GlobalLabel.lblSearhDevice, fontSize: 20),
+          appBar: widgetNewAppBar(title: UsefulLabel.lblSearhDevice, fontSize: 20),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Column(
@@ -95,7 +94,7 @@ class BodyHome extends StatelessWidget {
   Widget itemNodo(Device? empresaNodos) {
     return GestureDetector(
       onTap: (){
-        Navigator.of(Utils.globalContext.currentContext!).pushNamed(ScreenWebView.routePage);
+        Navigator.of(Useful.globalContext.currentContext!).pushNamed(ScreenWebView.routePage);
         pvPrincipal!.companyWeb = empresaNodos;
       },
       child: Container(

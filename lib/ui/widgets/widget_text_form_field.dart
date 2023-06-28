@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../global/global.dart';
-import '../global/global_palette.dart';
-
+import '../useful/useful_label.dart';
+import '../useful/useful_palette.dart';
 //se crea el input text personalizado
 enum enumTypeText {
   text,
@@ -118,8 +117,8 @@ class _WidgetTextFormFieldState extends State<WidgetTextFormField> {
                   child: Text(
                     widget.labelTitle,
                     style: const TextStyle(
-                        color: ColorsPalette.colorPrimary200,
-                        fontFamily: Global.letterWalkwayBold,
+                        color: UsefulColor.colorPrimary200,
+                        fontFamily: UsefulLabel.letterWalkwayBold,
                         fontSize: 12),
                   ))
               : const SizedBox(),
@@ -148,12 +147,12 @@ class _WidgetTextFormFieldState extends State<WidgetTextFormField> {
             style: TextStyle(
                 fontSize: widget.fontSize,
                 color: Theme.of(context).primaryColor,
-                fontFamily: Global.letterWalkwayBold),
+                fontFamily: UsefulLabel.letterWalkwayBold),
             decoration: InputDecoration(
               filled: true,
               fillColor: isSelectedText
-                  ? ColorsPalette.colorfocus
-                  : ColorsPalette.colorfillcolor,
+                  ? UsefulColor.colorfocus
+                  : UsefulColor.colorfillcolor,
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               enabledBorder: widget.borderEnable
@@ -188,8 +187,8 @@ class _WidgetTextFormFieldState extends State<WidgetTextFormField> {
                         )
                       : null,
               hintText: widget.hintText,
-              focusColor: ColorsPalette.colorPrimary,
-              hintStyle: const TextStyle(color: ColorsPalette.colorhintstyletext),
+              focusColor: UsefulColor.colorPrimary,
+              hintStyle: const TextStyle(color: UsefulColor.colorhintstyletext),
               labelStyle: const TextStyle(fontWeight: FontWeight.w500),
               errorStyle: const TextStyle(color: Colors.red),
               errorBorder: const OutlineInputBorder(
@@ -197,7 +196,7 @@ class _WidgetTextFormFieldState extends State<WidgetTextFormField> {
                   borderRadius: const BorderRadius.all(Radius.circular(10.0))),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: ColorsPalette.colorhintstyletext.withOpacity(0.2)),
+                      color: UsefulColor.colorhintstyletext.withOpacity(0.2)),
                   borderRadius: const BorderRadius.all(Radius.circular(10.0))),
               focusedErrorBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.red),

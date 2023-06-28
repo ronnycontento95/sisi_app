@@ -8,12 +8,12 @@ import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 import 'data/repositories/repository_implement.dart';
-import 'ui/global/global_palette.dart';
-import 'ui/global/utils.dart';
 import 'ui/routes/routes_pages.dart';
 import 'ui/routes/routes_provider.dart';
 import 'ui/screen/screen_home.dart';
 import 'ui/screen/screen_onboarding.dart';
+import 'ui/useful/useful.dart';
+import 'ui/useful/useful_palette.dart';
 
 
 Future main() async {
@@ -39,7 +39,7 @@ Future main() async {
 class MyApp extends StatelessWidget {
   String routeInit;
   MyApp(this.routeInit);
-  /// Verificar el estado de la coneccion
+  /// Verificar el estado de la connection
   final Connectivity _connectivity = Connectivity();
   StreamSubscription<ConnectivityResult>? _connectivityStreamSubscription;
   @override
@@ -51,16 +51,16 @@ class MyApp extends StatelessWidget {
       providers: providers(),
       child: OKToast(
         child: MaterialApp(
-          navigatorKey: Utils.globalContext,
+          navigatorKey: Useful.globalContext,
           debugShowCheckedModeBanner: false,
           title: 'Sentinel IoT',
           theme: ThemeData(
             useMaterial3: true,
-            primaryColor: ColorsPalette.colorPrimary,
-            iconTheme: const IconThemeData(color: ColorsPalette.colorGrey),
-            backgroundColor: ColorsPalette.colorWhite,
+            primaryColor: UsefulColor.colorPrimary,
+            iconTheme: const IconThemeData(color: UsefulColor.colorGrey),
+            backgroundColor: UsefulColor.colorWhite,
             buttonTheme: const ButtonThemeData(
-                buttonColor: ColorsPalette.colorPrimary,
+                buttonColor: UsefulColor.colorPrimary,
                 textTheme: ButtonTextTheme.primary),
           ),
           initialRoute: routeInit,
