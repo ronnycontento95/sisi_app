@@ -31,13 +31,13 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
   Future getNodoId(int id, VoidCallback? Function(int code, dynamic data) callback) async {
     try {
       final response = await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getNodosId}${id}");
-      List<Device> empresaNodoResponse = [];
+      List<Device> device = [];
       if(response.data!=null){
         List<dynamic> listNodo = response.data;
         for (var element in listNodo) {
-          empresaNodoResponse.add(Device.fromMap(element));
+          device.add(Device.fromMap(element));
         }
-        callback(1, empresaNodoResponse);
+        callback(1, device);
       }else{
         callback(-1, "No existe datos");
       }

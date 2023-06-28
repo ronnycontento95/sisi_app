@@ -13,7 +13,6 @@ import 'package:sisi_iot_app/domain/repositories/repository_interface.dart';
 
 import '../global/global.dart';
 import '../global/global_gps.dart';
-import '../global/global_style_map.dart';
 import '../global/utils.dart';
 import '../screen/screen_home.dart';
 import '../screen/screen_login.dart';
@@ -24,8 +23,9 @@ class ProviderPrincipal extends ChangeNotifier {
   bool _visiblePassword = true;
   TextEditingController _controllerUser = TextEditingController();
   TextEditingController _controllerPassword = TextEditingController();
+
   TextEditingController get controllerUser => _controllerUser;
-  Company? _empresaResponse = Company();
+  Company? _companyResponse = Company();
   List<Device>? _listDevice = [];
   String? _errorMessage;
   GoogleMapController? mapControllerExplorer;
@@ -34,6 +34,9 @@ class ProviderPrincipal extends ChangeNotifier {
   final iconLocation = Completer<BitmapDescriptor>();
   int? _position = 0;
   GoogleMapController? _googleMapController;
+  Device? _companyWeb;
+  int? _idWebDevice;
+
 
   ProviderPrincipal(this.apiRepositoryLoginInterface, this.repositoryInterface) {
     Utils().assetsCoverToBytes("${Global.assetsImages}pin_origin.png").then((value) {
@@ -43,7 +46,6 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
-
   List<Device> get listDevice => _listDevice!;
 
   set listDevice(List<Device> value) {
@@ -51,10 +53,10 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
-  Company? get empresaResponse => _empresaResponse;
+  Company get companyResponse => _companyResponse!;
 
-  set empresaResponse(Company? value) {
-    _empresaResponse = value;
+  set companyResponse(Company value) {
+    _companyResponse = value;
     notifyListeners();
   }
 
@@ -97,14 +99,12 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
-
   int get position => _position!;
 
   set position(int value) {
     _position = value;
     notifyListeners();
   }
-
 
   GoogleMapController get googleMapController => _googleMapController!;
 
@@ -113,17 +113,30 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
+  Device get companyWeb => _companyWeb!;
+
+  set companyWeb(Device value) {
+    _companyWeb = value;
+    notifyListeners();
+  }
+
+
+  int get idWebDevice => _idWebDevice!;
+
+  set idWebDevice(int value) {
+    _idWebDevice = value;
+    notifyListeners();
+  }
+
   Future login() async {
     await apiRepositoryLoginInterface?.login(controllerUser.text.trim(), controllerPassword.text.trim(), (code, data) {
-      empresaResponse = data;
-      repositoryInterface!.saveUser(empresaResponse!).then((value) {
-        if (empresaResponse!.bandera!) {
-          debugPrint("RESPONSE PROVIDER ${data}");
+      _companyResponse = data;
+      repositoryInterface!.saveUser(_companyResponse!).then((value) {
+        if (_companyResponse!.bandera!) {
           Navigator.of(Utils.globalContext.currentContext!)
               .pushNamedAndRemoveUntil(ScreenHome.routePage, (Route<dynamic> route) => false);
         } else {
           //TODO ERROR DE LOGIN
-          debugPrint("RESPONSE PROVIDER LOGIN ${data}");
           errorMessage = "Hubo un error al iniciar sesión";
         }
       });
@@ -133,20 +146,25 @@ class ProviderPrincipal extends ChangeNotifier {
   /// Get user bussiness
   getUser() async {
     repositoryInterface!.getIdEmpresa().then((value) {
-      empresaResponse = value;
-      getDevice(empresaResponse!.id_empresas!);
+      _companyResponse = value;
+      getDevice(_companyResponse!.id_empresas!);
     });
   }
 
   /// Get nodos id bussiness
   getDevice(int id) async {
     await apiRepositoryLoginInterface?.getNodoId(id, (code, data) {
-      if (code == -1) {
-        listDevice = [];
-      } else {
+      if (code == 1) {
         listDevice = data;
+      } else {
+        listDevice = [];
       }
     });
+  }
+
+  ///Get device web
+  webViewDevice() {
+    _idWebDevice = companyWeb.ide;
   }
 
   /// Sign off device
@@ -200,7 +218,7 @@ class ProviderPrincipal extends ChangeNotifier {
     ));
   }
 
-  styleMapGoogle(){
+  styleMapGoogle() {
     return jsonEncode(styleMapGoogle);
   }
 }

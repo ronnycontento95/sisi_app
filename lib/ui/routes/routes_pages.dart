@@ -15,7 +15,7 @@ Map<String, WidgetBuilder> routes() {
     ScreenHome.routePage: (_) => const ScreenHome(),
     ScreenDevice.routePage: (_) => ScreenDevice(),
     ScreenMenu.routePage: (_) => ScreenMenu(),
-    ScreenwebView.routePage: (_) => ScreenwebView(),
+    ScreenWebView.routePage: (_) => ScreenWebView(),
     ScreenSpash.routePage:(_) => const ScreenSpash()
   };
 }

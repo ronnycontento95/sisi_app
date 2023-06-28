@@ -22,14 +22,14 @@ class ScreenDevice extends StatefulWidget {
 }
 
 class _ScreenDeviceState extends State<ScreenDevice> {
-  ProviderPrincipal? pvLogin;
+  ProviderPrincipal? pvPrincipal;
 
   @override
   void initState() {
     super.initState();
-    pvLogin = Provider.of<ProviderPrincipal>(context, listen: false);
+    pvPrincipal = Provider.of<ProviderPrincipal>(context, listen: false);
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      pvLogin!.getUser();
+      pvPrincipal!.getUser();
     });
   }
 
@@ -40,14 +40,14 @@ class _ScreenDeviceState extends State<ScreenDevice> {
 }
 
 class BodyHome extends StatelessWidget {
-  ProviderPrincipal? pvLogin;
+  ProviderPrincipal? pvPrincipal;
 
   BodyHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
-    pvLogin ??= Provider.of<ProviderPrincipal>(context);
+    pvPrincipal ??= Provider.of<ProviderPrincipal>(context);
     return AnnotatedRegion(
         value: ColorsPalette.colorWhite,
         child: Scaffold(
@@ -82,9 +82,9 @@ class BodyHome extends StatelessWidget {
       child: GridView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: pvLogin!.listDevice.length,
+        itemCount: pvPrincipal!.listDevice.length,
         itemBuilder: (context, index) {
-          return itemNodo(pvLogin!.listDevice[index]);
+          return itemNodo(pvPrincipal!.listDevice[index]);
         },
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 250, childAspectRatio: 2 / 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
@@ -95,7 +95,8 @@ class BodyHome extends StatelessWidget {
   Widget itemNodo(Device? empresaNodos) {
     return GestureDetector(
       onTap: (){
-        Navigator.of(Utils.globalContext.currentContext!).pushNamed(ScreenwebView.routePage);
+        Navigator.of(Utils.globalContext.currentContext!).pushNamed(ScreenWebView.routePage);
+        pvPrincipal!.companyWeb = empresaNodos;
       },
       child: Container(
         width: 150,

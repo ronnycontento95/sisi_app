@@ -16,7 +16,7 @@ class Global {
   static const routeHome = "ScreenHome";
   static const routeScreenDevice = "ScreenDevice";
   static const routeScreenMenu = "ScreenMenu";
-  static const routeScreenwebView = "ScreenwebView";
+  static const routeScreenWebView = "ScreenWebView";
   static const routeScreenSpash= "ScreenSpash";
 
   /// Global Target Marker

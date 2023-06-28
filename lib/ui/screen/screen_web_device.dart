@@ -6,24 +6,24 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../global/global.dart';
 
-class ScreenwebView extends StatefulWidget {
-  static const routePage = Global.routeScreenwebView;
+class ScreenWebView extends StatefulWidget {
+  static const routePage = Global.routeScreenWebView;
 
-  const ScreenwebView({Key? key}) : super(key: key);
+  const ScreenWebView({Key? key}) : super(key: key);
 
   @override
-  State<ScreenwebView> createState() => _ScreenwebViewState();
+  State<ScreenWebView> createState() => _ScreenWebViewState();
 }
 
-class _ScreenwebViewState extends State<ScreenwebView> {
-  ProviderPrincipal? pvlogin;
+class _ScreenWebViewState extends State<ScreenWebView> {
+  ProviderPrincipal? pvPrincipal;
   late final WebViewController _controllerWebView;
-  bool? _showPage = true;
+  bool _showPage = true;
 
   @override
   void initState() {
     super.initState();
-    pvlogin = Provider.of<ProviderPrincipal>(context, listen: false);
+    pvPrincipal = Provider.of<ProviderPrincipal>(context, listen: false);
     _controllerWebView = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
@@ -38,7 +38,7 @@ class _ScreenwebViewState extends State<ScreenwebView> {
         },
       ))
       ..loadRequest(
-          Uri.parse('https://sisi.com.ec/aplicacion/celular/nodo_individual/30/'));
+          Uri.parse('https://sisi.com.ec/aplicacion/celular/nodo_individual/${pvPrincipal!.idWebDevice}/'));
   }
   @override
   Widget build(BuildContext context) {

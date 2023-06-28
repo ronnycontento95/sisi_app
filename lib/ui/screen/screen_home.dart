@@ -61,7 +61,7 @@ class BodyHome extends StatelessWidget {
     return AnnotatedRegion(
       value: ColorsPalette.colorWhite,
       child: Scaffold(
-        appBar: widgetAppBarHome(pvPrincipal!.empresaResponse!.imagen ?? "", pvPrincipal!.empresaResponse!.nombre_empresa ?? ""),
+        appBar: widgetAppBarHome(pvPrincipal!.companyResponse.imagen ?? "", pvPrincipal!.companyResponse.nombre_empresa ?? ""),
         backgroundColor: ColorsPalette.colorGrey,
         body: Stack(
           children: [
