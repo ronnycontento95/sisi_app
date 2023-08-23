@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sisi_iot_app/ui/screen/screen_login.dart';
 
 import '../provider/provider_principal.dart';
+import '../useful/useful.dart';
 import '../useful/useful_label.dart';
 import '../useful/useful_palette.dart';
 import '../widgets/widget_appbar.dart';
@@ -78,37 +81,45 @@ class ScreenMenu extends StatelessWidget {
       ),
       child: Column(
         children: [
-          contInformation(Icons.person, "Perfil", () {
+          infoCard(Icons.person, "Perfil", () {
             // Navigator.pushNamed(context, ScreenAbout.routePage);
           }, size: 20),
-          contInformation(Icons.compass_calibration, "Acerca de", () {
+          infoCard(Icons.compass_calibration, "Acerca de", () {
             // Navigator.pushNamed(context, ScreenAbout.routePage);
           }),
-          contInformation(Icons.document_scanner, "Terminos y condiciones", () {
+          infoCard(Icons.document_scanner, "Terminos y condiciones", () {
             // Navigator.pushNamed(context, Page)
           }),
-          contInformation(Icons.exit_to_app, "Cerrar secion", () {
-            pvLogin!.signOff();
+          infoCard(Icons.exit_to_app, "Cerrar sesion", () async  {
+            SharedPreferences preferences = await SharedPreferences.getInstance();
+            await preferences.clear();
+            Navigator.of(Useful.globalContext.currentContext!)
+                .pushNamedAndRemoveUntil(ScreenLogin.routePage, (Route<dynamic> route) => false);
           }),
         ],
       ),
     );
   }
 
-  Widget contInformation(IconData icon, String text, VoidCallback? callBack, {double? size = 25}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        children: [
-          Icon(icon),
-          const SizedBox(
-            width: 10,
-          ),
-          Expanded(
-              child: WidgetViewLabelText()
-                  .labelTextNormal(text: text, fontSize: 14, colortext: UsefulColor.colorlettertitle)),
-          const Icon(Icons.arrow_forward_ios_outlined),
-        ],
+  Widget infoCard(IconData icon, String text, VoidCallback? callBack, {double? size = 25}) {
+    return GestureDetector(
+      onTap: () {
+        callBack!();
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        child: Row(
+          children: [
+            Icon(icon),
+            const SizedBox(
+              width: 10,
+            ),
+            Expanded(
+                child: WidgetViewLabelText()
+                    .labelTextNormal(text: text, fontSize: 14, colortext: UsefulColor.colorlettertitle)),
+            const Icon(Icons.arrow_forward_ios_outlined),
+          ],
+        ),
       ),
     );
   }

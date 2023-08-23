@@ -32,4 +32,10 @@ class UsefulLabel{
   static const lblTextEnterPassword = 'Ingresa la contraseña';
   static const lblTextdisconnectedWifi= "Parece que no tienes conexión a Internet en este momento. Por favor, asegúrate de que tanto el WIFI como los datos móviles estén activados y vuelve a intentarlo.";
   static const lblSearhDevice = "Buscar dispositivo";
+  static const lblAgain="Reintentar";
+  static const lblTitleMoni = "Monitoreo remoto";
+  static const lblSubMoni = "Sentinel-Iot, una solucion dedicada al monitoreo remoto de tanques reservorios de agua y GLP mediante Internet";
+  static const lblStartNow = "Ingresar ahora";
+  static const txtCopy = '\u00a9 Sisi IoT - Hecho en Ecuador';
+
 }

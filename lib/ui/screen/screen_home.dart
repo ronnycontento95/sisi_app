@@ -6,12 +6,16 @@ import 'package:provider/provider.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:sisi_iot_app/ui/screen/screen_web_device.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
+import '../../domain/entities/device.dart';
+
+///Useful
 import '../useful/useful.dart';
 import '../useful/useful_gps.dart';
 import '../useful/useful_palette.dart';
-///Useful
 
 ///Widgets
 import '../widgets/widget_appbar.dart';
@@ -40,7 +44,7 @@ class _ScreenHomeState extends State<ScreenHome> {
     super.initState();
     pvPrincipal = Provider.of<ProviderPrincipal>(context, listen: false);
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      UsefulGps().checkGPS().then((value) {});
+      // UsefulGps().checkGPS().then((value) {});
       pvPrincipal!.getUser();
     });
   }
@@ -54,6 +58,7 @@ class _ScreenHomeState extends State<ScreenHome> {
 class BodyHome extends StatelessWidget {
   BodyHome({Key? key}) : super(key: key);
   ProviderPrincipal? pvPrincipal;
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
@@ -62,22 +67,172 @@ class BodyHome extends StatelessWidget {
       value: UsefulColor.colorWhite,
       child: Scaffold(
         appBar: widgetAppBarHome(pvPrincipal!.companyResponse.imagen ?? "", pvPrincipal!.companyResponse.nombre_empresa ?? ""),
-        backgroundColor: UsefulColor.colorGrey,
-        body: Stack(
-          children: [
-            GoogleMaps(),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                iconAnimation(),
-                const SizedBox(
-                  height: 15,
+        backgroundColor: UsefulColor.colorWhite,
+        body: GestureDetector(
+          onHorizontalDragEnd: (DragEndDetails details) {
+            if (details.primaryVelocity! > 0) {
+              // Desplazamiento hacia la derecha
+              // Lógica adicional
+              print('--> ${details.primaryVelocity!} ');
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ScreenDevice(),
+              ));
+              Navigator.of(context).pop();
+            } else if (details.primaryVelocity! < 0) {
+              // Desplazamiento hacia la izquierda
+              // Lógica adicional
+              // Navigator.of(context).push(MaterialPageRoute(
+              // builder: (context) => NextScreen(),
+              // ));
+            }
+          },
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Column(
+                  children: [_searchDevice(), _cardNodosList()],
                 ),
-                // gpsLocation(),
+              ),
+              // listNodos()
+              // carouselSliderNodo(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Card Device
+  Widget _searchDevice() {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: TextFormField(
+        // controller: pvTax!.txt_search_history,
+        autofocus: false,
+        style: const TextStyle(fontSize: 14),
+        textCapitalization: TextCapitalization.sentences,
+        // cursorColor: Theme.of(context).primaryColor,
+        decoration: InputDecoration(
+            hintText: "Buscar", prefixIcon: Icon(Icons.search_rounded), border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
+        onChanged: (param) {
+          pvPrincipal!.searchHistorialFilter(param);
+        },
+      ),
+    );
+  }
+
+  ///List card nodos
+  Widget _cardNodosList() {
+    return Column(
+      children: [
+        Expanded(
+          flex: 0,
+          child: Column(
+            children: [
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: pvPrincipal!.listFilterDevice!.length,
+                itemBuilder: (context, index) {
+                  return _itemNodo(pvPrincipal!.listFilterDevice![index]);
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Item Nodos
+  Widget _itemNodo(Device? device) {
+    return GestureDetector(
+      // onTap: () {
+      //   Navigator.of(Useful.globalContext.currentContext!).pushNamed(ScreenWebView.routePage);
+      //   print('>>>>> IDE WEB ${device.ide}');
+      //   pvPrincipal!.companyWeb = device.ide!;
+      // },
+      onTap: () {
+        Navigator.of(Useful.globalContext.currentContext!).pushNamed(
+          ScreenWebView.routePage,
+          arguments: device.ide, // Pasar el valor como argumento
+        );
+      },
+
+      child: Container(
+        margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)), color: UsefulColor.colorSecondary200),
+        child: Column(
+          children: [
+            Container(
+                padding: EdgeInsets.zero,
+                margin: EdgeInsets.zero,
+                decoration: BoxDecoration(
+                  color: UsefulColor.colorfocus,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                ),
+                child: Center(child: Text("${device!.nombre}"))),
+            Row(
+              children: [
+                Expanded(
+                  child: Text("Dato: ${device.valor!}\n"
+                      "Maximo: ${device.valMax!}\n"
+                      "Minimo: ${device.valMin!}\n"
+                      "Hora: ${pvPrincipal!.extractTime(device.fechahora!)}\n"
+                      "Fecha: ${pvPrincipal!.extractDate(device.fechahora!)}\n"), // Llama a la función para extraer la fecha
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 130,
+                    child: SfRadialGauge(axes: <RadialAxis>[
+                      RadialAxis(
+                          interval: 10,
+                          startAngle: 0,
+                          endAngle: 360,
+                          showTicks: false,
+                          showLabels: false,
+                          axisLineStyle: AxisLineStyle(thickness: 20),
+                          pointers: <GaugePointer>[
+                            RangePointer(
+                                value: device.valor!,
+                                width: 20,
+                                color: device.valor! >= device.valMax!
+                                    ? Colors.red
+                                    : device.valor! <= device.valMin!
+                                        ? Colors.yellow
+                                        : Colors.blueAccent,
+                                enableAnimation: true,
+                                cornerStyle: CornerStyle.bothCurve)
+                          ],
+                          annotations: <GaugeAnnotation>[
+                            GaugeAnnotation(
+                                widget: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      height: 45.00,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
+                                      child: Container(
+                                        child: Text('${device.valor}%', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                angle: 270,
+                                positionFactor: 0.1)
+                          ])
+                    ]),
+                  ),
+                )
               ],
             ),
-            // listNodos()
-            carouselSliderNodo(),
           ],
         ),
       ),
@@ -90,22 +245,20 @@ class BodyHome extends StatelessWidget {
       alignment: Alignment.centerRight,
       margin: const EdgeInsets.only(right: 15),
       child: GestureDetector(
-        onTap: () {
-          Navigator.of(Useful.globalContext.currentContext!).pushNamed(ScreenDevice.routePage);
-        },
-        child: RippleAnimation(
-          repeat: true,
-          ripplesCount: 2,
-          minRadius: 18,
-          color: UsefulColor.colorSecondary,
-          child: const ClipOval(
-            // backgroundColor: UsefulColor.colorWhite,
-            // radius: 18,
-            child: Icon(Icons.wifi, color: UsefulColor.colorSecondary),
-            // backgroundImage: AssetImage("${Global.assetsIcons}water.gif"),
-          )
-        )
-      ),
+          onTap: () {
+            Navigator.of(Useful.globalContext.currentContext!).pushNamed(ScreenDevice.routePage);
+          },
+          child: RippleAnimation(
+              repeat: true,
+              ripplesCount: 2,
+              minRadius: 18,
+              color: UsefulColor.colorSecondary,
+              child: const ClipOval(
+                // backgroundColor: UsefulColor.colorWhite,
+                // radius: 18,
+                child: Icon(Icons.wifi, color: UsefulColor.colorSecondary),
+                // backgroundImage: AssetImage("${Global.assetsIcons}water.gif"),
+              ))),
     );
   }
 
@@ -144,12 +297,10 @@ class BodyHome extends StatelessWidget {
                 subtitle: pvPrincipal!.listDevice[index].fechahora,
                 type: pvPrincipal!.listDevice[index].tipoDato,
                 valor: pvPrincipal!.listDevice[index].valor,
-
               );
             },
             options: CarouselOptions(
-                viewportFraction:
-                    pvPrincipal!.listDevice.isNotEmpty && pvPrincipal!.listDevice.length > 1 ? 0.9 : 1,
+                viewportFraction: pvPrincipal!.listDevice.isNotEmpty && pvPrincipal!.listDevice.length > 1 ? 0.9 : 1,
                 scrollDirection: Axis.horizontal,
                 autoPlay: pvPrincipal!.listDevice.isNotEmpty && pvPrincipal!.listDevice.length > 1 ? true : false,
                 aspectRatio: 1.0,
@@ -160,12 +311,10 @@ class BodyHome extends StatelessWidget {
                 },
                 autoPlayInterval: const Duration(seconds: 8),
                 autoPlayAnimationDuration: const Duration(milliseconds: 2000),
-                enableInfiniteScroll:
-                    pvPrincipal!.listDevice.isNotEmpty && pvPrincipal!.listDevice.length > 1 ? true : false,
+                enableInfiniteScroll: pvPrincipal!.listDevice.isNotEmpty && pvPrincipal!.listDevice.length > 1 ? true : false,
                 enlargeStrategy: CenterPageEnlargeStrategy.height,
                 disableCenter: true,
-                padEnds:
-                    (pvPrincipal!.listDevice.isNotEmpty && pvPrincipal!.listDevice.length > 1) ? false : true),
+                padEnds: (pvPrincipal!.listDevice.isNotEmpty && pvPrincipal!.listDevice.length > 1) ? false : true),
           ),
         ),
       ],

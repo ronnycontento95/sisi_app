@@ -12,6 +12,7 @@ import 'ui/routes/routes_pages.dart';
 import 'ui/routes/routes_provider.dart';
 import 'ui/screen/screen_home.dart';
 import 'ui/screen/screen_onboarding.dart';
+import 'ui/screen/screen_splash.dart';
 import 'ui/useful/useful.dart';
 import 'ui/useful/useful_palette.dart';
 
@@ -29,6 +30,8 @@ Future main() async {
   RepositorieImplement repositoryImplement = RepositorieImplement();
   await repositoryImplement.getIdEmpresa().then((idEmpresa){
     if(idEmpresa != null){
+      print('ID EMPRESA >>> ${idEmpresa}');
+
       runApp(MyApp(ScreenHome.routePage));
     }else{
       runApp(MyApp(ScreenOnBoarding.routePage));
@@ -41,11 +44,14 @@ class MyApp extends StatelessWidget {
   MyApp(this.routeInit);
   /// Verificar el estado de la connection
   final Connectivity _connectivity = Connectivity();
-  StreamSubscription<ConnectivityResult>? _connectivityStreamSubscription;
+  StreamSubscription<ConnectivityResult>? _streamSubscription;
+
+
   @override
   Widget build(BuildContext context) {
-    if(_connectivityStreamSubscription == null){
-
+    if(_streamSubscription == null){
+      Useful().initConnectivity(_connectivity);
+      _streamSubscription = _connectivity.onConnectivityChanged.listen(Useful().updateConectivity);
     }
     return MultiProvider(
       providers: providers(),

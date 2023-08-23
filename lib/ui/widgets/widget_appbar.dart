@@ -77,7 +77,7 @@ widgetAppBarHome(
                   return const Icon(Icons.person);
                 },
                 placeholder: UsefulImagen().getTransparentImage(),
-                image: "${ApiGlobalUrl.generalLink}/${image ?? ""}",
+                image: "${ApiGlobalUrl.generalLink}${image ?? ""}",
                 height: 40,
               ),
             ),

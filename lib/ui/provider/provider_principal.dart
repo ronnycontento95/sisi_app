@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -11,7 +12,6 @@ import 'package:sisi_iot_app/domain/entities/device.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 import 'package:sisi_iot_app/domain/repositories/repository_interface.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
-
 
 import '../screen/screen_home.dart';
 import '../screen/screen_login.dart';
@@ -28,6 +28,7 @@ class ProviderPrincipal extends ChangeNotifier {
   TextEditingController get controllerUser => _controllerUser;
   Company? _companyResponse = Company();
   List<Device>? _listDevice = [];
+  List<Device>? listFilterDevice = [];
   String? _errorMessage;
   GoogleMapController? mapControllerExplorer;
   Map<MarkerId, Marker> _markersNodo = {};
@@ -35,9 +36,9 @@ class ProviderPrincipal extends ChangeNotifier {
   final iconLocation = Completer<BitmapDescriptor>();
   int? _position = 0;
   GoogleMapController? _googleMapController;
-  Device? _companyWeb;
+  int? _companyWeb;
   int? _idWebDevice;
-
+  Timer? _timer;
 
   ProviderPrincipal(this.apiRepositoryLoginInterface, this.repositoryInterface) {
     Useful().assetsCoverToBytes("${UsefulLabel.assetsImages}pin_origin.png").then((value) {
@@ -114,13 +115,12 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
-  Device get companyWeb => _companyWeb!;
+  int get companyWeb => _companyWeb!;
 
-  set companyWeb(Device value) {
+  set companyWeb(int value) {
     _companyWeb = value;
     notifyListeners();
   }
-
 
   int get idWebDevice => _idWebDevice!;
 
@@ -129,13 +129,22 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
+  Timer get timer => _timer!;
+
+  set timer(Timer value) {
+    _timer = value;
+    notifyListeners();
+  }
+
   Future login() async {
     await apiRepositoryLoginInterface?.login(controllerUser.text.trim(), controllerPassword.text.trim(), (code, data) {
       _companyResponse = data;
+      if(kDebugMode){
+        print("LOGIN >>> DATA $data");
+      }
       repositoryInterface!.saveUser(_companyResponse!).then((value) {
         if (_companyResponse!.bandera!) {
-          Navigator.of(Useful.globalContext.currentContext!)
-              .pushNamedAndRemoveUntil(ScreenHome.routePage, (Route<dynamic> route) => false);
+          Navigator.of(Useful.globalContext.currentContext!).pushNamedAndRemoveUntil(ScreenHome.routePage, (Route<dynamic> route) => false);
         } else {
           //TODO ERROR DE LOGIN
           errorMessage = "Hubo un error al iniciar sesión";
@@ -147,33 +156,27 @@ class ProviderPrincipal extends ChangeNotifier {
   /// Get user bussiness
   getUser() async {
     repositoryInterface!.getIdEmpresa().then((value) {
-      _companyResponse = value;
-      getDevice(_companyResponse!.id_empresas!);
+      if(kDebugMode){
+        print("GET >>> ID EMPRESA $value");
+      }
+      _companyResponse=value;
+      getDevice(value!.id_empresas!);
     });
   }
 
   /// Get nodos id bussiness
   getDevice(int id) async {
     await apiRepositoryLoginInterface?.getNodoId(id, (code, data) {
+      if(kDebugMode){
+        print("GET >>> ID NODOS $data");
+      }
       if (code == 1) {
         listDevice = data;
+        listFilterDevice = data;
       } else {
         listDevice = [];
       }
     });
-  }
-
-  ///Get device web
-  webViewDevice() {
-    _idWebDevice = companyWeb.ide;
-  }
-
-  /// Sign off device
-  signOff() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.clear();
-    Navigator.of(Useful.globalContext.currentContext!)
-        .pushNamedAndRemoveUntil(ScreenLogin.routePage, (Route<dynamic> route) => false);
   }
 
   void initMapExplorer(GoogleMapController controller) {
@@ -221,5 +224,51 @@ class ProviderPrincipal extends ChangeNotifier {
 
   styleMapGoogle() {
     return jsonEncode(styleMapGoogle);
+  }
+
+  /// Filter history event
+  void searchHistorialFilter(String param) {
+    if (_timer != null) {
+      _timer!.cancel();
+      _timer = null;
+    }
+    if (param.length > 3) {
+      timer = Timer(Duration(milliseconds: 500), () {
+        listFilterDevice = _listDevice!.where((element) => element.nombre!.toLowerCase().contains(param.toLowerCase())).toList();
+        notifyListeners();
+      });
+    } else {
+      timer = Timer(Duration(milliseconds: 500), () {
+        listFilterDevice = _listDevice;
+        notifyListeners();
+      });
+    }
+  }
+
+  ///DATE AND DATETIME NODO
+  String extractDate(String dateTimeString) {
+    List<String> parts = dateTimeString.split(" Hora: ");
+    if (parts.length == 2) {
+      return parts[0]; // Retorna la fecha
+    } else {
+      return "Formato incorrecto";
+    }
+  }
+
+  String extractTime(String dateTimeString) {
+    List<String> parts = dateTimeString.split(" Hora: ");
+    if (parts.length == 2) {
+      String timePart = parts[1]; // Obtiene la parte de la hora
+      List<String> timeComponents = timePart.split(":"); // Divide la hora en partes
+      if (timeComponents.length == 3) {
+        String hours = timeComponents[0];
+        String minutes = timeComponents[1];
+        return "$hours:$minutes"; // Retorna solo horas y minutos
+      } else {
+        return "Formato incorrecto";
+      }
+    } else {
+      return "Formato incorrecto";
+    }
   }
 }

@@ -48,86 +48,125 @@ class BodyHome extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
     pvPrincipal ??= Provider.of<ProviderPrincipal>(context);
     return AnnotatedRegion(
-        value: UsefulColor.colorWhite,
-        child: Scaffold(
-          appBar: widgetNewAppBar(title: UsefulLabel.lblSearhDevice, fontSize: 20),
-          body: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [cardNodosList()],
-              ),
+      value: UsefulColor.colorWhite,
+      child: Scaffold(
+        // appBar: widgetNewAppBar(title: UsefulLabel.lblSearhDevice, fontSize: 20),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [_searchDevice(), _cardNodosList()],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
-  /// Search device
-  Widget searchText(){
+  /// Card Device
+  Widget _searchDevice() {
     return Container(
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        children: [
-          Expanded(child: Icon(Icons.search))
-          // Expanded(child: child)
-        ],
+      margin: const EdgeInsets.all(10),
+      child: TextFormField(
+        // controller: pvTax!.txt_search_history,
+        autofocus: false,
+        style: const TextStyle(fontSize: 14),
+        textCapitalization: TextCapitalization.sentences,
+        // cursorColor: Theme.of(context).primaryColor,
+        decoration: InputDecoration(
+            hintText: "Buscar dispositivo",
+            prefixIcon: Icon(Icons.search_rounded),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
+        onChanged: (param) {
+          pvPrincipal!.searchHistorialFilter(param);
+        },
       ),
     );
   }
 
   ///List card nodos
-  Widget cardNodosList() {
-    return Container(
-      margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
-      child: GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: pvPrincipal!.listDevice.length,
-        itemBuilder: (context, index) {
-          return itemNodo(pvPrincipal!.listDevice[index]);
-        },
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 250, childAspectRatio: 2 / 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
-      ),
+  Widget _cardNodosList() {
+    return Column(
+      children: [
+        Expanded(
+          flex: 0,
+          child: Column(
+            children: [
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: pvPrincipal!.listFilterDevice!.length,
+                itemBuilder: (context, index) {
+                  return _itemNodo(pvPrincipal!.listFilterDevice![index]);
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
+
   /// Item Nodos
-  Widget itemNodo(Device? empresaNodos) {
+  Widget _itemNodo(Device? device) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.of(Useful.globalContext.currentContext!).pushNamed(ScreenWebView.routePage);
-        pvPrincipal!.companyWeb = empresaNodos;
+        pvPrincipal!.companyWeb = device.ide!;
       },
       child: Container(
-        width: 150,
-        height: 250,
-        color: Colors.black26,
-        child: SfRadialGauge(
-          title: GaugeTitle(text: empresaNodos!.nombre!),
-          axes: <RadialAxis>[
-            RadialAxis(
-              minimum: 0,
-              maximum: 150,
-              maximumLabels: 5,
-              interval: 20,
-              ranges: <GaugeRange>[
-                GaugeRange(
-                    startValue: 0,
-                    endValue: 150,
-                    color: empresaNodos.valor! < 55
-                        ? Colors.orange
-                        : (empresaNodos.valor! > 55 && empresaNodos.valor! < 80)
-                            ? Colors.blue
-                            : Colors.red,
-                    startWidth: 10,
-                    endWidth: 10),
-              ],
-              pointers: <GaugePointer>[NeedlePointer(value: empresaNodos.valor!)],
-              annotations: const <GaugeAnnotation>[
-                GaugeAnnotation(
-                    widget:
-                        Text('90.0', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                    angle: 90,
-                    positionFactor: 0.5)
+        margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)),
+            color: UsefulColor.colorSecondary200),
+        child: Column(
+          children: [
+            Container(
+              padding:  EdgeInsets.zero,
+                margin: EdgeInsets.zero,
+                decoration: BoxDecoration(
+                  color: UsefulColor.colorfocus,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                ),
+                child: Center(child: Text("${device!.nombre}"))),
+            Row(
+              children: [
+                Expanded(
+                  child: Text("Nodo: ${device.nombre!}\n"
+                      "Dato: ${device.valor!}\n"
+                      "Hora: ${device.fechahora!}\n"),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 130,
+                    child: SfRadialGauge(
+                      axes: <RadialAxis>[
+                        RadialAxis(
+                            axisLineStyle: AxisLineStyle(thickness: 10),
+                            showTicks: false,
+                            pointers: <GaugePointer>[
+                              NeedlePointer(
+                                  value: device.valor!.toDouble(),
+                                  enableAnimation: true,
+                                  needleStartWidth: 0,
+                                  needleEndWidth: 5,
+                                  needleColor: Color(0xFFDADADA),
+                                  knobStyle: KnobStyle(
+                                      color: Colors.white,
+                                      borderColor: Color(0xFFDADADA),
+                                      knobRadius: 0.06,
+                                      borderWidth: 0.04),
+                                  tailStyle: TailStyle(color: Color(0xFFDADADA), width: 1, length: 0.15)),
+                              RangePointer(value: 60, width: 10, enableAnimation: true, color: Colors.blueAccent)
+                            ])
+                      ],
+                    ),
+                  ),
+                )
               ],
             ),
           ],

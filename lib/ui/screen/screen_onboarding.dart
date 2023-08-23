@@ -1,8 +1,8 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 
 import '../useful/useful.dart';
+import '../useful/useful_label.dart';
 import '../useful/useful_palette.dart';
 import '../widgets/widget_button_view.dart';
 import '../widgets/widget_label_text.dart';
@@ -29,14 +29,8 @@ class ScreenOnBoarding extends StatelessWidget {
                   child: PageView(
                     controller: null,
                     children: <Widget>[
-                      widgetSlider(context, "Monitoreo remoto",
-                          "Sentinel-Iot, una solucion dedicada al monitoreo remoto de tanques reservorios de agua y GLP mediante Internet"),
-                      // widgetSlider(
-                      //     context,
-                      //     "Una solución de movilidad universitaria",
-                      //     "Dentro o fuera de la Universidad, elige como te mueves de forma rápida y segura."),
-                      // widgetSlider(context, "Movilidad sostenible y ecológica",
-                      //     "Fomentamos un sistema de movilidad sostenible y ecológica, amigable con el medio ambiente."),
+                      widgetSlider(context, UsefulLabel.lblTitleMoni,
+                          UsefulLabel.lblSubMoni),
                     ],
                   ),
                 ),
@@ -55,9 +49,6 @@ class ScreenOnBoarding extends StatelessWidget {
       children: [
         Expanded(child: widgetOnboard()),
         con_text_wid(text),
-        const SizedBox(
-          height: 10,
-        ),
         contTextSubtitle(text_1),
       ],
     );
@@ -65,6 +56,7 @@ class ScreenOnBoarding extends StatelessWidget {
 
   Widget contTextSubtitle(String text) {
     return Container(
+      margin: const EdgeInsets.only(bottom: 10),
       alignment: Alignment.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -149,10 +141,9 @@ class ScreenOnBoarding extends StatelessWidget {
       child: Column(
         children: [
           WidgetButtonView(
-            text: "Ingresar ahora",
+            text: UsefulLabel.lblStartNow,
             color: UsefulColor.colorPrimary,
             onTap: () {
-              // Navigator.pushNamed(context, ScreenLogin.routePage);
               Navigator.of(Useful.globalContext.currentContext!).pushNamed(ScreenLogin.routePage);
             },
           ),
