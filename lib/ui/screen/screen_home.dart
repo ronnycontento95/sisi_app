@@ -14,7 +14,6 @@ import '../../domain/entities/device.dart';
 
 ///Useful
 import '../useful/useful.dart';
-import '../useful/useful_gps.dart';
 import '../useful/useful_palette.dart';
 
 ///Widgets
@@ -68,35 +67,19 @@ class BodyHome extends StatelessWidget {
       child: Scaffold(
         appBar: widgetAppBarHome(pvPrincipal!.companyResponse.imagen ?? "", pvPrincipal!.companyResponse.nombre_empresa ?? ""),
         backgroundColor: UsefulColor.colorWhite,
-        body: GestureDetector(
-          onHorizontalDragEnd: (DragEndDetails details) {
-            if (details.primaryVelocity! > 0) {
-              // Desplazamiento hacia la derecha
-              // Lógica adicional
-              print('--> ${details.primaryVelocity!} ');
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ScreenDevice(),
-              ));
-              Navigator.of(context).pop();
-            } else if (details.primaryVelocity! < 0) {
-              // Desplazamiento hacia la izquierda
-              // Lógica adicional
-              // Navigator.of(context).push(MaterialPageRoute(
-              // builder: (context) => NextScreen(),
-              // ));
-            }
-          },
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  children: [_searchDevice(), _cardNodosList()],
-                ),
+        body: PageView(
+          controller: pvPrincipal!.controller,
+          children: [
+            GoogleMaps(),
+            SingleChildScrollView(
+              child: Column(
+                children: [_searchDevice(), _cardNodosList()],
               ),
-              // listNodos()
-              // carouselSliderNodo(),
-            ],
-          ),
+            ),
+            Container(
+                padding: const EdgeInsets.all(5),
+                child: SingleChildScrollView(child: _cardNodosListBody())),
+          ],
         ),
       ),
     );
@@ -262,26 +245,6 @@ class BodyHome extends StatelessWidget {
     );
   }
 
-  /// Gps location
-  Widget gpsLocation() {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: GestureDetector(
-        onTap: () {
-          pvPrincipal!.onCameraCenter(CameraPosition(target: LatLng(UsefulGps.latitude, UsefulGps.longitude), zoom: 15));
-        },
-        child: const CircleAvatar(
-          backgroundColor: Colors.white,
-          child: Icon(
-            Icons.gps_fixed,
-            size: 30,
-            color: Colors.black,
-          ),
-        ),
-      ),
-    );
-  }
-
   /// CarouselSlider nodos
   Widget carouselSliderNodo() {
     return Column(
@@ -320,6 +283,52 @@ class BodyHome extends StatelessWidget {
       ],
     );
   }
+
+  /// Card List Nodos()
+  Widget _cardNodosListBody() {
+    return Wrap(
+      alignment: WrapAlignment.spaceEvenly,
+      children: pvPrincipal!.listFilterDevice!.map((device) {
+        return _itemNodoBody(device);
+      }).toList(),
+    );
+  }
+
+  /// Item nodos
+  Widget _itemNodoBody(Device? device) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.black12,
+        borderRadius: BorderRadius.all(Radius.circular(10))
+      ),
+      // color: Colors.black12,
+      width: MediaQuery.of(Useful.globalContext.currentContext!).size.width * 0.4,
+      padding: EdgeInsets.only(right: 5, left: 5),
+      margin: EdgeInsets.only(left: 2, right: 2, bottom: 5, top: 5), // Margen entre elementos
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("${device!.nombre!}"),
+              Icon(Icons.circle, color: Colors.red, size: 10,)
+            ],
+          ),
+          Text(
+                "Dato: ${device.valor!}\n"
+                "Maximo: ${device.valMax!}\n"
+                "Minimo: ${device.valMin!}\n"
+                "Hora: ${pvPrincipal!.extractTime(device.fechahora!)}\n"
+                "Fecha: ${pvPrincipal!.extractDate(device.fechahora!)}\n",
+            style: TextStyle(fontSize: 12),
+          ),
+        ],
+      ),
+    );
+  }
+
+
 }
 
 class GoogleMaps extends StatelessWidget {
@@ -331,19 +340,20 @@ class GoogleMaps extends StatelessWidget {
     pvPrincipal ??= Provider.of<ProviderPrincipal>(context);
     return GoogleMap(
       initialCameraPosition: CameraPosition(
-        target: LatLng(UsefulGps.latitude, UsefulGps.longitude),
-        zoom: 10.8,
+        target: LatLng(-1.2394663499056315, -78.65732525997484),
+        zoom: 5.5,
       ),
       myLocationEnabled: true,
       zoomControlsEnabled: false,
       onMapCreated: (controller) {
-        pvPrincipal!.initMapExplorer(controller);
+        // pvPrincipal!.initMapExplorer(controller);
         pvPrincipal!.googleMapController = controller;
-        pvPrincipal!.googleMapController.setMapStyle(pvPrincipal!.styleMapGoogle());
-        pvPrincipal!.googleMapController.animateCamera(CameraUpdate.newLatLng(LatLng(UsefulGps.latitude, UsefulGps.longitude)));
+        // pvPrincipal!.googleMapController.setMapStyle(pvPrincipal!.styleMapGoogle());
+        pvPrincipal!.googleMapController.animateCamera(CameraUpdate.newLatLng(LatLng(-4.009051005165443, -79.20641913069285)));
       },
       myLocationButtonEnabled: true,
       markers: Set<Marker>.of(pvPrincipal!.markersExplorer.values),
     );
   }
 }
+

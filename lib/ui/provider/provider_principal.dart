@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sisi_iot_app/domain/entities/company.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
@@ -14,9 +13,8 @@ import 'package:sisi_iot_app/domain/repositories/repository_interface.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 
 import '../screen/screen_home.dart';
-import '../screen/screen_login.dart';
 import '../useful/useful.dart';
-import '../useful/useful_gps.dart';
+// import '../useful/useful_gps.dart';
 
 class ProviderPrincipal extends ChangeNotifier {
   final ApiRepositoryLoginInterface? apiRepositoryLoginInterface;
@@ -24,6 +22,7 @@ class ProviderPrincipal extends ChangeNotifier {
   bool _visiblePassword = true;
   TextEditingController _controllerUser = TextEditingController();
   TextEditingController _controllerPassword = TextEditingController();
+  PageController _controller = PageController(initialPage: 1);
 
   TextEditingController get controllerUser => _controllerUser;
   Company? _companyResponse = Company();
@@ -136,6 +135,14 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
+
+  PageController get controller => _controller;
+
+  set controller(PageController value) {
+    _controller = value;
+    notifyListeners();
+  }
+
   Future login() async {
     await apiRepositoryLoginInterface?.login(controllerUser.text.trim(), controllerPassword.text.trim(), (code, data) {
       _companyResponse = data;
@@ -179,16 +186,16 @@ class ProviderPrincipal extends ChangeNotifier {
     });
   }
 
-  void initMapExplorer(GoogleMapController controller) {
-    mapControllerExplorer = controller;
-    addMarker(
-      _markersExplorer,
-      "locationMarker",
-      LatLng(UsefulGps.latitude, UsefulGps.longitude),
-      "${UsefulLabel.assetsIcons}pin_origin.png",
-      size: 60,
-    );
-  }
+  // void initMapExplorer(GoogleMapController controller) {
+  //   mapControllerExplorer = controller;
+  //   addMarker(
+  //     _markersExplorer,
+  //     "locationMarker",
+  //     LatLng(UsefulGps.latitude, UsefulGps.longitude),
+  //     "${UsefulLabel.assetsIcons}pin_origin.png",
+  //     size: 60,
+  //   );
+  // }
 
   void addMarker(markers, String idMarker, LatLng latLng, String icon,
       {Function? function,
