@@ -9,6 +9,7 @@ class ScreenTermCondition extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
+        value: UsefulColor.colorWhite,
         child: Scaffold(
           body: SafeArea(
             child: Stack(
@@ -18,7 +19,6 @@ class ScreenTermCondition extends StatelessWidget {
               ],
             ),
           ),
-        ),
-        value: UsefulColor.colorWhite);
+        ));
   }
 }

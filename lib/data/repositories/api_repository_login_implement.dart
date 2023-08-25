@@ -1,6 +1,6 @@
 
-import 'dart:ui';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sisi_iot_app/data/repositories/api_global_url.dart';
 import 'package:sisi_iot_app/data/repositories/dio_exceptions.dart';
 import 'package:sisi_iot_app/domain/entities/company.dart';
@@ -19,10 +19,13 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
   @override
   Future login(String username, String password, VoidCallback? Function(int code, dynamic data) callback) async {
     try {
-      final response = await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getLogin}${username}/${password}");
+      final response = await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getLogin}$username/$password");
       callback(1, Company.fromMap(response.data));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
+      if(kDebugMode){
+        print("ERROR >>> $errorMessage");
+      }
       callback(-1, Company(bandera: false));
     }
   }
@@ -30,7 +33,7 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
   @override
   Future getNodoId(int id, VoidCallback? Function(int code, dynamic data) callback) async {
     try {
-      final response = await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getNodosId}${id}");
+      final response = await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getNodosId}$id");
       List<Device> device = [];
       if(response.data!=null){
         List<dynamic> listNodo = response.data;

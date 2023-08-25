@@ -96,7 +96,7 @@ class BodyHome extends StatelessWidget {
         textCapitalization: TextCapitalization.sentences,
         // cursorColor: Theme.of(context).primaryColor,
         decoration: InputDecoration(
-            hintText: "Buscar", prefixIcon: Icon(Icons.search_rounded), border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
+            hintText: "Buscar", prefixIcon: const Icon(Icons.search_rounded), border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
         onChanged: (param) {
           pvPrincipal!.searchHistorialFilter(param);
         },
@@ -130,12 +130,8 @@ class BodyHome extends StatelessWidget {
   /// Item Nodos
   Widget _itemNodo(Device? device) {
     return GestureDetector(
-      // onTap: () {
-      //   Navigator.of(Useful.globalContext.currentContext!).pushNamed(ScreenWebView.routePage);
-      //   print('>>>>> IDE WEB ${device.ide}');
-      //   pvPrincipal!.companyWeb = device.ide!;
-      // },
       onTap: () {
+        pvPrincipal!.idWebDevice = device.ide!;
         Navigator.of(Useful.globalContext.currentContext!).pushNamed(
           ScreenWebView.routePage,
           arguments: device.ide, // Pasar el valor como argumento
@@ -145,14 +141,14 @@ class BodyHome extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
         padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)), color: UsefulColor.colorSecondary200),
         child: Column(
           children: [
             Container(
                 padding: EdgeInsets.zero,
                 margin: EdgeInsets.zero,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: UsefulColor.colorfocus,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
@@ -164,8 +160,6 @@ class BodyHome extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text("Dato: ${device.valor!}\n"
-                      "Maximo: ${device.valMax!}\n"
-                      "Minimo: ${device.valMin!}\n"
                       "Hora: ${pvPrincipal!.extractTime(device.fechahora!)}\n"
                       "Fecha: ${pvPrincipal!.extractDate(device.fechahora!)}\n"), // Llama a la función para extraer la fecha
                 ),
@@ -180,7 +174,7 @@ class BodyHome extends StatelessWidget {
                           endAngle: 360,
                           showTicks: false,
                           showLabels: false,
-                          axisLineStyle: AxisLineStyle(thickness: 20),
+                          axisLineStyle: const AxisLineStyle(thickness: 20),
                           pointers: <GaugePointer>[
                             RangePointer(
                                 value: device.valor!,
@@ -201,10 +195,8 @@ class BodyHome extends StatelessWidget {
                                       height: 45.00,
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
-                                      child: Container(
-                                        child: Text('${device.valor}%', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                                      ),
+                                      padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+                                      child: Text('${device.valor}%', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                                     )
                                   ],
                                 ),
@@ -296,34 +288,41 @@ class BodyHome extends StatelessWidget {
 
   /// Item nodos
   Widget _itemNodoBody(Device? device) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.black12,
-        borderRadius: BorderRadius.all(Radius.circular(10))
-      ),
-      // color: Colors.black12,
-      width: MediaQuery.of(Useful.globalContext.currentContext!).size.width * 0.4,
-      padding: EdgeInsets.only(right: 5, left: 5),
-      margin: EdgeInsets.only(left: 2, right: 2, bottom: 5, top: 5), // Margen entre elementos
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("${device!.nombre!}"),
-              Icon(Icons.circle, color: Colors.red, size: 10,)
-            ],
-          ),
-          Text(
-                "Dato: ${device.valor!}\n"
-                "Maximo: ${device.valMax!}\n"
-                "Minimo: ${device.valMin!}\n"
-                "Hora: ${pvPrincipal!.extractTime(device.fechahora!)}\n"
-                "Fecha: ${pvPrincipal!.extractDate(device.fechahora!)}\n",
-            style: TextStyle(fontSize: 12),
-          ),
-        ],
+    return GestureDetector(
+      onTap: () {
+        pvPrincipal!.idWebDevice = device.ide!;
+        Navigator.of(Useful.globalContext.currentContext!).pushNamed(
+          ScreenWebView.routePage,
+          arguments: device.ide, // Pasar el valor como argumento
+        );
+      },
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.black12,
+          borderRadius: BorderRadius.all(Radius.circular(10))
+        ),
+        // color: Colors.black12,
+        width: MediaQuery.of(Useful.globalContext.currentContext!).size.width * 0.4,
+        padding: const EdgeInsets.only(right: 5, left: 5),
+        margin: const EdgeInsets.only(left: 2, right: 2, bottom: 5, top: 5), // Margen entre elementos
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("${device!.nombre!}"),
+                const Icon(Icons.circle, color: Colors.red, size: 10,)
+              ],
+            ),
+            Text(
+                  "Dato: ${device.valor!}\n"
+                  "Hora: ${pvPrincipal!.extractTime(device.fechahora!)}\n"
+                  "Fecha: ${pvPrincipal!.extractDate(device.fechahora!)}\n",
+              style: const TextStyle(fontSize: 12),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -339,7 +338,7 @@ class GoogleMaps extends StatelessWidget {
   Widget build(BuildContext context) {
     pvPrincipal ??= Provider.of<ProviderPrincipal>(context);
     return GoogleMap(
-      initialCameraPosition: CameraPosition(
+      initialCameraPosition: const CameraPosition(
         target: LatLng(-1.2394663499056315, -78.65732525997484),
         zoom: 5.5,
       ),
@@ -349,7 +348,7 @@ class GoogleMaps extends StatelessWidget {
         // pvPrincipal!.initMapExplorer(controller);
         pvPrincipal!.googleMapController = controller;
         // pvPrincipal!.googleMapController.setMapStyle(pvPrincipal!.styleMapGoogle());
-        pvPrincipal!.googleMapController.animateCamera(CameraUpdate.newLatLng(LatLng(-4.009051005165443, -79.20641913069285)));
+        pvPrincipal!.googleMapController.animateCamera(CameraUpdate.newLatLng(const LatLng(-4.009051005165443, -79.20641913069285)));
       },
       myLocationButtonEnabled: true,
       markers: Set<Marker>.of(pvPrincipal!.markersExplorer.values),

@@ -5,6 +5,7 @@ import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../useful/useful_label.dart';
+import '../widgets/widget_appbar.dart';
 
 
 class ScreenWebView extends StatefulWidget {
@@ -20,32 +21,36 @@ class _ScreenWebViewState extends State<ScreenWebView> {
 
   ProviderPrincipal? pvPrincipal;
   late final WebViewController _controllerWebView;
-  bool _showPage = true;
 
   @override
   void initState() {
     super.initState();
     pvPrincipal = Provider.of<ProviderPrincipal>(context, listen: false);
-    _controllerWebView = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
-      ..enableZoom(false)
-      ..setNavigationDelegate(NavigationDelegate(
-        onProgress: (int progress) {
-          if (progress == 100) {
-            setState(() {
-              _showPage = false;
-            });
-          }
-        },
-      ))
-      ..loadRequest(
-          Uri.parse('https://sisi.com.ec/aplicacion/celular/nodo_individual/${pvPrincipal!.idWebDevice}/'));
+
+    if (pvPrincipal != null && pvPrincipal!.idWebDevice != null) {
+      _controllerWebView = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..setBackgroundColor(const Color(0x00000000))
+        ..enableZoom(false)
+        ..setNavigationDelegate(NavigationDelegate(
+          onProgress: (int progress) {
+            if (progress == 100) {
+              setState(() {
+              });
+            }
+          },
+        ))
+        ..loadRequest(
+            Uri.parse('https://sisi.com.ec/aplicacion/celular/nodo_individual/${pvPrincipal!.idWebDevice}/'));
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: widgetAppBarHome(pvPrincipal!.companyResponse.imagen ?? "", pvPrincipal!.companyResponse.nombre_empresa ?? ""),
       body: WebViewWidget(controller: _controllerWebView),
     );
   }
 }
+

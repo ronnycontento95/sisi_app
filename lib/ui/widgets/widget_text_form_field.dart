@@ -193,7 +193,7 @@ class _WidgetTextFormFieldState extends State<WidgetTextFormField> {
               errorStyle: const TextStyle(color: Colors.red),
               errorBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.red),
-                  borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                       color: UsefulColor.colorhintstyletext.withOpacity(0.2)),

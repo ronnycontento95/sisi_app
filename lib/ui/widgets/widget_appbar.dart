@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
@@ -77,7 +76,7 @@ widgetAppBarHome(
                   return const Icon(Icons.person);
                 },
                 placeholder: UsefulImagen().getTransparentImage(),
-                image: "${ApiGlobalUrl.generalLink}${image ?? ""}",
+                image: "${ApiGlobalUrl.generalLink}$image",
                 height: 40,
               ),
             ),

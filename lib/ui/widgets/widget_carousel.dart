@@ -60,7 +60,7 @@ class WidgetViewCarousel extends StatelessWidget {
             WidgetTextView.title(text: title ?? ' ',color: UsefulColor.colorPrimary,),
             WidgetTextView(text: subtitle ?? ' ',color: UsefulColor.colorPrimary,),
             WidgetTextView(text: type ?? ' ',color: UsefulColor.colorPrimary,),
-            WidgetTextView(text: "Nivel: $valor %" ?? ' ',color: UsefulColor.colorPrimary,),
+            WidgetTextView(text: "Nivel: $valor %",color: UsefulColor.colorPrimary,),
           ],
         ),
       ),

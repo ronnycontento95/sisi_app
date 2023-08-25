@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../useful/useful_label.dart';
@@ -33,9 +32,9 @@ class ScreenSpash extends StatelessWidget {
   }
 
   Widget copy(){
-      return Align(
+      return const Align(
           alignment: Alignment.bottomCenter,
-          child: const Text(UsefulLabel.txtCopy));
+          child: Text(UsefulLabel.txtCopy));
 
   }
 }

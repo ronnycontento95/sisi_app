@@ -74,7 +74,7 @@ class BodyHome extends StatelessWidget {
         // cursorColor: Theme.of(context).primaryColor,
         decoration: InputDecoration(
             hintText: "Buscar dispositivo",
-            prefixIcon: Icon(Icons.search_rounded),
+            prefixIcon: const Icon(Icons.search_rounded),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
         onChanged: (param) {
           pvPrincipal!.searchHistorialFilter(param);
@@ -116,7 +116,7 @@ class BodyHome extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
         padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)),
             color: UsefulColor.colorSecondary200),
         child: Column(
@@ -124,7 +124,7 @@ class BodyHome extends StatelessWidget {
             Container(
               padding:  EdgeInsets.zero,
                 margin: EdgeInsets.zero,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: UsefulColor.colorfocus,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
@@ -141,12 +141,12 @@ class BodyHome extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: Container(
+                  child: SizedBox(
                     height: 130,
                     child: SfRadialGauge(
                       axes: <RadialAxis>[
                         RadialAxis(
-                            axisLineStyle: AxisLineStyle(thickness: 10),
+                            axisLineStyle: const AxisLineStyle(thickness: 10),
                             showTicks: false,
                             pointers: <GaugePointer>[
                               NeedlePointer(
@@ -154,14 +154,14 @@ class BodyHome extends StatelessWidget {
                                   enableAnimation: true,
                                   needleStartWidth: 0,
                                   needleEndWidth: 5,
-                                  needleColor: Color(0xFFDADADA),
-                                  knobStyle: KnobStyle(
+                                  needleColor: const Color(0xFFDADADA),
+                                  knobStyle: const KnobStyle(
                                       color: Colors.white,
                                       borderColor: Color(0xFFDADADA),
                                       knobRadius: 0.06,
                                       borderWidth: 0.04),
-                                  tailStyle: TailStyle(color: Color(0xFFDADADA), width: 1, length: 0.15)),
-                              RangePointer(value: 60, width: 10, enableAnimation: true, color: Colors.blueAccent)
+                                  tailStyle: const TailStyle(color: Color(0xFFDADADA), width: 1, length: 0.15)),
+                              const RangePointer(value: 60, width: 10, enableAnimation: true, color: Colors.blueAccent)
                             ])
                       ],
                     ),

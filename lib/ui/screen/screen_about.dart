@@ -8,13 +8,13 @@ class ScreenAbout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
+        value: UsefulColor.colorWhite,
         child: Scaffold(
           body: SafeArea(
             child: Stack(
               children: [],
             ),
           ),
-        ),
-        value: UsefulColor.colorWhite);
+        ));
   }
 }
