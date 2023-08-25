@@ -31,49 +31,51 @@ class ScreenLogin extends StatelessWidget {
         backgroundColor: UsefulColor.colorWhite,
         body: SafeArea(
           child: SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ///TODO agregar icono return
-                    // Align(
-                    //   alignment: Alignment.topLeft,
-                    //   child: WidgetBlackArrow(
-                    //     callback: () {},
-                    //   ),
-                    // ),
-                    const Image(
-                      image: AssetImage("${UsefulLabel.assetsLogo}logo-estandar.png"),
-                      height: 40,
-                      width: 200,
-                    ),
-                    const SizedBox(height: 40),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        WidgetViewLabelText().labelTextTitle(
-                            text: UsefulLabel.lblWelcome,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w900,
-                            colortext: UsefulColor.colorPrimary,
-                            textAlign: TextAlign.center),
-                      ],
-                    ),
-                    WidgetViewLabelText().labelTextNormal(text: UsefulLabel.lblSubWelcome, fontSize: 14, colortext: UsefulColor.colorPrimary),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    contTextUser(),
-                    contTextPassword(),
-                    const SizedBox(height: 10),
-                    if (_providerPrincipal!.errorMessage != null) ...[Text(_providerPrincipal!.errorMessage!)],
-                    widgetButonLogin(context),
-                  ],
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ///TODO agregar icono return
+                      // Align(
+                      //   alignment: Alignment.topLeft,
+                      //   child: WidgetBlackArrow(
+                      //     callback: () {},
+                      //   ),
+                      // ),
+                      // const Image(
+                      //   image: AssetImage("${UsefulLabel.assetsLogo}logo-estandar.png"),
+                      //   height: 40,
+                      //   width: 200,
+                      // ),
+                      const SizedBox(height: 40),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          WidgetViewLabelText().labelTextTitle(
+                              text: UsefulLabel.lblWelcome,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w900,
+                              colortext: UsefulColor.colorPrimary,
+                              textAlign: TextAlign.center),
+                        ],
+                      ),
+                      WidgetViewLabelText().labelTextNormal(text: UsefulLabel.lblSubWelcome, fontSize: 14, colortext: UsefulColor.colorPrimary),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      contTextUser(),
+                      contTextPassword(),
+                      const SizedBox(height: 10),
+                      if (_providerPrincipal!.errorMessage != null) ...[Text(_providerPrincipal!.errorMessage!)],
+                      widgetButonLogin(context),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),

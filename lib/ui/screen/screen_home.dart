@@ -1,4 +1,6 @@
 ///Import
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +18,7 @@ import '../../domain/entities/device.dart';
 import '../useful/useful.dart';
 import '../useful/useful_palette.dart';
 
+import '../useful/useful_style_map.dart';
 ///Widgets
 import '../widgets/widget_appbar.dart';
 import '../widgets/widget_carousel.dart';
@@ -40,12 +43,11 @@ class _ScreenHomeState extends State<ScreenHome> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     pvPrincipal = Provider.of<ProviderPrincipal>(context, listen: false);
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      // UsefulGps().checkGPS().then((value) {});
       pvPrincipal!.getUser();
     });
+    super.initState();
   }
 
   @override
@@ -69,6 +71,10 @@ class BodyHome extends StatelessWidget {
         backgroundColor: UsefulColor.colorWhite,
         body: PageView(
           controller: pvPrincipal!.controller,
+          physics: pvPrincipal!.currentPageIndex == 0 ? const NeverScrollableScrollPhysics() : const  ClampingScrollPhysics(),
+          onPageChanged: (index) {
+            pvPrincipal!.currentPageIndex = index;
+          },
           children: [
             GoogleMaps(),
             SingleChildScrollView(
@@ -76,9 +82,7 @@ class BodyHome extends StatelessWidget {
                 children: [_searchDevice(), _cardNodosList()],
               ),
             ),
-            Container(
-                padding: const EdgeInsets.all(5),
-                child: SingleChildScrollView(child: _cardNodosListBody())),
+            Container(padding: const EdgeInsets.all(5), child: SingleChildScrollView(child: _cardNodosListBody())),
           ],
         ),
       ),
@@ -137,76 +141,75 @@ class BodyHome extends StatelessWidget {
           arguments: device.ide, // Pasar el valor como argumento
         );
       },
-
       child: Container(
         margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-        padding: const EdgeInsets.all(10),
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)), color: UsefulColor.colorSecondary200),
+        // padding: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: UsefulColor.colorfillcolor),
         child: Column(
           children: [
             Container(
-                padding: EdgeInsets.zero,
-                margin: EdgeInsets.zero,
-                decoration: const BoxDecoration(
-                  color: UsefulColor.colorfocus,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)), color: UsefulColor.colorPrimary),
+              child: Center(
+                  child: Text(
+                device!.nombre!.toUpperCase(),
+                style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+              )),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text("NIVEL: ${device.valor!}\n"
+                        "HORA: ${pvPrincipal!.extractTime(device.fechahora!)}\n"
+                        "FECHA: ${pvPrincipal!.extractDate(device.fechahora!)}\n", style: TextStyle(fontWeight: FontWeight.bold),), // Llama a la función para extraer la fecha
                   ),
-                ),
-                child: Center(child: Text("${device!.nombre}"))),
-            Row(
-              children: [
-                Expanded(
-                  child: Text("Dato: ${device.valor!}\n"
-                      "Hora: ${pvPrincipal!.extractTime(device.fechahora!)}\n"
-                      "Fecha: ${pvPrincipal!.extractDate(device.fechahora!)}\n"), // Llama a la función para extraer la fecha
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    height: 130,
-                    child: SfRadialGauge(axes: <RadialAxis>[
-                      RadialAxis(
-                          interval: 10,
-                          startAngle: 0,
-                          endAngle: 360,
-                          showTicks: false,
-                          showLabels: false,
-                          axisLineStyle: const AxisLineStyle(thickness: 20),
-                          pointers: <GaugePointer>[
-                            RangePointer(
-                                value: device.valor!,
-                                width: 20,
-                                color: device.valor! >= device.valMax!
-                                    ? Colors.red
-                                    : device.valor! <= device.valMin!
-                                        ? Colors.yellow
-                                        : Colors.blueAccent,
-                                enableAnimation: true,
-                                cornerStyle: CornerStyle.bothCurve)
-                          ],
-                          annotations: <GaugeAnnotation>[
-                            GaugeAnnotation(
-                                widget: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      height: 45.00,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
-                                      child: Text('${device.valor}%', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                                    )
-                                  ],
-                                ),
-                                angle: 270,
-                                positionFactor: 0.1)
-                          ])
-                    ]),
-                  ),
-                )
-              ],
+                  Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      height: 130,
+                      child: SfRadialGauge(axes: <RadialAxis>[
+                        RadialAxis(
+                            interval: 10,
+                            startAngle: 0,
+                            endAngle: 360,
+                            showTicks: false,
+                            showLabels: false,
+                            axisLineStyle: const AxisLineStyle(thickness: 20),
+                            pointers: <GaugePointer>[
+                              RangePointer(
+                                  value: device.valor!,
+                                  width: 20,
+                                  color: device.valor! >= device.valMax!
+                                      ? Colors.red
+                                      : device.valor! <= device.valMin!
+                                          ? Colors.yellow
+                                          : Colors.blueAccent,
+                                  enableAnimation: true,
+                                  cornerStyle: CornerStyle.bothCurve)
+                            ],
+                            annotations: <GaugeAnnotation>[
+                              GaugeAnnotation(
+                                  widget: Column(
+                                    children: <Widget>[
+                                      Container(
+                                        height: 45.00,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+                                        child: Text('${device.valor}%', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                      )
+                                    ],
+                                  ),
+                                  angle: 270,
+                                  positionFactor: 0.1)
+                            ])
+                      ]),
+                    ),
+                  )
+                ],
+              ),
             ),
           ],
         ),
@@ -297,28 +300,35 @@ class BodyHome extends StatelessWidget {
         );
       },
       child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.black12,
-          borderRadius: BorderRadius.all(Radius.circular(10))
-        ),
+        decoration: const BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.all(Radius.circular(10))),
         // color: Colors.black12,
         width: MediaQuery.of(Useful.globalContext.currentContext!).size.width * 0.4,
         padding: const EdgeInsets.only(right: 5, left: 5),
-        margin: const EdgeInsets.only(left: 2, right: 2, bottom: 5, top: 5), // Margen entre elementos
+        margin: const EdgeInsets.only(left: 2, right: 2, bottom: 5, top: 5),
+        // Margen entre elementos
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const Icon(
+              Icons.circle,
+              color: Colors.red,
+              size: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("${device!.nombre!}"),
-                const Icon(Icons.circle, color: Colors.red, size: 10,)
+                Expanded(
+                  child: Text(
+                    "${device!.nombre!.toUpperCase()}",
+                    overflow: TextOverflow.ellipsis, // Trunca el texto y agrega puntos suspensivos
+                  ),
+                ),
               ],
             ),
             Text(
-                  "Dato: ${device.valor!}\n"
-                  "Hora: ${pvPrincipal!.extractTime(device.fechahora!)}\n"
-                  "Fecha: ${pvPrincipal!.extractDate(device.fechahora!)}\n",
+              "NIVEL: ${device.valor!}\n"
+              "HORA: ${pvPrincipal!.extractTime(device.fechahora!)}\n"
+              "FECHA: ${pvPrincipal!.extractDate(device.fechahora!)}\n",
               style: const TextStyle(fontSize: 12),
             ),
           ],
@@ -326,8 +336,6 @@ class BodyHome extends StatelessWidget {
       ),
     );
   }
-
-
 }
 
 class GoogleMaps extends StatelessWidget {
@@ -337,22 +345,50 @@ class GoogleMaps extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     pvPrincipal ??= Provider.of<ProviderPrincipal>(context);
-    return GoogleMap(
-      initialCameraPosition: const CameraPosition(
-        target: LatLng(-1.2394663499056315, -78.65732525997484),
-        zoom: 5.5,
-      ),
-      myLocationEnabled: true,
-      zoomControlsEnabled: false,
-      onMapCreated: (controller) {
-        // pvPrincipal!.initMapExplorer(controller);
-        pvPrincipal!.googleMapController = controller;
-        // pvPrincipal!.googleMapController.setMapStyle(pvPrincipal!.styleMapGoogle());
-        pvPrincipal!.googleMapController.animateCamera(CameraUpdate.newLatLng(const LatLng(-4.009051005165443, -79.20641913069285)));
-      },
-      myLocationButtonEnabled: true,
-      markers: Set<Marker>.of(pvPrincipal!.markersExplorer.values),
+    return PageView(
+      children: [
+        Stack(
+          children: [
+            GoogleMap(
+              initialCameraPosition: const CameraPosition(
+                target: LatLng(-1.2394663499056315, -78.65732525997484),
+                tilt: 0,
+                bearing: 0,
+                zoom: 11.0,
+              ),
+              myLocationEnabled: true,
+              zoomControlsEnabled: true,
+              onMapCreated: (controller) {
+                pvPrincipal!.googleMapController = controller;
+                pvPrincipal!.googleMapController.setMapStyle(jsonEncode(styleMapGoogle).toString());
+                pvPrincipal!.googleMapController.animateCamera(CameraUpdate.newLatLng(const LatLng(-4.009051005165443, -79.20641913069285)));
+              },
+              myLocationButtonEnabled: false,
+              markers: Set<Marker>.of(pvPrincipal!.markers.values),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: (){
+                    pvPrincipal!.controller.animateToPage(1, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: UsefulColor.colorPrimary,
+
+                    ),
+                    child: const Icon(Icons.arrow_circle_right_outlined, size: 30,),
+                  ),
+                ),
+              ],
+            )
+
+          ],
+        ),
+      ],
     );
   }
 }
-

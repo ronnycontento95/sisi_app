@@ -10,6 +10,7 @@ import 'package:sisi_iot_app/domain/entities/company.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
+import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
 
 import '../screen/screen_home.dart';
 import '../useful/useful.dart';
@@ -17,6 +18,7 @@ import '../useful/useful.dart';
 
 class ProviderPrincipal extends ChangeNotifier {
   final ApiRepositoryLoginInterface? apiRepositoryLoginInterface;
+
   // final RepositoryInterface? repositoryInterface;
   bool _visiblePassword = true;
   TextEditingController _controllerUser = TextEditingController();
@@ -37,9 +39,13 @@ class ProviderPrincipal extends ChangeNotifier {
   int? _companyWeb;
   int? _idWebDevice;
   Timer? _timer;
+  Map<MarkerId, Marker> _markers = <MarkerId, Marker>{};
+  int _currentPageIndex = 1;
+
 
   ProviderPrincipal(this.apiRepositoryLoginInterface) {
-    Useful().assetsCoverToBytes("${UsefulLabel.assetsImages}pin_origin.png").then((value) {
+
+    Useful().assetsCoverToBytes("${UsefulLabel.assetsImages}water-drop.png").then((value) {
       final bitmap = BitmapDescriptor.fromBytes(value);
       iconLocation.complete(bitmap);
     });
@@ -134,7 +140,6 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
-
   PageController get controller => _controller;
 
   set controller(PageController value) {
@@ -142,10 +147,25 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
+  Map<MarkerId, Marker> get markers => _markers;
+
+  set markers(Map<MarkerId, Marker> value) {
+    _markers = value;
+    notifyListeners();
+  }
+
+
+  int get currentPageIndex => _currentPageIndex;
+
+  set currentPageIndex(int value) {
+    _currentPageIndex = value;
+    notifyListeners();
+  }
+
   Future login() async {
     await apiRepositoryLoginInterface?.login(controllerUser.text.trim(), controllerPassword.text.trim(), (code, data) {
       _companyResponse = data;
-      if(kDebugMode){
+      if (kDebugMode) {
         print("RESPONSE >>> LOGIN $data");
       }
       GlobalPreference().setSaveUser(_companyResponse!).then((value) {
@@ -163,10 +183,10 @@ class ProviderPrincipal extends ChangeNotifier {
   /// Get user bussiness
   getUser() async {
     GlobalPreference().getIdEmpresa().then((value) {
-      if(kDebugMode){
+      if (kDebugMode) {
         print("RESPONSE >>> GET  $value");
       }
-      _companyResponse=value;
+      _companyResponse = value;
       getDevice(value!.id_empresas!);
     });
   }
@@ -174,12 +194,24 @@ class ProviderPrincipal extends ChangeNotifier {
   /// Get nodos id bussiness
   getDevice(int id) async {
     await apiRepositoryLoginInterface?.getNodoId(id, (code, data) {
-      if(kDebugMode){
+      if (kDebugMode) {
         print("GET >>> ID NODOS $data");
       }
       if (code == 1) {
         listDevice = data;
         listFilterDevice = data;
+        print('>>>>> PRUEBA 1');
+        for (var element in listDevice) {
+          print('MARCADORES ${element.ide}');
+          MarkerId markerId = MarkerId(element.ide.toString());
+          LatLng latLng = LatLng(double.parse(element.lat!), double.parse(element.lot!));
+          addMarker(
+            markers,
+            markerId.toString(),
+            latLng,
+            size: 60,
+          );
+        }
       } else {
         listDevice = [];
       }
@@ -187,24 +219,14 @@ class ProviderPrincipal extends ChangeNotifier {
     });
   }
 
-  // void initMapExplorer(GoogleMapController controller) {
-  //   mapControllerExplorer = controller;
-  //   addMarker(
-  //     _markersExplorer,
-  //     "locationMarker",
-  //     LatLng(UsefulGps.latitude, UsefulGps.longitude),
-  //     "${UsefulLabel.assetsIcons}pin_origin.png",
-  //     size: 60,
-  //   );
-  // }
-
-  void addMarker(markers, String idMarker, LatLng latLng, String icon,
+  void addMarker(markers, String idMarker, LatLng latLng,
       {Function? function,
       String? text = "",
       int size = UsefulLabel.targetWidth,
       bool draggable = false,
       String? networkImage,
       Function(LatLng)? onDragEnd}) async {
+    print('>>>>> PRUEBA 2');
     MarkerId markerId = MarkerId(idMarker.toString());
     markers[markerId] = Marker(
         markerId: markerId,
@@ -231,7 +253,8 @@ class ProviderPrincipal extends ChangeNotifier {
   }
 
   styleMapGoogle() {
-    return jsonEncode(styleMapGoogle);
+    final styleMap = styleMapGoogle();
+    return jsonEncode(styleMap);
   }
 
   /// Filter history event

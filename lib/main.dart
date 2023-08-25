@@ -18,11 +18,12 @@ import 'ui/useful/useful_palette.dart';
 
 Future main() async {
   ///Lock device orientation
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  WidgetsFlutterBinding.ensureInitialized(); //Inicialice metodos en el main
+  //Inicialice metodos en el main
   HttpOverrides.global = MyHttpOverrides();
 
   ///Save preferences id empresa

@@ -94,7 +94,7 @@ widgetAppBarHome(
               style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontFamily: UsefulLabel.lettertitle,
-                  color: UsefulColor.colorSecondary,
+                  color: Colors.black,
                   fontSize: 16)),
         ],
       ),
@@ -105,7 +105,7 @@ widgetAppBarHome(
           onTap: () {
             Navigator.of(Useful.globalContext.currentContext!).pushNamed(ScreenMenu.routePage);
           },
-          child: const Icon(Icons.menu_sharp, size: 20, color: UsefulColor.colorPrimary)),
+          child: const Icon(Icons.menu_sharp, size: 25, color: Colors.black)),
       const SizedBox(
         width: 20,
       )
