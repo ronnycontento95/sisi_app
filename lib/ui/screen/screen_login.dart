@@ -30,56 +30,49 @@ class ScreenLogin extends StatelessWidget {
       child: Scaffold(
         backgroundColor: UsefulColor.colorWhite,
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Form(
-                  key: _formKey,
-                  child: Column(
+          child: Container(
+            margin: const EdgeInsets.all(20),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ///TODO agregar icono return
-                      // Align(
-                      //   alignment: Alignment.topLeft,
-                      //   child: WidgetBlackArrow(
-                      //     callback: () {},
-                      //   ),
-                      // ),
-                      // const Image(
-                      //   image: AssetImage("${UsefulLabel.assetsLogo}logo-estandar.png"),
-                      //   height: 40,
-                      //   width: 200,
-                      // ),
-                      const SizedBox(height: 40),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          WidgetViewLabelText().labelTextTitle(
-                              text: UsefulLabel.lblWelcome,
-                              fontSize: 25,
-                              fontWeight: FontWeight.w900,
-                              colortext: UsefulColor.colorPrimary,
-                              textAlign: TextAlign.center),
-                        ],
-                      ),
-                      WidgetViewLabelText().labelTextNormal(text: UsefulLabel.lblSubWelcome, fontSize: 14, colortext: UsefulColor.colorPrimary),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      contTextUser(),
-                      contTextPassword(),
-                      const SizedBox(height: 10),
-                      if (_providerPrincipal!.errorMessage != null) ...[Text(_providerPrincipal!.errorMessage!)],
-                      widgetButonLogin(context),
+                      WidgetViewLabelText().labelTextTitle(
+                          text: UsefulLabel.lblWelcome,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w900,
+                          colortext: UsefulColor.colorPrimary,
+                          textAlign: TextAlign.center),
                     ],
                   ),
-                ),
-              ],
+                  WidgetViewLabelText().labelTextNormal(text: UsefulLabel.lblSubWelcome, fontSize: 14, colortext: UsefulColor.colorPrimary),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  contTextUser(),
+                  contTextPassword(),
+                  const SizedBox(height: 10),
+                  if (_providerPrincipal!.errorMessage != null) ...[Text(_providerPrincipal!.errorMessage!)],
+                  widgetButonLogin(context),
+                  WidgetViewLabelText().labelTextNormal(text: "Terminos y condiciones", fontSize: 14, colortext: UsefulColor.colorPrimary),
+                  // iconSocialMedia(),
+                ],
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget iconSocialMedia(){
+    return const Row(
+      children: [
+        Icon(Icons.facebook, size: 20, color: Colors.blueAccent,),
+      ],
     );
   }
 

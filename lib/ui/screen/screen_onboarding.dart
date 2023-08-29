@@ -17,13 +17,13 @@ class ScreenOnBoarding extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Container(
-            margin: const EdgeInsets.all(20),
+      body: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.all(20),
+          child: Center(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Image(image: AssetImage("${UsefulLabel.assetsLogo}logo-estandar.png"), height: 40, width: 200,),
                 SizedBox(
                   height: 390,
                   child: PageView(
@@ -34,7 +34,7 @@ class ScreenOnBoarding extends StatelessWidget {
                     ],
                   ),
                 ),
-                widgetIndicator(),
+                // widgetIndicator(),
                 widgetButton(context),
               ],
             ),
