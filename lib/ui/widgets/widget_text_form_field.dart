@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../useful/useful_label.dart';
 import '../useful/useful_palette.dart';
-//se crea el input text personalizado
+
 enum enumTypeText {
   text,
   number
@@ -35,8 +35,6 @@ class WidgetTextFormField extends StatefulWidget {
   final FocusNode? focus;
   final int maxLines;
   final EdgeInsets padding;
-
-  //parametros para favoritos
   final List<TextInputFormatter>? inputFormatters;
   final AutovalidateMode? autovalidateMode;
 

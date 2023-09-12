@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sisi_iot_app">
+    package="com.sisi.sisi_iot_app">
     <!--    PERMISO DE INTERNET-->
     <uses-permission android:name="android.permission.INTERNET" />
     <!--    Geolocatos-->
