@@ -165,44 +165,37 @@ class ProviderPrincipal extends ChangeNotifier {
     if (_editPassword.text.trim().isEmpty) {
       return Useful().messageAlert(context, UsefulLabel.txtEmptyUser);
     }
-
-    await apiRepositoryLoginInterface
-        ?.login(_editUser.text.trim(), _editPassword.text.trim(), (code, data) {
+    Useful().showProgress();
+    await apiRepositoryLoginInterface!
+        .login(_editUser.text.trim(), _editPassword.text.trim(), (code, data) {
       _companyResponse = data;
-      GlobalPreference().setSaveUser(_companyResponse!).then((value) {
+      Useful().hideProgress(context);
         if (_companyResponse!.bandera!) {
-          Navigator.of(Useful.globalContext.currentContext!)
-              .pushNamedAndRemoveUntil(
-                  ScreenHome.routePage, (Route<dynamic> route) => false);
+          GlobalPreference().setIdEmpresa(_companyResponse!);
+          Navigator.of(Useful.globalContext.currentContext!).pushNamedAndRemoveUntil(ScreenHome.routePage, (Route<dynamic> route) => false);
         } else {
-          return Useful().messageAlert(context, UsefulLabel.txtFailPassword);
+           Useful().messageAlert(context, UsefulLabel.txtFailPassword);
         }
-      });
       return null;
     });
   }
 
   /// Get user bussiness
-  getUser() async {
+  getUser(BuildContext context) async {
     GlobalPreference().getIdEmpresa().then((value) {
-      if (kDebugMode) {
-        print("RESPONSE >>> GET  $value");
-      }
       _companyResponse = value;
-      getDevice(value!.id_empresas!);
+      getDevice(value!.id_empresas!, context);
     });
   }
 
   /// Get nodos id bussiness
-  getDevice(int id) async {
+  getDevice(int id, BuildContext context) async {
+    Useful().showProgress();
     await apiRepositoryLoginInterface?.getNodoId(id, (code, data) {
-      if (kDebugMode) {
-        print("GET >>> ID NODOS $data");
-      }
+      Useful().hideProgress(context);
       if (code == 1) {
         listDevice = data;
         listFilterDevice = data;
-        print('>>>>> PRUEBA 1');
         for (var element in listDevice) {
           MarkerId markerId = MarkerId(element.ide.toString());
           LatLng latLng =

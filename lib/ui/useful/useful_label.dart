@@ -22,7 +22,7 @@ class UsefulLabel{
   static const targetWidth = 80;
 
   static const lblSis= "Sentinel IOT";
-  static const lblWelcome= "Bienvenido a Sentinel-IOT";
+  static const lblWelcome= "Bienvenid@";
   static const lblSubWelcome = "Ingresa tus credenciales para continuar";
   static const lblUser= "Usuario";
   static const lblTextEnterUser="Ingrese su usuario";
@@ -37,5 +37,7 @@ class UsefulLabel{
   static const txtCopy = '\u00a9 Sisi IoT - Hecho en Ecuador';
   static const txtEmptyUser = 'Ingresa tu usuario';
   static const txtFailPassword = 'Usuario y/o contraseña mal ingresados. Por favor inténtelo nuevamente';
+  static const txtTemCond = "Terminos y condiciones";
+  static const txtLogin = "Iniciar sesión";
 
 }

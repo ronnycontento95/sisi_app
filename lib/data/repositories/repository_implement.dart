@@ -5,7 +5,7 @@ import 'package:sisi_iot_app/domain/entities/company.dart';
 class GlobalPreference {
   static const _userEmpresa = 'userEmpresa';
 
-  Future setSaveUser(Company idEmpresa) async {
+  Future setIdEmpresa(Company idEmpresa) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     JsonEncoder encoder = const JsonEncoder();
     prefs.setString(_userEmpresa, encoder.convert(idEmpresa.toMap()));

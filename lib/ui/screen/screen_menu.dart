@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
 import 'package:sisi_iot_app/ui/screen/screen_login.dart';
 
 import '../provider/provider_principal.dart';
@@ -91,10 +92,8 @@ class ScreenMenu extends StatelessWidget {
             // Navigator.pushNamed(context, Page)
           }),
           infoCard(Icons.exit_to_app, "Cerrar sesion", () async  {
-            SharedPreferences preferences = await SharedPreferences.getInstance();
-            await preferences.clear();
-            Navigator.of(Useful.globalContext.currentContext!)
-                .pushNamedAndRemoveUntil(ScreenLogin.routePage, (Route<dynamic> route) => false);
+            GlobalPreference().deleteUser();
+            Navigator.of(Useful.globalContext.currentContext!).pushNamedAndRemoveUntil(ScreenLogin.routePage, (Route<dynamic> route) => false);
           }),
         ],
       ),

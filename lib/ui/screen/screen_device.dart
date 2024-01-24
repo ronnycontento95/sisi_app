@@ -27,7 +27,7 @@ class _ScreenDeviceState extends State<ScreenDevice> {
     super.initState();
     pvPrincipal = Provider.of<ProviderPrincipal>(context, listen: false);
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      pvPrincipal!.getUser();
+      pvPrincipal!.getUser(context);
     });
   }
 

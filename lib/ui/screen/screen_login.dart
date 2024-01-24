@@ -7,13 +7,13 @@ import '../provider/provider_principal.dart';
 import '../useful/useful_formatters.dart';
 import '../useful/useful_label.dart';
 import '../useful/useful_palette.dart';
+
 ///Useful
 
 ///Widgets
 import '../widgets/widget_button_view.dart';
 import '../widgets/widget_label_text.dart';
 import '../widgets/widget_text_form_field.dart';
-
 
 final _formKey = GlobalKey<FormState>();
 
@@ -30,61 +30,40 @@ class ScreenLogin extends StatelessWidget {
       child: Scaffold(
         backgroundColor: UsefulColor.colorWhite,
         body: SafeArea(
-          child: Container(
-            margin: const EdgeInsets.all(20),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      WidgetViewLabelText().labelTextTitle(
-                          text: UsefulLabel.lblWelcome,
-                          fontSize: 25,
-                          fontWeight: FontWeight.w900,
-                          colortext: UsefulColor.colorPrimary,
-                          textAlign: TextAlign.center),
-                    ],
+          child: Stack(
+            children : [
+              Center(
+                child: SingleChildScrollView(
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 20, right: 20),
+                    child: Column(
+                      children: [
+                        const TitleHeader(),
+                        contTextUser(),
+                        contTextPassword(),
+                        const WidgetButtonLogin(),
+                      ],
+                    ),
                   ),
-                  WidgetViewLabelText().labelTextNormal(text: UsefulLabel.lblSubWelcome, fontSize: 14, colortext: UsefulColor.colorPrimary),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  contTextUser(),
-                  contTextPassword(),
-                  const SizedBox(height: 10),
-                  if (_providerPrincipal!.errorMessage != null) ...[Text(_providerPrincipal!.errorMessage!)],
-                  widgetButonLogin(context),
-                  WidgetViewLabelText().labelTextNormal(text: "Terminos y condiciones", fontSize: 14, colortext: UsefulColor.colorPrimary),
-                  // iconSocialMedia(),
-                ],
-              ),
-            ),
+                ),
+              )
+
+            ]
           ),
         ),
       ),
     );
   }
 
-  Widget iconSocialMedia(){
+  Widget iconSocialMedia() {
     return const Row(
       children: [
-        Icon(Icons.facebook, size: 20, color: Colors.blueAccent,),
+        Icon(
+          Icons.facebook,
+          size: 20,
+          color: Colors.blueAccent,
+        ),
       ],
-    );
-  }
-
-  Widget widgetButonLogin(BuildContext context) {
-    return WidgetButtonView(
-      text: "Ingresar",
-      color: UsefulColor.colorPrimary,
-      onTap: () {
-        // if (_formKey.currentState!.validate()) {
-          _providerPrincipal!.login(context);
-        // }
-      },
     );
   }
 
@@ -122,11 +101,14 @@ class ScreenLogin extends StatelessWidget {
       fontSize: 16,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       suffixIcon: Icon(
-        _providerPrincipal!.visiblePassword ? Icons.remove_red_eye_outlined : Icons.visibility_off_outlined,
+        _providerPrincipal!.visiblePassword
+            ? Icons.remove_red_eye_outlined
+            : Icons.visibility_off_outlined,
         color: UsefulColor.colorPrimary,
       ),
       onTapSufixIcon: () {
-        _providerPrincipal!.visiblePassword = _providerPrincipal!.visiblePassword ? false : true;
+        _providerPrincipal!.visiblePassword =
+            _providerPrincipal!.visiblePassword ? false : true;
       },
       validator: (val) {
         String text = val!.trim();
@@ -135,6 +117,67 @@ class ScreenLogin extends StatelessWidget {
         }
         return null;
       },
+    );
+  }
+}
+
+class TitleHeader extends StatelessWidget {
+  const TitleHeader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            WidgetViewLabelText().labelTextTitle(
+                text: UsefulLabel.lblWelcome,
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+                colortext: UsefulColor.colorPrimary,
+                textAlign: TextAlign.center),
+          ],
+        ),
+        WidgetViewLabelText().labelTextNormal(
+            text: UsefulLabel.lblSubWelcome,
+            fontSize: 14,
+            colortext: UsefulColor.colorPrimary),
+        const SizedBox(
+          height: 150,
+          child: Image(
+            image: AssetImage("${UsefulLabel.assetsImages}background.jpg"),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class WidgetButtonLogin extends StatelessWidget {
+  const WidgetButtonLogin({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final prPrincipalRead = context.read<ProviderPrincipal>();
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.centerRight,
+          child: WidgetViewLabelText().labelTextNormal(
+              text: UsefulLabel.txtTemCond,
+              fontSize: 12,
+              colortext: UsefulColor.colorPrimary),
+        ),
+        WidgetButtonView(
+          text: UsefulLabel.txtLogin,
+          color: UsefulColor.colorPrimary,
+          onTap: () {
+            prPrincipalRead.login(context);
+          },
+        ),
+
+      ],
     );
   }
 }

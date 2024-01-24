@@ -29,6 +29,8 @@ dependencies:
   simple_ripple_animation: ^0.0.3
   connectivity_plus: ^3.0.6
   flutter_native_splash: ^2.3.0
+  loading_animation_widget: ^1.2.0+4
+  page_transition: ^2.1.0
 
 dev_dependencies:
   flutter_test:

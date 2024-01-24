@@ -5,8 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 
+import '../widgets/widget_progress.dart';
 import 'useful_palette.dart';
 
 ///Utilidades widgets
@@ -55,6 +57,27 @@ class Useful {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
+  /// Show wait progress
+  void showProgress() {
+    nextScreenViewTransition(const WidgetProgress());
+  }
+
+  /// Hide wait progress
+  hideProgress(BuildContext context) {
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
+  }
+
+  void nextScreenViewTransition(Widget newPage) {
+    Navigator.push(
+        Useful.globalContext.currentContext!,
+        PageTransition(
+            type: PageTransitionType.fade,
+            duration: const Duration(milliseconds: 1),
+            reverseDuration: const Duration(milliseconds: 1),
+            child: newPage));
+  }
 
   updateConectivity(ConnectivityResult result) async {
     switch (result) {

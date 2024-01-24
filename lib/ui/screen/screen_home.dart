@@ -45,7 +45,7 @@ class _ScreenHomeState extends State<ScreenHome> {
     // TODO: implement initState
     pvPrincipal = Provider.of<ProviderPrincipal>(context, listen: false);
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      pvPrincipal!.getUser();
+      pvPrincipal!.getUser(context);
     });
     super.initState();
   }
