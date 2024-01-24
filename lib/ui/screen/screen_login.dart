@@ -82,9 +82,7 @@ class ScreenLogin extends StatelessWidget {
       color: UsefulColor.colorPrimary,
       onTap: () {
         // if (_formKey.currentState!.validate()) {
-        _providerPrincipal!.login();
-        // } else {
-        // alertSimpleMessage(context, "¡Aviso!", "Revise que la información ingresada sea correcta e intente nuevamente.", textAccept: "Entendido");
+          _providerPrincipal!.login(context);
         // }
       },
     );
@@ -93,7 +91,7 @@ class ScreenLogin extends StatelessWidget {
   Widget contTextUser() {
     return WidgetTextFormField(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      controller: _providerPrincipal!.controllerUser,
+      controller: _providerPrincipal!.editUser,
       labelTitle: UsefulLabel.lblUser,
       keyboardType: TextInputType.emailAddress,
       inputFormatters: formattersUser(),
@@ -115,7 +113,7 @@ class ScreenLogin extends StatelessWidget {
     return WidgetTextFormField(
       padding: const EdgeInsets.symmetric(vertical: 10),
       obscureText: _providerPrincipal!.visiblePassword,
-      controller: _providerPrincipal!.controllerPassword,
+      controller: _providerPrincipal!.editPassword,
       labelTitle: UsefulLabel.lblPassword,
       keyboardType: TextInputType.visiblePassword,
       inputFormatters: formattersPassword(),

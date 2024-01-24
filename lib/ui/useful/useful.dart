@@ -3,7 +3,11 @@ import 'dart:ui' as ui;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sisi_iot_app/ui/useful/useful_label.dart';
+
+import 'useful_palette.dart';
 
 ///Utilidades widgets
 /// Useful metodos
@@ -27,6 +31,7 @@ class Useful {
     ConnectivityResult result = ConnectivityResult.none;
     try {
       result = await connectivity.checkConnectivity();
+
     } on PlatformException catch (e) {
       if (kDebugMode) {
         print(e.toString());
@@ -35,6 +40,21 @@ class Useful {
 
     return updateConectivity(result);
   }
+
+  /// Show message alter
+  void messageAlert(BuildContext context, String message) {
+    // player.play(AssetSource(GlobalLabel.directionAudio));
+    final snackBar = SnackBar(
+        backgroundColor: UsefulColor.colorPrimary,
+        content: Text(message,
+            style: const TextStyle(
+                fontFamily: UsefulLabel.letterWalkwayBold,
+                fontSize: 14,
+                color: UsefulColor.colorWhite),
+            textAlign: TextAlign.center));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
 
   updateConectivity(ConnectivityResult result) async {
     switch (result) {

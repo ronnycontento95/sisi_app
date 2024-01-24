@@ -36,21 +36,21 @@ class ScreenMenu extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           WidgetViewLabelText()
-                              .labelTextNormal(text: "Versión ", fontSize: 14, colortext: UsefulColor.colorPrimary),
+                              .labelTextNormal(text: "Versión ", fontSize: 14, colortext: UsefulColor.colorBlack),
                           WidgetViewLabelText()
-                              .labelTextNormal(text: "2.0.0 ", fontSize: 14, colortext: UsefulColor.colorPrimary),
+                              .labelTextNormal(text: "2.0.0 ", fontSize: 14, colortext: UsefulColor.colorBlack),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           WidgetViewLabelText()
-                              .labelTextNormal(text: "Copyright ", fontSize: 12, colortext: UsefulColor.colorPrimary),
+                              .labelTextNormal(text: "Copyright ", fontSize: 12, colortext: UsefulColor.colorBlack),
                           WidgetViewLabelText()
-                              .labelTextNormal(text: "2018. ", fontSize: 12, colortext: UsefulColor.colorPrimary),
+                              .labelTextNormal(text: "2018. ", fontSize: 12, colortext: UsefulColor.colorBlack),
                           WidgetViewLabelText().labelTextNormal(
                               text: "Sentinel, Sisi Internet of things",
-                              fontSize: 12,
+                              fontSize: 16,
                               colortext: UsefulColor.colorPrimary),
                         ],
                       ),

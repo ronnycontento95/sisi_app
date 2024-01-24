@@ -6,8 +6,6 @@ class UsefulLabel{
   static const assetsImages = "assets/images/";
 
   //Fonts globales
-  static const lettertitle = 'neuropoliticalrg';
-  static const lettersubtitle = 'metaproregular';
   static const letterWalkwayBold = 'walkwayBold';
   static const letterWalkwaySemiBold = 'walkwaysemiBold';
 
@@ -37,5 +35,7 @@ class UsefulLabel{
   static const lblSubMoni = "Sentinel-Iot, una solucion dedicada al monitoreo remoto de tanques reservorios de agua y GLP mediante Internet";
   static const lblStartNow = "Ingresar ahora";
   static const txtCopy = '\u00a9 Sisi IoT - Hecho en Ecuador';
+  static const txtEmptyUser = 'Ingresa tu usuario';
+  static const txtFailPassword = 'Usuario y/o contraseña mal ingresados. Por favor inténtelo nuevamente';
 
 }

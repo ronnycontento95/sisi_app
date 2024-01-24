@@ -115,7 +115,7 @@ class _WidgetTextFormFieldState extends State<WidgetTextFormField> {
                   child: Text(
                     widget.labelTitle,
                     style: const TextStyle(
-                        color: UsefulColor.colorPrimary200,
+                        color: UsefulColor.colorPrimary,
                         fontFamily: UsefulLabel.letterWalkwayBold,
                         fontSize: 12),
                   ))

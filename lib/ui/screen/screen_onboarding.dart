@@ -110,14 +110,14 @@ class ScreenOnBoarding extends StatelessWidget {
                 text: "!",
                 style: const TextStyle(
                     fontSize: 30,
-                    fontFamily: UsefulLabel.lettertitle,
-                    color: UsefulColor.colorPrimary200),
+                    fontFamily: UsefulLabel.letterWalkwayBold,
+                    color: UsefulColor.colorPrimary),
                 children: <TextSpan>[
                   TextSpan(
                     text: text,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontFamily: UsefulLabel.lettertitle,
+                      fontFamily: UsefulLabel.letterWalkwayBold,
                       color: UsefulColor.colorPrimary,
                     ),
                   ),
@@ -125,8 +125,8 @@ class ScreenOnBoarding extends StatelessWidget {
                     text: '!',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontFamily: UsefulLabel.lettertitle,
-                        color: UsefulColor.colorPrimary200),
+                        fontFamily: UsefulLabel.letterWalkwayBold,
+                        color: UsefulColor.colorPrimary),
                   )
                 ]),
           ),

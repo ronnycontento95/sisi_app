@@ -69,7 +69,7 @@ class WidgetViewLabelText {
       Color colortext = UsefulColor.colorSecondary}) {
     return Text(titulo,
         style: TextStyle(
-            fontFamily: UsefulLabel.lettertitle,
+            fontFamily: UsefulLabel.letterWalkwayBold,
             color: colortext,
             fontSize: tamanio,
             fontWeight: fontWeight));

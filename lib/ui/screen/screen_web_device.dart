@@ -27,7 +27,7 @@ class _ScreenWebViewState extends State<ScreenWebView> {
     super.initState();
     pvPrincipal = Provider.of<ProviderPrincipal>(context, listen: false);
 
-    if (pvPrincipal != null && pvPrincipal!.idWebDevice != null) {
+    if (pvPrincipal != null) {
       _controllerWebView = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
         ..setBackgroundColor(const Color(0x00000000))

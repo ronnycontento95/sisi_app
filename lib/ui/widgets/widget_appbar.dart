@@ -87,13 +87,13 @@ widgetAppBarHome(
       textAlign: TextAlign.center,
       text: TextSpan(
         text: 'Hola, ',
-        style: const TextStyle(fontSize: 14, color: UsefulColor.colorlettertitle, fontFamily: UsefulLabel.lettertitle),
+        style: const TextStyle(fontSize: 14, color: UsefulColor.colorlettertitle, fontFamily: UsefulLabel.letterWalkwayBold),
         children: <TextSpan>[
           TextSpan(
               text: business ?? "",
               style: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontFamily: UsefulLabel.lettertitle,
+                  fontFamily: UsefulLabel.letterWalkwayBold,
                   color: Colors.black,
                   fontSize: 16)),
         ],

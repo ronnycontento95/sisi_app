@@ -23,11 +23,8 @@ Future main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  //Inicialice metodos en el main
   HttpOverrides.global = MyHttpOverrides();
 
-  ///Save preferences id empresa
-  // RepositorieImplement repositoryImplement = RepositorieImplement();
   await GlobalPreference().getIdEmpresa().then((idEmpresa) {
     if (idEmpresa != null) {
       if (kDebugMode) {
@@ -44,7 +41,6 @@ class MyApp extends StatelessWidget {
   String routeInit;
 
   MyApp(this.routeInit, {super.key});
-  /// Verificar el estado de la connection
   final Connectivity _connectivity = Connectivity();
   StreamSubscription<ConnectivityResult>? _streamSubscription;
 

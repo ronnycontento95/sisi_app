@@ -10,7 +10,6 @@ import 'package:sisi_iot_app/domain/entities/company.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
-import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
 
 import '../screen/screen_home.dart';
 import '../useful/useful.dart';
@@ -18,14 +17,11 @@ import '../useful/useful.dart';
 
 class ProviderPrincipal extends ChangeNotifier {
   final ApiRepositoryLoginInterface? apiRepositoryLoginInterface;
-
-  // final RepositoryInterface? repositoryInterface;
   bool _visiblePassword = true;
-  TextEditingController _controllerUser = TextEditingController();
-  TextEditingController _controllerPassword = TextEditingController();
+  TextEditingController _editUser = TextEditingController();
+  TextEditingController _editPassword = TextEditingController();
   PageController _controller = PageController(initialPage: 1);
 
-  TextEditingController get controllerUser => _controllerUser;
   Company? _companyResponse = Company();
   List<Device>? _listDevice = [];
   List<Device>? listFilterDevice = [];
@@ -42,10 +38,10 @@ class ProviderPrincipal extends ChangeNotifier {
   Map<MarkerId, Marker> _markers = <MarkerId, Marker>{};
   int _currentPageIndex = 1;
 
-
   ProviderPrincipal(this.apiRepositoryLoginInterface) {
-
-    Useful().assetsCoverToBytes("${UsefulLabel.assetsImages}water-drop.png").then((value) {
+    Useful()
+        .assetsCoverToBytes("${UsefulLabel.assetsImages}water-drop.png")
+        .then((value) {
       final bitmap = BitmapDescriptor.fromBytes(value);
       iconLocation.complete(bitmap);
     });
@@ -63,18 +59,6 @@ class ProviderPrincipal extends ChangeNotifier {
 
   set companyResponse(Company value) {
     _companyResponse = value;
-    notifyListeners();
-  }
-
-  set controllerUser(TextEditingController value) {
-    _controllerUser = value;
-    notifyListeners();
-  }
-
-  TextEditingController get controllerPassword => _controllerPassword;
-
-  set controllerPassword(TextEditingController value) {
-    _controllerPassword = value;
     notifyListeners();
   }
 
@@ -154,7 +138,6 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
-
   int get currentPageIndex => _currentPageIndex;
 
   set currentPageIndex(int value) {
@@ -162,18 +145,37 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future login() async {
-    await apiRepositoryLoginInterface?.login(controllerUser.text.trim(), controllerPassword.text.trim(), (code, data) {
+  TextEditingController get editPassword => _editPassword!;
+
+  set editPassword(TextEditingController value) {
+    _editPassword = value;
+  }
+
+  TextEditingController get editUser => _editUser!;
+
+  set editUser(TextEditingController value) {
+    _editUser = value;
+  }
+
+  Future login(BuildContext context) async {
+    if (_editUser.text.trim().isEmpty) {
+      return Useful().messageAlert(context, UsefulLabel.txtEmptyUser);
+    }
+
+    if (_editPassword.text.trim().isEmpty) {
+      return Useful().messageAlert(context, UsefulLabel.txtEmptyUser);
+    }
+
+    await apiRepositoryLoginInterface
+        ?.login(_editUser.text.trim(), _editPassword.text.trim(), (code, data) {
       _companyResponse = data;
-      if (kDebugMode) {
-        print("RESPONSE >>> LOGIN $data");
-      }
       GlobalPreference().setSaveUser(_companyResponse!).then((value) {
         if (_companyResponse!.bandera!) {
-          Navigator.of(Useful.globalContext.currentContext!).pushNamedAndRemoveUntil(ScreenHome.routePage, (Route<dynamic> route) => false);
+          Navigator.of(Useful.globalContext.currentContext!)
+              .pushNamedAndRemoveUntil(
+                  ScreenHome.routePage, (Route<dynamic> route) => false);
         } else {
-          //TODO ERROR DE LOGIN
-          errorMessage = "Hubo un error al iniciar sesión";
+          return Useful().messageAlert(context, UsefulLabel.txtFailPassword);
         }
       });
       return null;
@@ -202,9 +204,9 @@ class ProviderPrincipal extends ChangeNotifier {
         listFilterDevice = data;
         print('>>>>> PRUEBA 1');
         for (var element in listDevice) {
-          print('MARCADORES ${element.ide}');
           MarkerId markerId = MarkerId(element.ide.toString());
-          LatLng latLng = LatLng(double.parse(element.lat!), double.parse(element.lot!));
+          LatLng latLng =
+              LatLng(double.parse(element.lat!), double.parse(element.lot!));
           addMarker(
             markers,
             markerId.toString(),
@@ -226,7 +228,6 @@ class ProviderPrincipal extends ChangeNotifier {
       bool draggable = false,
       String? networkImage,
       Function(LatLng)? onDragEnd}) async {
-    print('>>>>> PRUEBA 2');
     MarkerId markerId = MarkerId(idMarker.toString());
     markers[markerId] = Marker(
         markerId: markerId,
@@ -265,7 +266,10 @@ class ProviderPrincipal extends ChangeNotifier {
     }
     if (param.length > 3) {
       timer = Timer(const Duration(milliseconds: 500), () {
-        listFilterDevice = _listDevice!.where((element) => element.nombre!.toLowerCase().contains(param.toLowerCase())).toList();
+        listFilterDevice = _listDevice!
+            .where((element) =>
+                element.nombre!.toLowerCase().contains(param.toLowerCase()))
+            .toList();
         notifyListeners();
       });
     } else {
@@ -290,7 +294,8 @@ class ProviderPrincipal extends ChangeNotifier {
     List<String> parts = dateTimeString.split(" Hora: ");
     if (parts.length == 2) {
       String timePart = parts[1]; // Obtiene la parte de la hora
-      List<String> timeComponents = timePart.split(":"); // Divide la hora en partes
+      List<String> timeComponents =
+          timePart.split(":"); // Divide la hora en partes
       if (timeComponents.length == 3) {
         String hours = timeComponents[0];
         String minutes = timeComponents[1];

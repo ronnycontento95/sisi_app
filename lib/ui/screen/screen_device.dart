@@ -9,7 +9,6 @@ import '../provider/provider_principal.dart';
 import '../useful/useful.dart';
 import '../useful/useful_label.dart';
 import '../useful/useful_palette.dart';
-import '../widgets/widget_appbar.dart';
 import 'screen_web_device.dart';
 
 class ScreenDevice extends StatefulWidget {
@@ -34,14 +33,14 @@ class _ScreenDeviceState extends State<ScreenDevice> {
 
   @override
   Widget build(BuildContext context) {
-    return BodyHome();
+    return ScreenBodyDevice();
   }
 }
 
-class BodyHome extends StatelessWidget {
+class ScreenBodyDevice extends StatelessWidget {
   ProviderPrincipal? pvPrincipal;
 
-  BodyHome({Key? key}) : super(key: key);
+  ScreenBodyDevice({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
