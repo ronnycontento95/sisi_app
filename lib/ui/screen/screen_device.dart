@@ -72,7 +72,7 @@ class ScreenBodyDevice extends StatelessWidget {
         textCapitalization: TextCapitalization.sentences,
         // cursorColor: Theme.of(context).primaryColor,
         decoration: InputDecoration(
-            hintText: "Buscar dispositivo",
+            hintText: UsefulLabel.txtSearchDevice,
             prefixIcon: const Icon(Icons.search_rounded),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
         onChanged: (param) {

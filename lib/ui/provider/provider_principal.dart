@@ -20,6 +20,7 @@ class ProviderPrincipal extends ChangeNotifier {
   bool _visiblePassword = true;
   TextEditingController _editUser = TextEditingController();
   TextEditingController _editPassword = TextEditingController();
+  TextEditingController _editSearchDevice = TextEditingController();
   PageController _controller = PageController(initialPage: 1);
 
   Company? _companyResponse = Company();
@@ -157,6 +158,13 @@ class ProviderPrincipal extends ChangeNotifier {
     _editUser = value;
   }
 
+
+  TextEditingController get editSearchDevice => _editSearchDevice;
+
+  set editSearchDevice(TextEditingController value) {
+    _editSearchDevice = value;
+  }
+
   Future login(BuildContext context) async {
     if (_editUser.text.trim().isEmpty) {
       return Useful().messageAlert(context, UsefulLabel.txtEmptyUser);
@@ -271,6 +279,14 @@ class ProviderPrincipal extends ChangeNotifier {
         notifyListeners();
       });
     }
+  }
+
+  ///Clean text fiel search
+  void cleanTextFieldSearch() {
+    editSearchDevice.clear();
+    // _listDevice!.clear();
+    // listFilterDevice!.clear();
+    notifyListeners();
   }
 
   ///DATE AND DATETIME NODO

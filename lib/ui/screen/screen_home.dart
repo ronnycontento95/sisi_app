@@ -19,6 +19,7 @@ import '../useful/useful.dart';
 import '../useful/useful_palette.dart';
 
 import '../useful/useful_style_map.dart';
+
 ///Widgets
 import '../widgets/widget_appbar.dart';
 import '../widgets/widget_carousel.dart';
@@ -62,16 +63,20 @@ class BodyHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
     pvPrincipal ??= Provider.of<ProviderPrincipal>(context);
     return AnnotatedRegion(
       value: UsefulColor.colorWhite,
       child: Scaffold(
-        appBar: widgetAppBarHome(pvPrincipal!.companyResponse.imagen ?? "", pvPrincipal!.companyResponse.nombre_empresa ?? ""),
+        appBar: widgetAppBarHome(pvPrincipal!.companyResponse.imagen ?? "",
+            pvPrincipal!.companyResponse.nombre_empresa ?? ""),
         backgroundColor: UsefulColor.colorWhite,
         body: PageView(
           controller: pvPrincipal!.controller,
-          physics: pvPrincipal!.currentPageIndex == 0 ? const NeverScrollableScrollPhysics() : const  ClampingScrollPhysics(),
+          physics: pvPrincipal!.currentPageIndex == 0
+              ? const NeverScrollableScrollPhysics()
+              : const ClampingScrollPhysics(),
           onPageChanged: (index) {
             pvPrincipal!.currentPageIndex = index;
           },
@@ -79,10 +84,12 @@ class BodyHome extends StatelessWidget {
             GoogleMaps(),
             SingleChildScrollView(
               child: Column(
-                children: [_searchDevice(), _cardNodosList()],
+                children: [const TextFieldSearch(), _cardNodosList()],
               ),
             ),
-            Container(padding: const EdgeInsets.all(5), child: SingleChildScrollView(child: _cardNodosListBody())),
+            Container(
+                padding: const EdgeInsets.all(5),
+                child: SingleChildScrollView(child: _cardNodosListBody())),
           ],
         ),
       ),
@@ -94,13 +101,14 @@ class BodyHome extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(10),
       child: TextFormField(
-        // controller: pvTax!.txt_search_history,
         autofocus: false,
         style: const TextStyle(fontSize: 14),
         textCapitalization: TextCapitalization.sentences,
-        // cursorColor: Theme.of(context).primaryColor,
         decoration: InputDecoration(
-            hintText: "Buscar", prefixIcon: const Icon(Icons.search_rounded), border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
+            hintText: UsefulLabel.txtSearchDevice,
+            prefixIcon: const Icon(Icons.search_rounded),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
         onChanged: (param) {
           pvPrincipal!.searchHistorialFilter(param);
         },
@@ -138,22 +146,29 @@ class BodyHome extends StatelessWidget {
         pvPrincipal!.idWebDevice = device.ide!;
         Navigator.of(Useful.globalContext.currentContext!).pushNamed(
           ScreenWebView.routePage,
-          arguments: device.ide, // Pasar el valor como argumento
+          arguments: device.ide,
         );
       },
       child: Container(
         margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-        // padding: const EdgeInsets.all(10),
-        decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: UsefulColor.colorfillcolor),
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            color: UsefulColor.colorfillcolor),
         child: Column(
           children: [
             Container(
               decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)), color: UsefulColor.colorPrimary),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10)),
+                  color: UsefulColor.colorPrimary),
               child: Center(
                   child: Text(
                 device!.nombre!.toUpperCase(),
-                style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+                style: const TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 16,
+                    color: UsefulColor.colorWhite),
               )),
             ),
             Container(
@@ -161,9 +176,12 @@ class BodyHome extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: Text("NIVEL: ${device.valor!}\n"
-                        "HORA: ${pvPrincipal!.extractTime(device.fechahora!)}\n"
-                        "FECHA: ${pvPrincipal!.extractDate(device.fechahora!)}\n", style: TextStyle(fontWeight: FontWeight.bold),), // Llama a la función para extraer la fecha
+                    child: Text(
+                      "NIVEL: ${device.valor!}\n"
+                      "HORA: ${pvPrincipal!.extractTime(device.fechahora!)}\n"
+                      "FECHA: ${pvPrincipal!.extractDate(device.fechahora!)}\n",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ), // Llama a la función para extraer la fecha
                   ),
                   Expanded(
                     flex: 1,
@@ -197,8 +215,12 @@ class BodyHome extends StatelessWidget {
                                         height: 45.00,
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
-                                        child: Text('${device.valor}%', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 2, 0, 0),
+                                        child: Text('${device.valor}%',
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16)),
                                       )
                                     ],
                                   ),
@@ -224,14 +246,15 @@ class BodyHome extends StatelessWidget {
       margin: const EdgeInsets.only(right: 15),
       child: GestureDetector(
           onTap: () {
-            Navigator.of(Useful.globalContext.currentContext!).pushNamed(ScreenDevice.routePage);
+            Navigator.of(Useful.globalContext.currentContext!)
+                .pushNamed(ScreenDevice.routePage);
           },
-          child: RippleAnimation(
+          child: const RippleAnimation(
               repeat: true,
               ripplesCount: 2,
               minRadius: 18,
               color: UsefulColor.colorSecondary,
-              child: const ClipOval(
+              child: ClipOval(
                 // backgroundColor: UsefulColor.colorWhite,
                 // radius: 18,
                 child: Icon(Icons.wifi, color: UsefulColor.colorSecondary),
@@ -258,9 +281,15 @@ class BodyHome extends StatelessWidget {
               );
             },
             options: CarouselOptions(
-                viewportFraction: pvPrincipal!.listDevice.isNotEmpty && pvPrincipal!.listDevice.length > 1 ? 0.9 : 1,
+                viewportFraction: pvPrincipal!.listDevice.isNotEmpty &&
+                        pvPrincipal!.listDevice.length > 1
+                    ? 0.9
+                    : 1,
                 scrollDirection: Axis.horizontal,
-                autoPlay: pvPrincipal!.listDevice.isNotEmpty && pvPrincipal!.listDevice.length > 1 ? true : false,
+                autoPlay: pvPrincipal!.listDevice.isNotEmpty &&
+                        pvPrincipal!.listDevice.length > 1
+                    ? true
+                    : false,
                 aspectRatio: 1.0,
                 enlargeCenterPage: true,
                 height: 190,
@@ -269,10 +298,16 @@ class BodyHome extends StatelessWidget {
                 },
                 autoPlayInterval: const Duration(seconds: 8),
                 autoPlayAnimationDuration: const Duration(milliseconds: 2000),
-                enableInfiniteScroll: pvPrincipal!.listDevice.isNotEmpty && pvPrincipal!.listDevice.length > 1 ? true : false,
+                enableInfiniteScroll: pvPrincipal!.listDevice.isNotEmpty &&
+                        pvPrincipal!.listDevice.length > 1
+                    ? true
+                    : false,
                 enlargeStrategy: CenterPageEnlargeStrategy.height,
                 disableCenter: true,
-                padEnds: (pvPrincipal!.listDevice.isNotEmpty && pvPrincipal!.listDevice.length > 1) ? false : true),
+                padEnds: (pvPrincipal!.listDevice.isNotEmpty &&
+                        pvPrincipal!.listDevice.length > 1)
+                    ? false
+                    : true),
           ),
         ),
       ],
@@ -300,9 +335,12 @@ class BodyHome extends StatelessWidget {
         );
       },
       child: Container(
-        decoration: const BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.all(Radius.circular(10))),
+        decoration: const BoxDecoration(
+            color: Colors.black12,
+            borderRadius: BorderRadius.all(Radius.circular(10))),
         // color: Colors.black12,
-        width: MediaQuery.of(Useful.globalContext.currentContext!).size.width * 0.4,
+        width: MediaQuery.of(Useful.globalContext.currentContext!).size.width *
+            0.4,
         padding: const EdgeInsets.only(right: 5, left: 5),
         margin: const EdgeInsets.only(left: 2, right: 2, bottom: 5, top: 5),
         // Margen entre elementos
@@ -320,7 +358,8 @@ class BodyHome extends StatelessWidget {
                 Expanded(
                   child: Text(
                     "${device!.nombre!.toUpperCase()}",
-                    overflow: TextOverflow.ellipsis, // Trunca el texto y agrega puntos suspensivos
+                    overflow: TextOverflow
+                        .ellipsis, // Trunca el texto y agrega puntos suspensivos
                   ),
                 ),
               ],
@@ -333,6 +372,91 @@ class BodyHome extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class TextFieldSearch extends StatelessWidget {
+  const TextFieldSearch({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final prPrincipalRead = context.read<ProviderPrincipal>();
+    return Container(
+      margin: const EdgeInsets.only(top: 10, bottom: 10, right: 10,left: 10,),
+      height: 50,
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Container(
+              decoration: BoxDecoration(
+                color: UsefulColor.colorBackground,
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                border: Border.all(width: 1.0, color: UsefulColor.colorBorder),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: TextFormField(
+                      controller: prPrincipalRead.editSearchDevice,
+                      autocorrect: true,
+                      autofocus: false,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(20),
+                      ],
+                      keyboardType: TextInputType.text,
+                      onChanged: (value) {
+                        if (value.length > 3) {
+                          prPrincipalRead.searchHistorialFilter(value);
+                        } else if (value.isEmpty) {
+                          prPrincipalRead.cleanTextFieldSearch();
+                        }
+                      },
+                      style: TextStyle(
+                          color: UsefulColor.colorLetterTitle.withOpacity(.8)),
+                      decoration: InputDecoration(
+                        hintText: "Buscar dispositivo",
+                        contentPadding: const EdgeInsets.only(top: 10.0),
+                        prefixIcon: const Icon(Icons.search_outlined),
+                        hintStyle: TextStyle(
+                            color:
+                                UsefulColor.colorLetterTitle.withOpacity(.3)),
+                        filled: true,
+                        fillColor: UsefulColor.colorBackground,
+                        enabledBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          borderSide: BorderSide(
+                              color: UsefulColor.colorBackground, width: .5),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          borderSide: BorderSide(
+                              color: UsefulColor.colorBackground, width: .5),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 0,
+                    child: GestureDetector(
+                      onTap: () {
+                        prPrincipalRead.cleanTextFieldSearch();
+                      },
+                      child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          child: const Icon(Icons.close_rounded,
+                              size: 20, color: UsefulColor.colorBlack)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+        ],
       ),
     );
   }
@@ -360,8 +484,11 @@ class GoogleMaps extends StatelessWidget {
               zoomControlsEnabled: true,
               onMapCreated: (controller) {
                 pvPrincipal!.googleMapController = controller;
-                pvPrincipal!.googleMapController.setMapStyle(jsonEncode(styleMapGoogle).toString());
-                pvPrincipal!.googleMapController.animateCamera(CameraUpdate.newLatLng(const LatLng(-4.009051005165443, -79.20641913069285)));
+                pvPrincipal!.googleMapController
+                    .setMapStyle(jsonEncode(styleMapGoogle).toString());
+                pvPrincipal!.googleMapController.animateCamera(
+                    CameraUpdate.newLatLng(
+                        const LatLng(-4.009051005165443, -79.20641913069285)));
               },
               myLocationButtonEnabled: false,
               markers: Set<Marker>.of(pvPrincipal!.markers.values),
@@ -370,22 +497,25 @@ class GoogleMaps extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 GestureDetector(
-                  onTap: (){
-                    pvPrincipal!.controller.animateToPage(1, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+                  onTap: () {
+                    pvPrincipal!.controller.animateToPage(1,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut);
                   },
                   child: Container(
                     margin: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
                       color: UsefulColor.colorPrimary,
-
                     ),
-                    child: const Icon(Icons.arrow_circle_right_outlined, size: 30,),
+                    child: const Icon(
+                      Icons.arrow_circle_right_outlined,
+                      size: 30,
+                    ),
                   ),
                 ),
               ],
             )
-
           ],
         ),
       ],
