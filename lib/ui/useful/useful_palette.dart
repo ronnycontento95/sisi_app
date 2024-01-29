@@ -18,7 +18,10 @@ class UsefulColor {
 
   ///Color primary
   static const colorPrimary = Color(0xFF25406c);
-  ///Color secondary
+
+
+
+  ///Delete App
   static const colorSecondary = Color(0xFF8eb72c);
   static const colorSecondary100 = Color(0xFF8eb72c);
   static const colorSecondary200 = Color(0xFF8eb72c);

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
-
 
 class WidgetProgress extends StatefulWidget {
   const WidgetProgress({super.key});
@@ -28,7 +28,7 @@ class _WidgetProgressState extends State<WidgetProgress> {
           systemNavigationBarIconBrightness: Brightness.dark,
           systemNavigationBarColor: UsefulColor.colorWhite),
       child: Scaffold(
-        backgroundColor: UsefulColor.colorWhite,
+        backgroundColor: Colors.black12,
         body: Container(
           alignment: Alignment.center,
           child: Column(
@@ -40,13 +40,10 @@ class _WidgetProgressState extends State<WidgetProgress> {
                 color: UsefulColor.colorPrimary,
               ),
               const SizedBox(height: 10),
-              Text("Espere porfavor")
-              // const WidgetTextFieldPersonalized(
-              //     type: 1,
-              //     title: GlobalLabel.textWaitMoment,
-              //     align: TextAlign.center,
-              //     color: GlobalColors.colorLetterTitle,
-              //     size: 16)
+              const Text(
+                UsefulLabel.txtWait,
+                style: TextStyle(fontSize: 16),
+              )
             ],
           ),
         ),

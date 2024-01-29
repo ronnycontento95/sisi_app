@@ -40,5 +40,6 @@ class UsefulLabel{
   static const txtTemCond = "Terminos y condiciones";
   static const txtLogin = "Iniciar sesión";
   static const txtSearchDevice = "Buscar dispositivo";
+  static const txtWait = "Espere porfavor";
 
 }
