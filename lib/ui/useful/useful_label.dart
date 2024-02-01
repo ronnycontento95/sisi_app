@@ -39,7 +39,6 @@ class UsefulLabel{
   static const txtFailPassword = 'Usuario y/o contraseña mal ingresados. Por favor inténtelo nuevamente';
   static const txtTemCond = "Terminos y condiciones";
   static const txtLogin = "Iniciar sesión";
-  static const txtSearchDevice = "Buscar dispositivo";
   static const txtWait = "Espere porfavor";
 
 }

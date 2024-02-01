@@ -9,6 +9,7 @@ import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
 import 'package:sisi_iot_app/domain/entities/company.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
+import 'package:sisi_iot_app/ui/screen/screen_login.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 
 import '../screen/screen_home.dart';
@@ -190,9 +191,9 @@ class ProviderPrincipal extends ChangeNotifier {
 
   /// Get user bussiness
   getUser(BuildContext context) async {
-    GlobalPreference().getIdEmpresa().then((value) {
-      _companyResponse = value;
-      getDevice(value!.id_empresas!, context);
+    GlobalPreference().getIdEmpresa().then((idEmpresa) {
+      _companyResponse = idEmpresa;
+      getDevice(idEmpresa!.id_empresas!, context);
     });
   }
 
@@ -282,10 +283,11 @@ class ProviderPrincipal extends ChangeNotifier {
   }
 
   ///Clean text fiel search
-  void cleanTextFieldSearch() {
+  void cleanTextFieldSearch(BuildContext context) {
     editSearchDevice.clear();
-    // _listDevice!.clear();
-    // listFilterDevice!.clear();
+    GlobalPreference().getIdEmpresa().then((idEmpresa)  {
+      getDevice(idEmpresa!.id_empresas!, context);
+    });
     notifyListeners();
   }
 
@@ -315,5 +317,14 @@ class ProviderPrincipal extends ChangeNotifier {
     } else {
       return "Formato incorrecto";
     }
+  }
+
+  void logoOut(){
+    listDevice.clear();
+    listFilterDevice!.clear();
+    editUser.text ="";
+    editPassword.text ="";
+    GlobalPreference().deleteUser();
+    Useful().nextScreenViewUntil(ScreenLogin());
   }
 }

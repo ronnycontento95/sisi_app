@@ -33,7 +33,6 @@ class Useful {
     ConnectivityResult result = ConnectivityResult.none;
     try {
       result = await connectivity.checkConnectivity();
-
     } on PlatformException catch (e) {
       if (kDebugMode) {
         print(e.toString());
@@ -79,6 +78,12 @@ class Useful {
             child: newPage));
   }
 
+  void nextScreenViewUntil(Widget newPage) {
+    Navigator.of(Useful.globalContext.currentContext!).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => newPage),
+        (Route<dynamic> route) => false);
+  }
+
   updateConectivity(ConnectivityResult result) async {
     switch (result) {
       case ConnectivityResult.wifi:
@@ -104,14 +109,14 @@ class Useful {
         });
         break;
 
-    /// reporte de pirata vista
-    ///
+      /// reporte de pirata vista
+      ///
       case ConnectivityResult.none:
-      // Navigator.push(
-      //   Useful.globalContext!.currentContext!,
-      //   CustomPageRoute(
-      //       builder: (context) => const PageDisconnectedService()),
-      // );
+        // Navigator.push(
+        //   Useful.globalContext!.currentContext!,
+        //   CustomPageRoute(
+        //       builder: (context) => const PageDisconnectedService()),
+        // );
         break;
       default:
         break;
@@ -132,12 +137,9 @@ class Useful {
     }
     return state;
   }
-
 }
 
-
-class UsefulImagen{
-
+class UsefulImagen {
   Uint8List getTransparentImage() {
     return Uint8List.fromList(<int>[
       0x89,
@@ -206,5 +208,4 @@ class UsefulImagen{
       0xAE,
     ]);
   }
-
 }

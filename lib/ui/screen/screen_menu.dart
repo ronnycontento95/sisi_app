@@ -14,11 +14,10 @@ import '../widgets/widget_label_text.dart';
 class ScreenMenu extends StatelessWidget {
   ScreenMenu({Key? key}) : super(key: key);
   static const routePage = UsefulLabel.routeScreenMenu;
-  ProviderPrincipal? pvLogin;
-
+  late final prPrincipalRead;
   @override
   Widget build(BuildContext context) {
-    pvLogin ??= Provider.of<ProviderPrincipal>(context);
+    prPrincipalRead = context.read<ProviderPrincipal>();
     return AnnotatedRegion(
         value: UsefulColor.colorWhite,
         child: Scaffold(
@@ -83,17 +82,13 @@ class ScreenMenu extends StatelessWidget {
       child: Column(
         children: [
           infoCard(Icons.person, "Perfil", () {
-            // Navigator.pushNamed(context, ScreenAbout.routePage);
           }, size: 20),
           infoCard(Icons.compass_calibration, "Acerca de", () {
-            // Navigator.pushNamed(context, ScreenAbout.routePage);
           }),
           infoCard(Icons.document_scanner, "Terminos y condiciones", () {
-            // Navigator.pushNamed(context, Page)
           }),
           infoCard(Icons.exit_to_app, "Cerrar sesion", () async  {
-            GlobalPreference().deleteUser();
-            Navigator.of(Useful.globalContext.currentContext!).pushNamedAndRemoveUntil(ScreenLogin.routePage, (Route<dynamic> route) => false);
+            prPrincipalRead.logoOut();
           }),
         ],
       ),
@@ -123,3 +118,4 @@ class ScreenMenu extends StatelessWidget {
     );
   }
 }
+

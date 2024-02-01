@@ -96,26 +96,6 @@ class BodyHome extends StatelessWidget {
     );
   }
 
-  /// Card Device
-  Widget _searchDevice() {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      child: TextFormField(
-        autofocus: false,
-        style: const TextStyle(fontSize: 14),
-        textCapitalization: TextCapitalization.sentences,
-        decoration: InputDecoration(
-            hintText: UsefulLabel.txtSearchDevice,
-            prefixIcon: const Icon(Icons.search_rounded),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
-        onChanged: (param) {
-          pvPrincipal!.searchHistorialFilter(param);
-        },
-      ),
-    );
-  }
-
   ///List card nodos
   Widget _cardNodosList() {
     return Column(
@@ -412,13 +392,13 @@ class TextFieldSearch extends StatelessWidget {
                         if (value.length > 3) {
                           prPrincipalRead.searchHistorialFilter(value);
                         } else if (value.isEmpty) {
-                          prPrincipalRead.cleanTextFieldSearch();
+                          prPrincipalRead.cleanTextFieldSearch(context);
                         }
                       },
                       style: TextStyle(
                           color: UsefulColor.colorLetterTitle.withOpacity(.8)),
                       decoration: InputDecoration(
-                        hintText: "Buscar dispositivo",
+                        hintText: UsefulLabel.lblSearhDevice,
                         contentPadding: const EdgeInsets.only(top: 10.0),
                         prefixIcon: const Icon(Icons.search_outlined),
                         hintStyle: TextStyle(
@@ -443,7 +423,7 @@ class TextFieldSearch extends StatelessWidget {
                     flex: 0,
                     child: GestureDetector(
                       onTap: () {
-                        prPrincipalRead.cleanTextFieldSearch();
+                        prPrincipalRead.cleanTextFieldSearch(context);
                       },
                       child: Container(
                           margin: const EdgeInsets.only(right: 10),
