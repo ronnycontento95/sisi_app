@@ -70,7 +70,7 @@ class BodyHome extends StatelessWidget {
       value: UsefulColor.colorWhite,
       child: Scaffold(
         appBar: widgetAppBarHome(pvPrincipal!.companyResponse.imagen ?? "",
-            pvPrincipal!.companyResponse.nombre_empresa ?? ""),
+            pvPrincipal!.companyResponse.nombre_empresa, pvPrincipal!.companyResponse.topic ?? ""),
         backgroundColor: UsefulColor.colorWhite,
         body: PageView(
           controller: pvPrincipal!.controller,

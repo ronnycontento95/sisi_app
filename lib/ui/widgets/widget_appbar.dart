@@ -60,6 +60,7 @@ widgetNewAppBar(
 widgetAppBarHome(
   String? image,
   String? business,
+    String? topic
 ) {
   return AppBar(
     leading: image != null
@@ -90,7 +91,7 @@ widgetAppBarHome(
         style: const TextStyle(fontSize: 14, color: UsefulColor.colorlettertitle, fontFamily: UsefulLabel.letterWalkwayBold),
         children: <TextSpan>[
           TextSpan(
-              text: business ?? "",
+              text: "${business} (${topic})"  ?? "",
               style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontFamily: UsefulLabel.letterWalkwayBold,

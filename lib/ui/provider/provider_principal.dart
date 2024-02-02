@@ -181,7 +181,7 @@ class ProviderPrincipal extends ChangeNotifier {
       Useful().hideProgress(context);
         if (_companyResponse!.bandera!) {
           GlobalPreference().setIdEmpresa(_companyResponse!);
-          Navigator.of(Useful.globalContext.currentContext!).pushNamedAndRemoveUntil(ScreenHome.routePage, (Route<dynamic> route) => false);
+          Useful().nextScreenViewUntil(const ScreenHome());
         } else {
            Useful().messageAlert(context, UsefulLabel.txtFailPassword);
         }

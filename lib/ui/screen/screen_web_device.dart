@@ -48,7 +48,7 @@ class _ScreenWebViewState extends State<ScreenWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widgetAppBarHome(pvPrincipal!.companyResponse.imagen ?? "", pvPrincipal!.companyResponse.nombre_empresa ?? ""),
+      appBar: widgetAppBarHome(pvPrincipal!.companyResponse.imagen ?? "", pvPrincipal!.companyResponse.nombre_empresa, pvPrincipal!.companyResponse.topic?? ""),
       body: WebViewWidget(controller: _controllerWebView),
     );
   }

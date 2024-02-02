@@ -20,6 +20,9 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
   Future login(String username, String password, VoidCallback? Function(int code, dynamic data) callback) async {
     try {
       final response = await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getLogin}$username/$password");
+      if(kDebugMode){
+        print("RESPONDE LOGIN $response");
+      }
       callback(1, Company.fromMap(response.data));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
