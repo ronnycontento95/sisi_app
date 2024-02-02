@@ -11,13 +11,24 @@ import '../useful/useful_palette.dart';
 import '../widgets/widget_appbar.dart';
 import '../widgets/widget_label_text.dart';
 
-class ScreenMenu extends StatelessWidget {
+class ScreenMenu extends StatefulWidget {
   ScreenMenu({Key? key}) : super(key: key);
   static const routePage = UsefulLabel.routeScreenMenu;
-  late final prPrincipalRead;
+
+  @override
+  State<ScreenMenu> createState() => _ScreenMenuState();
+}
+
+class _ScreenMenuState extends State<ScreenMenu> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProviderPrincipal>().addVersionApp();
+  }
+
   @override
   Widget build(BuildContext context) {
-    prPrincipalRead = context.read<ProviderPrincipal>();
+    final prPrincipalWatch = context.watch<ProviderPrincipal>();
     return AnnotatedRegion(
         value: UsefulColor.colorWhite,
         child: Scaffold(
@@ -26,28 +37,37 @@ class ScreenMenu extends StatelessWidget {
           body: SafeArea(
             child: Column(
               children: [
-                menuItems(),
+                const MenuItems(),
                 Container(
                   alignment: Alignment.center,
-                  margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          WidgetViewLabelText()
-                              .labelTextNormal(text: "Versión ", fontSize: 14, colortext: UsefulColor.colorBlack),
-                          WidgetViewLabelText()
-                              .labelTextNormal(text: "2.0.0 ", fontSize: 14, colortext: UsefulColor.colorBlack),
+                          WidgetViewLabelText().labelTextNormal(
+                              text: "Versión ",
+                              fontSize: 14,
+                              colortext: UsefulColor.colorBlack),
+                          WidgetViewLabelText().labelTextNormal(
+                              text: "${prPrincipalWatch.version} ",
+                              fontSize: 14,
+                              colortext: UsefulColor.colorBlack),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          WidgetViewLabelText()
-                              .labelTextNormal(text: "Copyright ", fontSize: 12, colortext: UsefulColor.colorBlack),
-                          WidgetViewLabelText()
-                              .labelTextNormal(text: "2018. ", fontSize: 12, colortext: UsefulColor.colorBlack),
+                          WidgetViewLabelText().labelTextNormal(
+                              text: "Copyright ",
+                              fontSize: 12,
+                              colortext: UsefulColor.colorBlack),
+                          WidgetViewLabelText().labelTextNormal(
+                              text: "2018. ",
+                              fontSize: 12,
+                              colortext: UsefulColor.colorBlack),
                           WidgetViewLabelText().labelTextNormal(
                               text: "Sentinel, Sisi Internet of things",
                               fontSize: 16,
@@ -62,8 +82,14 @@ class ScreenMenu extends StatelessWidget {
           ),
         ));
   }
+}
 
-  Widget menuItems() {
+class MenuItems extends StatelessWidget {
+  const MenuItems({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final prPrincipalRead = context.read<ProviderPrincipal>();
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -76,18 +102,18 @@ class ScreenMenu extends StatelessWidget {
         color: Colors.white,
         borderRadius: const BorderRadius.all(Radius.circular(5)),
         boxShadow: const <BoxShadow>[
-          BoxShadow(color: UsefulColor.colorWhite, blurRadius: 3.0, offset: Offset(0.75, 0.75))
+          BoxShadow(
+              color: UsefulColor.colorWhite,
+              blurRadius: 3.0,
+              offset: Offset(0.75, 0.75))
         ],
       ),
       child: Column(
         children: [
-          infoCard(Icons.person, "Perfil", () {
-          }, size: 20),
-          infoCard(Icons.compass_calibration, "Acerca de", () {
-          }),
-          infoCard(Icons.document_scanner, "Terminos y condiciones", () {
-          }),
-          infoCard(Icons.exit_to_app, "Cerrar sesion", () async  {
+          infoCard(Icons.person, "Perfil", () {}, size: 20),
+          infoCard(Icons.compass_calibration, "Acerca de", () {}),
+          infoCard(Icons.document_scanner, "Terminos y condiciones", () {}),
+          infoCard(Icons.exit_to_app, "Cerrar sesion", () async {
             prPrincipalRead.logoOut();
           }),
         ],
@@ -95,7 +121,8 @@ class ScreenMenu extends StatelessWidget {
     );
   }
 
-  Widget infoCard(IconData icon, String text, VoidCallback? callBack, {double? size = 25}) {
+  Widget infoCard(IconData icon, String text, VoidCallback? callBack,
+      {double? size = 25}) {
     return GestureDetector(
       onTap: () {
         callBack!();
@@ -109,8 +136,10 @@ class ScreenMenu extends StatelessWidget {
               width: 10,
             ),
             Expanded(
-                child: WidgetViewLabelText()
-                    .labelTextNormal(text: text, fontSize: 14, colortext: UsefulColor.colorlettertitle)),
+                child: WidgetViewLabelText().labelTextNormal(
+                    text: text,
+                    fontSize: 14,
+                    colortext: UsefulColor.colorlettertitle)),
             const Icon(Icons.arrow_forward_ios_outlined),
           ],
         ),
@@ -118,4 +147,3 @@ class ScreenMenu extends StatelessWidget {
     );
   }
 }
-

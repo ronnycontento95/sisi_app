@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
 import 'package:sisi_iot_app/domain/entities/company.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';
@@ -18,12 +21,10 @@ import '../useful/useful.dart';
 
 class ProviderPrincipal extends ChangeNotifier {
   final ApiRepositoryLoginInterface? apiRepositoryLoginInterface;
-  bool _visiblePassword = true;
   TextEditingController _editUser = TextEditingController();
   TextEditingController _editPassword = TextEditingController();
   TextEditingController _editSearchDevice = TextEditingController();
   PageController _controller = PageController(initialPage: 1);
-
   Company? _companyResponse = Company();
   List<Device>? _listDevice = [];
   List<Device>? listFilterDevice = [];
@@ -39,6 +40,19 @@ class ProviderPrincipal extends ChangeNotifier {
   Timer? _timer;
   Map<MarkerId, Marker> _markers = <MarkerId, Marker>{};
   int _currentPageIndex = 1;
+  String? _version;
+  bool _visiblePassword = true;
+
+  PackageInfo? packageInfo;
+
+
+  String get version => _version!;
+
+  set version(String value) {
+    _version = value;
+    notifyListeners();
+  }
+
 
   ProviderPrincipal(this.apiRepositoryLoginInterface) {
     Useful()
@@ -164,6 +178,15 @@ class ProviderPrincipal extends ChangeNotifier {
 
   set editSearchDevice(TextEditingController value) {
     _editSearchDevice = value;
+  }
+
+  void addVersionApp() async {
+    packageInfo = await  PackageInfo.fromPlatform();
+    if(Platform.isAndroid){
+      version = packageInfo!.version;
+    }else {
+      version = packageInfo!.version;
+    }
   }
 
   Future login(BuildContext context) async {
