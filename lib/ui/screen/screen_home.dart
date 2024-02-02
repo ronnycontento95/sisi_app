@@ -10,6 +10,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:sisi_iot_app/ui/screen/screen_web_device.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
+import 'package:sisi_iot_app/ui/widgets/widget_label_text.dart';
+import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../../domain/entities/device.dart';
@@ -24,6 +26,7 @@ import '../useful/useful_style_map.dart';
 import '../widgets/widget_appbar.dart';
 import '../widgets/widget_carousel.dart';
 
+import '../widgets/widget_dotted_dashed_line.dart';
 ///Pages
 import 'screen_device.dart';
 
@@ -43,12 +46,11 @@ class _ScreenHomeState extends State<ScreenHome> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
     pvPrincipal = Provider.of<ProviderPrincipal>(context, listen: false);
     SchedulerBinding.instance.addPostFrameCallback((_) {
       pvPrincipal!.getUser(context);
     });
-    super.initState();
   }
 
   @override
@@ -69,8 +71,10 @@ class BodyHome extends StatelessWidget {
     return AnnotatedRegion(
       value: UsefulColor.colorWhite,
       child: Scaffold(
-        appBar: widgetAppBarHome(pvPrincipal!.companyResponse.imagen ?? "",
-            pvPrincipal!.companyResponse.nombre_empresa, pvPrincipal!.companyResponse.topic ?? ""),
+        appBar: widgetAppBarHome(
+            pvPrincipal!.companyResponse.imagen ?? "",
+            pvPrincipal!.companyResponse.nombre_empresa,
+            pvPrincipal!.companyResponse.topic ?? ""),
         backgroundColor: UsefulColor.colorWhite,
         body: PageView(
           controller: pvPrincipal!.controller,
@@ -133,8 +137,11 @@ class BodyHome extends StatelessWidget {
         margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: UsefulColor.colorfillcolor),
+            color: Colors.black12),
         child: Column(
+
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               decoration: const BoxDecoration(
@@ -156,60 +163,67 @@ class BodyHome extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: Text(
-                      "NIVEL: ${device.valor!}\n"
-                      "HORA: ${pvPrincipal!.extractTime(device.fechahora!)}\n"
-                      "FECHA: ${pvPrincipal!.extractDate(device.fechahora!)}\n",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            WidgetTextView.title(text: "Nombre:",size: 14,),
+                            const Spacer(),
+                            Text(
+                              "${device.nombre!}",
+                            ),
+                          ],
+                        ),
+                        const WidgetDottedDashedLine(),
+                        Row(
+                          children: [
+                            WidgetTextView.title(text: "Nivel:",size: 14,),
+                            const Spacer(),
+                            Text(
+                              "${device.valor!}",
+                            ),
+                          ],
+                        ),
+                        const WidgetDottedDashedLine(),
+                        Row(
+                          children: [
+                            WidgetTextView.title(text: "Hora:",size: 14,),
+                            const Spacer(),
+                            Text(
+                              pvPrincipal!.extractTime(device.fechahora!),
+                            ),
+                          ],
+                        ),
+                        const WidgetDottedDashedLine(),
+
+                        Row(
+                          children: [
+                            WidgetTextView.title(text: "Fecha:",size: 14,),
+                            const Spacer(),
+                            Text(
+                              pvPrincipal!.extractDate(device.fechahora!),
+                            ),
+                          ],
+                        ),
+                        const WidgetDottedDashedLine(),
+                      ],
                     ), // Llama a la función para extraer la fecha
                   ),
                   Expanded(
                     flex: 1,
-                    child: SizedBox(
-                      height: 130,
-                      child: SfRadialGauge(axes: <RadialAxis>[
-                        RadialAxis(
-                            interval: 10,
-                            startAngle: 0,
-                            endAngle: 360,
-                            showTicks: false,
-                            showLabels: false,
-                            axisLineStyle: const AxisLineStyle(thickness: 20),
-                            pointers: <GaugePointer>[
-                              RangePointer(
-                                  value: device.valor!,
-                                  width: 20,
-                                  color: device.valor! >= device.valMax!
-                                      ? Colors.red
-                                      : device.valor! <= device.valMin!
-                                          ? Colors.yellow
-                                          : Colors.blueAccent,
-                                  enableAnimation: true,
-                                  cornerStyle: CornerStyle.bothCurve)
-                            ],
-                            annotations: <GaugeAnnotation>[
-                              GaugeAnnotation(
-                                  widget: Column(
-                                    children: <Widget>[
-                                      Container(
-                                        height: 45.00,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 2, 0, 0),
-                                        child: Text('${device.valor}%',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16)),
-                                      )
-                                    ],
-                                  ),
-                                  angle: 270,
-                                  positionFactor: 0.1)
-                            ])
-                      ]),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        height: 80,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: UsefulColor.colorPrimary
+                        ),
+                        child: Center(child: WidgetViewLabelText().labelTextTitle(text: "${device.valor} %", fontSize: 25, colortext: Colors.white)),
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -364,7 +378,12 @@ class TextFieldSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     final prPrincipalRead = context.read<ProviderPrincipal>();
     return Container(
-      margin: const EdgeInsets.only(top: 10, bottom: 10, right: 10,left: 10,),
+      margin: const EdgeInsets.only(
+        top: 10,
+        bottom: 10,
+        right: 10,
+        left: 10,
+      ),
       height: 50,
       child: Row(
         children: [

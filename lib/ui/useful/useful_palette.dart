@@ -9,6 +9,8 @@ class UsefulColor {
   static const colorBackground = Color.fromRGBO(250, 250, 250, 1);
   static const colorBorder = Color.fromRGBO(226, 231, 238, 1);
   static const colorLetterTitle = Color.fromRGBO(77, 76, 90, 1);
+  static const colorhintstyletext = Color(0xff979797);
+
 
 
   static const colorGrey = Color(0xffD9D9D9);
@@ -33,7 +35,6 @@ class UsefulColor {
   //Color WigetText
   static const colorfocus = Color(0xffDDEDFF);
   static const colorfillcolor= Color(0xffF7F7F7);
-  static const colorhintstyletext = Color(0xff979797);
 
 
 }

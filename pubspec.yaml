@@ -21,7 +21,6 @@ dependencies:
   shared_preferences: ^2.0.15
   device_info_plus: ^4.1.2
   package_info_plus: ^3.1.2
-
   sleek_circular_slider: ^2.0.1
   syncfusion_flutter_gauges: ^20.4.52
   google_maps_flutter: ^2.2.5
@@ -33,6 +32,7 @@ dependencies:
   flutter_native_splash: ^2.3.0
   loading_animation_widget: ^1.2.0+4
   page_transition: ^2.1.0
+  dotted_dashed_line: ^0.0.3
 
 
 dev_dependencies:
