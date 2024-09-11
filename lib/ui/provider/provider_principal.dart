@@ -42,9 +42,15 @@ class ProviderPrincipal extends ChangeNotifier {
   int _currentPageIndex = 1;
   String? _version;
   bool _visiblePassword = true;
+  Timer? _timerDevice;
+
+  Timer get timerDevice => _timerDevice!;
+
+  set timerDevice(Timer value) {
+    _timerDevice = value;
+  }
 
   PackageInfo? packageInfo;
-
 
   String get version => _version!;
 
@@ -52,7 +58,6 @@ class ProviderPrincipal extends ChangeNotifier {
     _version = value;
     notifyListeners();
   }
-
 
   ProviderPrincipal(this.apiRepositoryLoginInterface) {
     Useful()
@@ -173,7 +178,6 @@ class ProviderPrincipal extends ChangeNotifier {
     _editUser = value;
   }
 
-
   TextEditingController get editSearchDevice => _editSearchDevice;
 
   set editSearchDevice(TextEditingController value) {
@@ -181,10 +185,10 @@ class ProviderPrincipal extends ChangeNotifier {
   }
 
   void addVersionApp() async {
-    packageInfo = await  PackageInfo.fromPlatform();
-    if(Platform.isAndroid){
+    packageInfo = await PackageInfo.fromPlatform();
+    if (Platform.isAndroid) {
       version = packageInfo!.version;
-    }else {
+    } else {
       version = packageInfo!.version;
     }
   }
@@ -202,12 +206,12 @@ class ProviderPrincipal extends ChangeNotifier {
         .login(_editUser.text.trim(), _editPassword.text.trim(), (code, data) {
       _companyResponse = data;
       Useful().hideProgress(context);
-        if (_companyResponse!.bandera!) {
-          GlobalPreference().setIdEmpresa(_companyResponse!);
-          Useful().nextScreenViewUntil(const ScreenHome());
-        } else {
-           Useful().messageAlert(context, UsefulLabel.txtFailPassword);
-        }
+      if (_companyResponse!.bandera!) {
+        GlobalPreference().setIdEmpresa(_companyResponse!);
+        Useful().nextScreenViewUntil(const ScreenHome());
+      } else {
+        Useful().messageAlert(context, UsefulLabel.txtFailPassword);
+      }
       return null;
     });
   }
@@ -217,12 +221,14 @@ class ProviderPrincipal extends ChangeNotifier {
     GlobalPreference().getIdEmpresa().then((idEmpresa) {
       _companyResponse = idEmpresa;
       getDevice(idEmpresa!.id_empresas!, context);
+      getDeviceTimer(idEmpresa.id_empresas!, context);
     });
   }
 
   /// Get nodos id bussiness
   getDevice(int id, BuildContext context) async {
     Useful().showProgress();
+    // _timerDevice = Timer.periodic(const Duration(seconds: 10), (timer) async {
     await apiRepositoryLoginInterface?.getNodoId(id, (code, data) {
       Useful().hideProgress(context);
       if (code == 1) {
@@ -230,8 +236,7 @@ class ProviderPrincipal extends ChangeNotifier {
         listFilterDevice = data;
         for (var element in listDevice) {
           MarkerId markerId = MarkerId(element.ide.toString());
-          LatLng latLng =
-              LatLng(double.parse(element.lat!), double.parse(element.lot!));
+          LatLng latLng = LatLng(double.parse(element.lat!), double.parse(element.lot!));
           addMarker(
             markers,
             markerId.toString(),
@@ -243,6 +248,35 @@ class ProviderPrincipal extends ChangeNotifier {
         listDevice = [];
       }
       return null;
+    });
+    // });
+  }
+
+  /// Get nodos id bussiness
+  getDeviceTimer(int id, BuildContext context) async {
+    _timerDevice = Timer.periodic(const Duration(minutes: 1), (timer) async {
+      // Useful().showProgress();
+      await apiRepositoryLoginInterface?.getNodoId(id, (code, data) {
+        Useful().hideProgress(context);
+        if (code == 1) {
+          listDevice = data;
+          listFilterDevice = data;
+          for (var element in listDevice) {
+            MarkerId markerId = MarkerId(element.ide.toString());
+            LatLng latLng =
+                LatLng(double.parse(element.lat!), double.parse(element.lot!));
+            addMarker(
+              markers,
+              markerId.toString(),
+              latLng,
+              size: 60,
+            );
+          }
+        } else {
+          listDevice = [];
+        }
+        return null;
+      });
     });
   }
 
@@ -292,8 +326,8 @@ class ProviderPrincipal extends ChangeNotifier {
     if (param.length > 3) {
       timer = Timer(const Duration(milliseconds: 500), () {
         listFilterDevice = _listDevice!
-            .where((element) =>
-                element.nombre!.toLowerCase().contains(param.toLowerCase()))
+            .where(
+                (element) => element.nombre!.toLowerCase().contains(param.toLowerCase()))
             .toList();
         notifyListeners();
       });
@@ -308,7 +342,7 @@ class ProviderPrincipal extends ChangeNotifier {
   ///Clean text fiel search
   void cleanTextFieldSearch(BuildContext context) {
     editSearchDevice.clear();
-    GlobalPreference().getIdEmpresa().then((idEmpresa)  {
+    GlobalPreference().getIdEmpresa().then((idEmpresa) {
       getDevice(idEmpresa!.id_empresas!, context);
     });
     notifyListeners();
@@ -328,8 +362,7 @@ class ProviderPrincipal extends ChangeNotifier {
     List<String> parts = dateTimeString.split(" Hora: ");
     if (parts.length == 2) {
       String timePart = parts[1]; // Obtiene la parte de la hora
-      List<String> timeComponents =
-          timePart.split(":"); // Divide la hora en partes
+      List<String> timeComponents = timePart.split(":"); // Divide la hora en partes
       if (timeComponents.length == 3) {
         String hours = timeComponents[0];
         String minutes = timeComponents[1];
@@ -342,11 +375,11 @@ class ProviderPrincipal extends ChangeNotifier {
     }
   }
 
-  void logoOut(){
+  void logoOut() {
     listDevice.clear();
     listFilterDevice!.clear();
-    editUser.text ="";
-    editPassword.text ="";
+    editUser.text = "";
+    editPassword.text = "";
     GlobalPreference().deleteUser();
     Useful().nextScreenViewUntil(ScreenLogin());
   }

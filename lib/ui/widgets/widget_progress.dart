@@ -28,7 +28,7 @@ class _WidgetProgressState extends State<WidgetProgress> {
           systemNavigationBarIconBrightness: Brightness.dark,
           systemNavigationBarColor: UsefulColor.colorWhite),
       child: Scaffold(
-        backgroundColor: Colors.black12,
+        backgroundColor: Colors.black38,
         body: Container(
           alignment: Alignment.center,
           child: Column(

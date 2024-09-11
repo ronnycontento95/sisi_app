@@ -4,9 +4,9 @@
 <!--        <bitmap android:gravity="fill" android:src="@drawable/background"/>-->
 <!--    </item>-->
     <item android:drawable="@color/colorBackgroundApp" />
-    <item
-        android:height="150dp"
-        android:width="150dp"
-        android:drawable="@drawable/logo_app"
-        android:gravity="center"/>
+<!--    <item-->
+<!--        android:height="150dp"-->
+<!--        android:width="150dp"-->
+<!--        android:drawable="@drawable/logo_app"-->
+<!--        android:gravity="center"/>-->
 </layer-list>

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
@@ -6,7 +5,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../useful/useful_label.dart';
 import '../widgets/widget_appbar.dart';
-
 
 class ScreenWebView extends StatefulWidget {
   static const routePage = UsefulLabel.routeScreenWebView;
@@ -18,7 +16,6 @@ class ScreenWebView extends StatefulWidget {
 }
 
 class _ScreenWebViewState extends State<ScreenWebView> {
-
   ProviderPrincipal? pvPrincipal;
   late final WebViewController _controllerWebView;
 
@@ -35,22 +32,23 @@ class _ScreenWebViewState extends State<ScreenWebView> {
         ..setNavigationDelegate(NavigationDelegate(
           onProgress: (int progress) {
             if (progress == 100) {
-              setState(() {
-              });
+              setState(() {});
             }
           },
         ))
-        ..loadRequest(
-            Uri.parse('https://sisi.com.ec/aplicacion/celular/nodo_individual/${pvPrincipal!.idWebDevice}/'));
+        ..loadRequest(Uri.parse(
+            'https://sisi.com.ec/aplicacion/celular/nodo_individual/${pvPrincipal!.idWebDevice}/'));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widgetAppBarHome(pvPrincipal!.companyResponse.imagen ?? "", pvPrincipal!.companyResponse.nombre_empresa, pvPrincipal!.companyResponse.topic?? ""),
+      appBar: WidgetAppBarHome(
+          imagen:pvPrincipal!.companyResponse.imagen ?? "",
+          business:  pvPrincipal!.companyResponse.nombre_empresa,
+          topic:  pvPrincipal!.companyResponse.topic ?? ""),
       body: WebViewWidget(controller: _controllerWebView),
     );
   }
 }
-

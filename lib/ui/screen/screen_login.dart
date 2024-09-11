@@ -36,12 +36,12 @@ class ScreenLogin extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Container(
                     margin: const EdgeInsets.only(left: 20, right: 20),
-                    child: Column(
+                    child: const Column(
                       children: [
-                        const TitleHeader(),
-                        contTextUser(),
-                        contTextPassword(),
-                        const WidgetButtonLogin(),
+                        TitleHeader(),
+                        ContentUser(),
+                        ContTextPassword(),
+                        WidgetButtonLogin(),
                       ],
                     ),
                   ),
@@ -66,11 +66,57 @@ class ScreenLogin extends StatelessWidget {
       ],
     );
   }
+}
 
-  Widget contTextUser() {
+class ContTextPassword extends StatelessWidget {
+  const ContTextPassword({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final providerPrincipal = context.watch<ProviderPrincipal>();
+
     return WidgetTextFormField(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      controller: _providerPrincipal!.editUser,
+      obscureText: providerPrincipal.visiblePassword,
+      controller: providerPrincipal.editPassword,
+      labelTitle: UsefulLabel.lblPassword,
+      keyboardType: TextInputType.visiblePassword,
+      inputFormatters: formattersPassword(),
+      colorWhenFocus: true,
+      hintText: '********',
+      fontSize: 16,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      suffixIcon: Icon(
+        providerPrincipal.visiblePassword
+            ? Icons.remove_red_eye_outlined
+            : Icons.visibility_off_outlined,
+        color: UsefulColor.colorPrimary,
+      ),
+      onTapSufixIcon: () {
+        providerPrincipal.visiblePassword =
+        providerPrincipal.visiblePassword ? false : true;
+      },
+      validator: (val) {
+        String text = val!.trim();
+        if (text.isEmpty) {
+          return UsefulLabel.lblTextEnterPassword;
+        }
+        return null;
+      },
+    );
+  }
+}
+
+
+class ContentUser extends StatelessWidget {
+  const ContentUser({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final providerPrincipal = context.read<ProviderPrincipal>();
+    return WidgetTextFormField(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      controller: providerPrincipal.editUser,
       labelTitle: UsefulLabel.lblUser,
       keyboardType: TextInputType.emailAddress,
       inputFormatters: formattersUser(),
@@ -85,41 +131,10 @@ class ScreenLogin extends StatelessWidget {
         }
         return null;
       },
-    );
-  }
-
-  Widget contTextPassword() {
-    return WidgetTextFormField(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      obscureText: _providerPrincipal!.visiblePassword,
-      controller: _providerPrincipal!.editPassword,
-      labelTitle: UsefulLabel.lblPassword,
-      keyboardType: TextInputType.visiblePassword,
-      inputFormatters: formattersPassword(),
-      colorWhenFocus: true,
-      hintText: '********',
-      fontSize: 16,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      suffixIcon: Icon(
-        _providerPrincipal!.visiblePassword
-            ? Icons.remove_red_eye_outlined
-            : Icons.visibility_off_outlined,
-        color: UsefulColor.colorPrimary,
-      ),
-      onTapSufixIcon: () {
-        _providerPrincipal!.visiblePassword =
-            _providerPrincipal!.visiblePassword ? false : true;
-      },
-      validator: (val) {
-        String text = val!.trim();
-        if (text.isEmpty) {
-          return UsefulLabel.lblTextEnterPassword;
-        }
-        return null;
-      },
-    );
+    );;
   }
 }
+
 
 class TitleHeader extends StatelessWidget {
   const TitleHeader({Key? key}) : super(key: key);
@@ -129,11 +144,11 @@ class TitleHeader extends StatelessWidget {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             WidgetViewLabelText().labelTextTitle(
                 text: UsefulLabel.lblWelcome,
-                fontSize: 40,
+                fontSize: 28,
                 fontWeight: FontWeight.bold,
                 colortext: UsefulColor.colorPrimary,
                 textAlign: TextAlign.center),
@@ -141,14 +156,15 @@ class TitleHeader extends StatelessWidget {
         ),
         WidgetViewLabelText().labelTextNormal(
             text: UsefulLabel.lblSubWelcome,
-            fontSize: 14,
+            fontSize: 16,
             colortext: UsefulColor.colorPrimary),
-        const SizedBox(
-          height: 150,
-          child: Image(
-            image: AssetImage("${UsefulLabel.assetsImages}background.jpg"),
-          ),
-        )
+        const SizedBox(height: 10,)
+        // const SizedBox(
+        //   height: 150,
+        //   child: Image(
+        //     image: AssetImage("${UsefulLabel.assetsImages}background.jpg"),
+        //   ),
+        // )
       ],
     );
   }
@@ -169,6 +185,7 @@ class WidgetButtonLogin extends StatelessWidget {
               fontSize: 12,
               colortext: UsefulColor.colorPrimary),
         ),
+        const SizedBox(height: 10,),
         WidgetButtonView(
           text: UsefulLabel.txtLogin,
           color: UsefulColor.colorPrimary,

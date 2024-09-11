@@ -27,6 +27,7 @@ import '../widgets/widget_appbar.dart';
 import '../widgets/widget_carousel.dart';
 
 import '../widgets/widget_dotted_dashed_line.dart';
+
 ///Pages
 import 'screen_device.dart';
 
@@ -55,12 +56,18 @@ class _ScreenHomeState extends State<ScreenHome> {
 
   @override
   Widget build(BuildContext context) {
-    return BodyHome();
+    return const BodyHome();
   }
 }
 
-class BodyHome extends StatelessWidget {
-  BodyHome({Key? key}) : super(key: key);
+class BodyHome extends StatefulWidget {
+  const BodyHome({Key? key}) : super(key: key);
+
+  @override
+  State<BodyHome> createState() => _BodyHomeState();
+}
+
+class _BodyHomeState extends State<BodyHome> {
   ProviderPrincipal? pvPrincipal;
 
   @override
@@ -71,10 +78,10 @@ class BodyHome extends StatelessWidget {
     return AnnotatedRegion(
       value: UsefulColor.colorWhite,
       child: Scaffold(
-        appBar: widgetAppBarHome(
-            pvPrincipal!.companyResponse.imagen ?? "",
-            pvPrincipal!.companyResponse.nombre_empresa,
-            pvPrincipal!.companyResponse.topic ?? ""),
+        appBar: WidgetAppBarHome(
+            imagen: pvPrincipal!.companyResponse.imagen ?? "",
+            business: pvPrincipal!.companyResponse.nombre_empresa,
+            topic: pvPrincipal!.companyResponse.topic ?? ""),
         backgroundColor: UsefulColor.colorWhite,
         body: PageView(
           controller: pvPrincipal!.controller,
@@ -88,12 +95,12 @@ class BodyHome extends StatelessWidget {
             GoogleMaps(),
             SingleChildScrollView(
               child: Column(
-                children: [const TextFieldSearch(), _cardNodosList()],
+                children: [const TextFieldSearch(), _itemNodo()],
               ),
             ),
             Container(
                 padding: const EdgeInsets.all(5),
-                child: SingleChildScrollView(child: _cardNodosListBody())),
+                child: SingleChildScrollView(child: listBodyCardNodo())),
           ],
         ),
       ),
@@ -101,134 +108,84 @@ class BodyHome extends StatelessWidget {
   }
 
   ///List card nodos
-  Widget _cardNodosList() {
-    return Column(
-      children: [
-        Expanded(
-          flex: 0,
-          child: Column(
-            children: [
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: pvPrincipal!.listFilterDevice!.length,
-                itemBuilder: (context, index) {
-                  return _itemNodo(pvPrincipal!.listFilterDevice![index]);
-                },
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
 
   /// Item Nodos
-  Widget _itemNodo(Device? device) {
-    return GestureDetector(
-      onTap: () {
-        pvPrincipal!.idWebDevice = device.ide!;
-        Navigator.of(Useful.globalContext.currentContext!).pushNamed(
-          ScreenWebView.routePage,
-          arguments: device.ide,
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: Colors.black12),
-        child: Column(
+  Widget _itemNodo() {
+    return SizedBox(
+      height: 125,
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // Número de columnas
+          crossAxisSpacing: 10, // Espacio entre columnas
+          mainAxisSpacing: 10, // Espacio entre filas
+          childAspectRatio: 3 / 2, // Proporción de ancho/alto de cada item
+        ),
+        itemCount: pvPrincipal!.listFilterDevice?.length,
+        itemBuilder: (context, index) {
+          final device = pvPrincipal!
+              .listFilterDevice![index]; // Obteniendo cada dispositivo de la lista
 
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
+          return GestureDetector(
+            onTap: () {
+              pvPrincipal!.idWebDevice = device.ide!;
+              Navigator.of(Useful.globalContext.currentContext!).pushNamed(
+                ScreenWebView.routePage,
+                arguments: device.ide,
+              );
+            },
+            child: Container(
+              margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
               decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10)),
-                  color: UsefulColor.colorPrimary),
-              child: Center(
-                  child: Text(
-                device!.nombre!.toUpperCase(),
-                style: const TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 16,
-                    color: UsefulColor.colorWhite),
-              )),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: Row(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.black12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            WidgetTextView.title(text: "Nombre:",size: 14,),
-                            const Spacer(),
-                            Text(
-                              "${device.nombre!}",
-                            ),
-                          ],
-                        ),
-                        const WidgetDottedDashedLine(),
-                        Row(
-                          children: [
-                            WidgetTextView.title(text: "Nivel:",size: 14,),
-                            const Spacer(),
-                            Text(
-                              "${device.valor!}",
-                            ),
-                          ],
-                        ),
-                        const WidgetDottedDashedLine(),
-                        Row(
-                          children: [
-                            WidgetTextView.title(text: "Hora:",size: 14,),
-                            const Spacer(),
-                            Text(
-                              pvPrincipal!.extractTime(device.fechahora!),
-                            ),
-                          ],
-                        ),
-                        const WidgetDottedDashedLine(),
-
-                        Row(
-                          children: [
-                            WidgetTextView.title(text: "Fecha:",size: 14,),
-                            const Spacer(),
-                            Text(
-                              pvPrincipal!.extractDate(device.fechahora!),
-                            ),
-                          ],
-                        ),
-                        const WidgetDottedDashedLine(),
-                      ],
-                    ), // Llama a la función para extraer la fecha
+                  Container(
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                        color: UsefulColor.colorPrimary),
+                    child: Center(
+                        child: Text(
+                      device!.nombre!.toUpperCase(),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16,
+                          color: UsefulColor.colorWhite),
+                    )),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 80,
-                        width: 120,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: UsefulColor.colorPrimary
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              height: 80,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: UsefulColor.colorPrimary),
+                              child: Center(
+                                  child: WidgetViewLabelText().labelTextTitle(
+                                      text: "${device.valor} %",
+                                      fontSize: 25,
+                                      colortext: Colors.white)),
+                            ),
+                          ),
                         ),
-                        child: Center(child: WidgetViewLabelText().labelTextTitle(text: "${device.valor} %", fontSize: 25, colortext: Colors.white)),
-                      ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -249,10 +206,7 @@ class BodyHome extends StatelessWidget {
               minRadius: 18,
               color: UsefulColor.colorSecondary,
               child: ClipOval(
-                // backgroundColor: UsefulColor.colorWhite,
-                // radius: 18,
                 child: Icon(Icons.wifi, color: UsefulColor.colorSecondary),
-                // backgroundImage: AssetImage("${Global.assetsIcons}water.gif"),
               ))),
     );
   }
@@ -309,63 +263,113 @@ class BodyHome extends StatelessWidget {
   }
 
   /// Card List Nodos()
-  Widget _cardNodosListBody() {
-    return Wrap(
-      alignment: WrapAlignment.spaceEvenly,
-      children: pvPrincipal!.listFilterDevice!.map((device) {
-        return _itemNodoBody(device);
-      }).toList(),
-    );
-  }
 
   /// Item nodos
-  Widget _itemNodoBody(Device? device) {
-    return GestureDetector(
-      onTap: () {
-        pvPrincipal!.idWebDevice = device.ide!;
-        Navigator.of(Useful.globalContext.currentContext!).pushNamed(
-          ScreenWebView.routePage,
-          arguments: device.ide, // Pasar el valor como argumento
-        );
-      },
-      child: Container(
-        decoration: const BoxDecoration(
-            color: Colors.black12,
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        // color: Colors.black12,
-        width: MediaQuery.of(Useful.globalContext.currentContext!).size.width *
-            0.4,
-        padding: const EdgeInsets.only(right: 5, left: 5),
-        margin: const EdgeInsets.only(left: 2, right: 2, bottom: 5, top: 5),
-        // Margen entre elementos
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Icon(
-              Icons.circle,
-              color: Colors.red,
-              size: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    "${device!.nombre!.toUpperCase()}",
-                    overflow: TextOverflow
-                        .ellipsis, // Trunca el texto y agrega puntos suspensivos
-                  ),
-                ),
-              ],
-            ),
-            Text(
-              "NIVEL: ${device.valor!}\n"
-              "HORA: ${pvPrincipal!.extractTime(device.fechahora!)}\n"
-              "FECHA: ${pvPrincipal!.extractDate(device.fechahora!)}\n",
-              style: const TextStyle(fontSize: 12),
-            ),
-          ],
+  Widget listBodyCardNodo() {
+    return SizedBox(
+      height: 135,
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // Número de columnas
+          // crossAxisSpacing: 5, // Espacio entre columnas
+          // mainAxisSpacing: 5, // Espacio entre filas
+          childAspectRatio: 3 / 2, // Proporción de ancho/alto de cada item
         ),
+        itemCount: pvPrincipal!.listFilterDevice!.length, // Tu lista de dispositivos
+        itemBuilder: (context, index) {
+          final device = pvPrincipal!
+              .listFilterDevice![index]; // Obteniendo cada dispositivo de la lista
+
+          return GestureDetector(
+            onTap: () {
+              pvPrincipal!.idWebDevice = device.ide!;
+              Navigator.of(Useful.globalContext.currentContext!).pushNamed(
+                ScreenWebView.routePage,
+                arguments: device.ide, // Pasar el valor como argumento
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: Colors.lightBlue,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  device.nombre!,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                const Spacer(),
+                                const Icon(
+                                  Icons.arrow_forward_ios_outlined,
+                                  color: Colors.white,
+                                  size: 15,
+                                )
+                              ],
+                            ),
+                            const WidgetDottedDashedLine(),
+                            Row(
+                              children: [
+                                WidgetTextView.title(
+                                  text: "Nivel:",
+                                  size: 14,
+                                  color: Colors.white,
+                                ),
+                                const Spacer(),
+                                Text(
+                                  "${device.valor!}",
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                            const WidgetDottedDashedLine(),
+                            Row(
+                              children: [
+                                WidgetTextView.title(
+                                  text: "Hora:",
+                                  size: 14,
+                                  color: Colors.white,
+                                ),
+                                const Spacer(),
+                                Text(
+                                  pvPrincipal!.extractTime(device.fechahora!),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                            const WidgetDottedDashedLine(),
+                            Row(
+                              children: [
+                                WidgetTextView.title(
+                                    text: "Fecha:", size: 14, color: Colors.white),
+                                const Spacer(),
+                                Text(
+                                  pvPrincipal!.extractDate(device.fechahora!),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -414,26 +418,25 @@ class TextFieldSearch extends StatelessWidget {
                           prPrincipalRead.cleanTextFieldSearch(context);
                         }
                       },
-                      style: TextStyle(
-                          color: UsefulColor.colorLetterTitle.withOpacity(.8)),
+                      style:
+                          TextStyle(color: UsefulColor.colorLetterTitle.withOpacity(.8)),
                       decoration: InputDecoration(
                         hintText: UsefulLabel.lblSearhDevice,
                         contentPadding: const EdgeInsets.only(top: 10.0),
                         prefixIcon: const Icon(Icons.search_outlined),
                         hintStyle: TextStyle(
-                            color:
-                                UsefulColor.colorLetterTitle.withOpacity(.3)),
+                            color: UsefulColor.colorLetterTitle.withOpacity(.3)),
                         filled: true,
                         fillColor: UsefulColor.colorBackground,
                         enabledBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                          borderSide: BorderSide(
-                              color: UsefulColor.colorBackground, width: .5),
+                          borderSide:
+                              BorderSide(color: UsefulColor.colorBackground, width: .5),
                         ),
                         focusedBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                          borderSide: BorderSide(
-                              color: UsefulColor.colorBackground, width: .5),
+                          borderSide:
+                              BorderSide(color: UsefulColor.colorBackground, width: .5),
                         ),
                       ),
                     ),
@@ -485,9 +488,8 @@ class GoogleMaps extends StatelessWidget {
                 pvPrincipal!.googleMapController = controller;
                 pvPrincipal!.googleMapController
                     .setMapStyle(jsonEncode(styleMapGoogle).toString());
-                pvPrincipal!.googleMapController.animateCamera(
-                    CameraUpdate.newLatLng(
-                        const LatLng(-4.009051005165443, -79.20641913069285)));
+                pvPrincipal!.googleMapController.animateCamera(CameraUpdate.newLatLng(
+                    const LatLng(-4.009051005165443, -79.20641913069285)));
               },
               myLocationButtonEnabled: false,
               markers: Set<Marker>.of(pvPrincipal!.markers.values),

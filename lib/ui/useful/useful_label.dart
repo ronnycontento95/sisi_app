@@ -22,8 +22,8 @@ class UsefulLabel{
   static const targetWidth = 80;
 
   static const lblSis= "Sentinel IOT";
-  static const lblWelcome= "Bienvenid@";
-  static const lblSubWelcome = "Ingresa tus credenciales para continuar";
+  static const lblWelcome= "Bienvenido";
+  static const lblSubWelcome = "Ingresa tu usuario y contraseña para acceder a tu cuenta";
   static const lblUser= "Usuario";
   static const lblTextEnterUser="Ingrese su usuario";
   static const lblPassword = 'Contraseña';
@@ -38,7 +38,7 @@ class UsefulLabel{
   static const txtEmptyUser = 'Ingresa tu usuario';
   static const txtFailPassword = 'Usuario y/o contraseña mal ingresados. Por favor inténtelo nuevamente';
   static const txtTemCond = "Terminos y condiciones";
-  static const txtLogin = "Iniciar sesión";
+  static const txtLogin = "Acceder";
   static const txtWait = "Espere porfavor";
 
 }
