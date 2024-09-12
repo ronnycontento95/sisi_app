@@ -71,6 +71,7 @@ class WidgetAppBarHome extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: true,
       leading: CircleAvatar(
         radius: 20,
         backgroundColor: UsefulColor.colorWhite,
@@ -115,21 +116,10 @@ class WidgetAppBarHome extends StatelessWidget implements PreferredSizeWidget {
           const SizedBox(height: 3),
           Text(
             "Ultimo inicio de sesion: ${DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())}",
-            style: const TextStyle(color: Colors.black26, fontSize: 12),
+            style: const TextStyle(color: UsefulColor.colorhintstyletext, fontSize: 12),
           )
         ],
       ),
-      actions: [
-        GestureDetector(
-            onTap: () {
-              Navigator.of(Useful.globalContext.currentContext!)
-                  .pushNamed(ScreenMenu.routePage);
-            },
-            child: const Icon(Icons.menu_sharp, size: 25, color: Colors.black)),
-        const SizedBox(
-          width: 20,
-        )
-      ],
       toolbarHeight: 70,
       elevation: 1.0,
       titleSpacing: 0,

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:device_info_plus/device_info_plus.dart';
+import 'package:awesome_bottom_bar/tab_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +12,11 @@ import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
 import 'package:sisi_iot_app/domain/entities/company.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
+import 'package:sisi_iot_app/ui/screen/screen_Google.dart';
+import 'package:sisi_iot_app/ui/screen/screen_card_nodos.dart';
 import 'package:sisi_iot_app/ui/screen/screen_login.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
+import 'package:sisi_iot_app/ui/widgets/widget_custom_bottom_sheet.dart';
 
 import '../screen/screen_home.dart';
 import '../useful/useful.dart';
@@ -58,6 +61,36 @@ class ProviderPrincipal extends ChangeNotifier {
     _version = value;
     notifyListeners();
   }
+  List<Widget> itemScreen = [
+    const ScreenHome(),
+    const ScreenCardNodos(),
+    const ScreenGoogle(),
+    const ScreenCardNodos()
+  ];
+
+
+  List<TabItem> items = [
+    const TabItem(
+      icon: Icons.home,
+      title: 'Home',
+    ),
+    const TabItem(
+      icon: Icons.push_pin,
+      title: 'Tarjetas',
+    ),
+    const TabItem(
+      icon: Icons.menu,
+      title: 'menu',
+    ),
+    const TabItem(
+      icon: Icons.public,
+      title: 'Mapa',
+    ),
+    const TabItem(
+      icon: Icons.account_box,
+      title: 'profile',
+    ),
+  ];
 
   ProviderPrincipal(this.apiRepositoryLoginInterface) {
     Useful()
@@ -382,5 +415,9 @@ class ProviderPrincipal extends ChangeNotifier {
     editPassword.text = "";
     GlobalPreference().deleteUser();
     Useful().nextScreenViewUntil(ScreenLogin());
+  }
+
+  showBottomSheet(BuildContext context) {
+    customBottomSheet(context, widget: const ScreenMenuNavbar());
   }
 }

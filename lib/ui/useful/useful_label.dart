@@ -17,6 +17,10 @@ class UsefulLabel{
   static const routeScreenMenu = "ScreenMenu";
   static const routeScreenWebView = "ScreenWebView";
   static const routeScreenSpash= "ScreenSpash";
+  static const routerScreenCardNodos="ScreenCardNodos";
+  static const routerScreenGoogle="ScreenGoogle";
+  static const routerScreenCharNodos="ScreenCharNodos";
+  static const routerScreenTermCondition="ScreenTermCondition";
 
   /// Global Target Marker
   static const targetWidth = 80;
