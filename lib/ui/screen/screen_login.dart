@@ -116,7 +116,7 @@ class ContentUser extends StatelessWidget {
       controller: providerPrincipal.editUser,
       labelTitle: UsefulLabel.lblUser,
       keyboardType: TextInputType.emailAddress,
-      inputFormatters: formattersUser(),
+      // inputFormatters: formattersUser(),
       hintText: 'Ingrese su usuario',
       fontSize: 16,
       autovalidateMode: AutovalidateMode.onUserInteraction,

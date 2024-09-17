@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
@@ -61,9 +62,9 @@ widgetNewAppBar(
       actions: actions);
 }
 
-
 class WidgetAppBarHome extends StatelessWidget implements PreferredSizeWidget {
   const WidgetAppBarHome({super.key, this.imagen, this.business, this.topic});
+
   final String? imagen;
   final String? business;
   final String? topic;
@@ -71,70 +72,79 @@ class WidgetAppBarHome extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      centerTitle: true,
-      leading: CircleAvatar(
-        radius: 20,
-        backgroundColor: UsefulColor.colorWhite,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(50),
-          child: FadeInImage.memoryNetwork(
-            imageErrorBuilder: (context, _, __) {
-              return const Icon(Icons.person);
-            },
-            placeholderErrorBuilder: (_, __, stackTrace) {
-              return const Icon(Icons.person);
-            },
-            placeholder: UsefulImagen().getTransparentImage(),
-            image: "${ApiGlobalUrl.generalLink}$imagen",
-            height: 40,
+      centerTitle: false, // Cambiar para que el título esté alineado a la izquierda con la imagen
+      leading: Padding(
+        padding: const EdgeInsets.all(8.0), // Añadir un pequeño padding alrededor de la imagen
+        child: CircleAvatar(
+          radius: 24, // Aumentar ligeramente el tamaño para mayor visibilidad
+          backgroundColor: Colors.transparent,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: CachedNetworkImage(
+              filterQuality: FilterQuality.medium,
+              memCacheHeight: 500,
+              imageUrl: '${ApiGlobalUrl.generalLinkImagen}$imagen',
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            ),
           ),
         ),
       ),
-      // :  Icons(Icons.abc),
       title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start, // Alinear todo el contenido hacia la izquierda
         children: [
           RichText(
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.left, // Alinear el texto hacia la izquierda
             text: TextSpan(
               text: 'Hola, ',
               style: const TextStyle(
-                  fontSize: 14,
-                  color: UsefulColor.colorlettertitle,
-                  fontFamily: UsefulLabel.letterWalkwayBold),
+                fontSize: 14,
+                color: UsefulColor.colorlettertitle,
+                fontFamily: UsefulLabel.letterWalkwayBold,
+              ),
               children: <TextSpan>[
                 TextSpan(
-                    text: "$business ($topic)",
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: UsefulLabel.letterWalkwayBold,
-                        color: Colors.black,
-                        fontSize: 20)),
+                  text: "$business ($topic)",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: UsefulLabel.letterWalkwayBold,
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),
+                ),
               ],
             ),
           ),
           const SizedBox(height: 3),
           Text(
-            "Ultimo inicio de sesion: ${DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())}",
-            style: const TextStyle(color: UsefulColor.colorhintstyletext, fontSize: 12),
-          )
+            "Último inicio de sesión: ${DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())}",
+            style: const TextStyle(
+              color: UsefulColor.colorhintstyletext,
+              fontSize: 12,
+            ),
+          ),
         ],
       ),
       toolbarHeight: 70,
-      elevation: 1.0,
+      elevation: 2.0, // Darle un poco más de elevación para un efecto de sombra suave
       titleSpacing: 0,
       automaticallyImplyLeading: false,
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.white,
-      shadowColor: Colors.grey,
-      scrolledUnderElevation: 3.0,
+      shadowColor: Colors.grey.withOpacity(0.2), // Sombra más suave
+      scrolledUnderElevation: 4.0,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16))),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(16),
+          bottomRight: Radius.circular(16),
+        ),
+      ),
     );
+
   }
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight); // Altura estándar de AppBar
+  Size get preferredSize =>
+      const Size.fromHeight(kToolbarHeight); // Altura estándar de AppBar
 }

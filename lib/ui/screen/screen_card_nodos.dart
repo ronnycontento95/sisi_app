@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
@@ -6,9 +5,6 @@ import 'package:sisi_iot_app/ui/screen/screen_web_device.dart';
 import 'package:sisi_iot_app/ui/useful/useful.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_dotted_dashed_line.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_label_text.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 
 class ScreenCardNodos extends StatelessWidget {
   const ScreenCardNodos({super.key});

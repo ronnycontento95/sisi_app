@@ -27,32 +27,6 @@ import 'screen_device.dart';
 /// Provider
 import '../provider/provider_principal.dart';
 
-// class ScreenHome extends StatefulWidget {
-//   const ScreenHome({Key? key}) : super(key: key);
-//   static const routePage = UsefulLabel.routeHome;
-//
-//   @override
-//   State<ScreenHome> createState() => _ScreenHomeState();
-// }
-//
-// class _ScreenHomeState extends State<ScreenHome> {
-//   // ProviderPrincipal? pvPrincipal;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     // pvPrincipal = Provider.of<ProviderPrincipal>(context, listen: false);
-//     // SchedulerBinding.instance.addPostFrameCallback((_) {
-//     //   pvPrincipal!.getUser(context);
-//     // });
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return const BodyHome();
-//   }
-// }
-
 class ScreenHome extends StatefulWidget {
   const ScreenHome({Key? key}) : super(key: key);
   static const routePage = UsefulLabel.routeHome;
@@ -107,7 +81,7 @@ class _ScreenHomeState extends State<ScreenHome> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
-    final pvPrincipal = context.read<ProviderPrincipal>();
+    final pvPrincipal = context.watch<ProviderPrincipal>();
     return AnnotatedRegion(
       value: UsefulColor.colorWhite,
       child: Scaffold(

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,15 +19,18 @@ class ScreenChartNodos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      child: Column(
-        children: [
-          TextFieldSearch(),
-          SizedBox(
-            height: 10,
-          ),
-          ListChartNodos(),
-        ],
+    return  const SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            TextFieldSearch(),
+            SizedBox(
+              height: 10,
+            ),
+            ListChartNodos(),
+          ],
+        ),
       ),
     );
   }

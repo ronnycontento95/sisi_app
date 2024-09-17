@@ -252,7 +252,8 @@ class ProviderPrincipal extends ChangeNotifier {
   /// Get user bussiness
   getUser(BuildContext context) async {
     GlobalPreference().getIdEmpresa().then((idEmpresa) {
-      _companyResponse = idEmpresa;
+      companyResponse = idEmpresa!;
+      print('prueba >>> ingreso ${companyResponse.toJson()}');
       getDevice(idEmpresa!.id_empresas!, context);
       getDeviceTimer(idEmpresa.id_empresas!, context);
     });
