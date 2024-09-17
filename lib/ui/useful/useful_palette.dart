@@ -19,7 +19,7 @@ class UsefulColor {
 
 
   ///Color primary
-  static const colorPrimary = Color(0xFF25406c);
+  static const colorPrimary = Color(0xFF604FA0);
 
 
 

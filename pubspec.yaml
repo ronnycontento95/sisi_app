@@ -35,6 +35,8 @@ dependencies:
   dotted_dashed_line: ^0.0.3
   awesome_bottom_bar: ^1.2.4
   fl_chart: ^0.69.0
+  url_launcher: ^6.3.0
+  flutter_svg: ^2.0.9
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +60,8 @@ flutter:
     - assets/icons/
     - assets/logo/
     - assets/images/
+    - assets/images/tank.svg
+
 
   fonts:
     - family: walkwayBold

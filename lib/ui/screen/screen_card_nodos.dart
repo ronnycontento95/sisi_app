@@ -16,10 +16,11 @@ class ScreenCardNodos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SingleChildScrollView(
-        child: Padding(
-      padding: EdgeInsets.all(10.0),
-      child: ListCardNodos(),
-    ));
+      child: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: ListCardNodos(),
+      ),
+    );
   }
 }
 
@@ -30,13 +31,13 @@ class ListCardNodos extends StatelessWidget {
   Widget build(BuildContext context) {
     final pvPrincipal = context.watch<ProviderPrincipal>();
     return SizedBox(
-      height: 175,
+      height: MediaQuery.of(context).size.height,
       child: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, // Número de columnas
           crossAxisSpacing: 5, // Espacio entre columnas
           mainAxisSpacing: 5, // Espacio entre filas
-          childAspectRatio: 3 / 2.5, // Proporción de ancho/alto de cada item
+          childAspectRatio: 4.2 / 3.3, // Proporción de ancho/alto de cada item
         ),
         itemCount: pvPrincipal.listFilterDevice!.length, // Tu lista de dispositivos
         itemBuilder: (context, index) {
@@ -64,16 +65,17 @@ class ListCardNodos extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Column(
+
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
                                   device.nombre!,
                                   style: const TextStyle(color: Colors.white),
                                 ),
-                                const Spacer(),
+                                // const Spacer(),
                                 const Icon(
                                   Icons.arrow_forward_ios_outlined,
                                   color: Colors.white,

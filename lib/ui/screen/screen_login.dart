@@ -1,6 +1,7 @@
 ///Import
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 ///Provider
 import '../provider/provider_principal.dart';
@@ -30,26 +31,23 @@ class ScreenLogin extends StatelessWidget {
       child: Scaffold(
         backgroundColor: UsefulColor.colorWhite,
         body: SafeArea(
-          child: Stack(
-            children : [
-              Center(
-                child: SingleChildScrollView(
-                  child: Container(
-                    margin: const EdgeInsets.only(left: 20, right: 20),
-                    child: const Column(
-                      children: [
-                        TitleHeader(),
-                        ContentUser(),
-                        ContTextPassword(),
-                        WidgetButtonLogin(),
-                      ],
-                    ),
+          child: Stack(children: [
+            Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  margin: const EdgeInsets.only(left: 20, right: 20),
+                  child: const Column(
+                    children: [
+                      TitleHeader(),
+                      ContentUser(),
+                      ContTextPassword(),
+                      WidgetButtonLogin(),
+                    ],
                   ),
                 ),
-              )
-
-            ]
-          ),
+              ),
+            )
+          ]),
         ),
       ),
     );
@@ -94,7 +92,7 @@ class ContTextPassword extends StatelessWidget {
       ),
       onTapSufixIcon: () {
         providerPrincipal.visiblePassword =
-        providerPrincipal.visiblePassword ? false : true;
+            providerPrincipal.visiblePassword ? false : true;
       },
       validator: (val) {
         String text = val!.trim();
@@ -106,7 +104,6 @@ class ContTextPassword extends StatelessWidget {
     );
   }
 }
-
 
 class ContentUser extends StatelessWidget {
   const ContentUser({super.key});
@@ -131,10 +128,10 @@ class ContentUser extends StatelessWidget {
         }
         return null;
       },
-    );;
+    );
+    ;
   }
 }
-
 
 class TitleHeader extends StatelessWidget {
   const TitleHeader({Key? key}) : super(key: key);
@@ -158,7 +155,9 @@ class TitleHeader extends StatelessWidget {
             text: UsefulLabel.lblSubWelcome,
             fontSize: 16,
             colortext: UsefulColor.colorPrimary),
-        const SizedBox(height: 10,)
+        const SizedBox(
+          height: 10,
+        )
         // const SizedBox(
         //   height: 150,
         //   child: Image(
@@ -178,14 +177,22 @@ class WidgetButtonLogin extends StatelessWidget {
     final prPrincipalRead = context.read<ProviderPrincipal>();
     return Column(
       children: [
-        Align(
-          alignment: Alignment.centerRight,
-          child: WidgetViewLabelText().labelTextNormal(
-              text: UsefulLabel.txtTemCond,
-              fontSize: 12,
-              colortext: UsefulColor.colorPrimary),
+        InkWell(
+          onTap: () {
+            launchUrl(Uri.parse('http://34.122.67.202/terminos/'),
+                mode: LaunchMode.externalApplication);
+          },
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: WidgetViewLabelText().labelTextNormal(
+                text: UsefulLabel.txtTemCond,
+                fontSize: 14,
+                colortext: UsefulColor.colorPrimary),
+          ),
         ),
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
         WidgetButtonView(
           text: UsefulLabel.txtLogin,
           color: UsefulColor.colorPrimary,
@@ -193,7 +200,6 @@ class WidgetButtonLogin extends StatelessWidget {
             prPrincipalRead.login(context);
           },
         ),
-
       ],
     );
   }

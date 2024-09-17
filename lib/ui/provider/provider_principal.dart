@@ -357,18 +357,18 @@ class ProviderPrincipal extends ChangeNotifier {
       _timer = null;
     }
     if (param.length > 3) {
-      timer = Timer(const Duration(milliseconds: 500), () {
+      // timer = Timer(const Duration(milliseconds: 500), () {
         listFilterDevice = _listDevice!
             .where(
                 (element) => element.nombre!.toLowerCase().contains(param.toLowerCase()))
             .toList();
         notifyListeners();
-      });
+      // });
     } else {
-      timer = Timer(const Duration(milliseconds: 500), () {
+      // timer = Timer(const Duration(milliseconds: 500), () {
         listFilterDevice = _listDevice;
         notifyListeners();
-      });
+      // });
     }
   }
 

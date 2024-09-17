@@ -1,6 +1,7 @@
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:awesome_bottom_bar/tab_item.dart';
 import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +15,7 @@ import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_appbar.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_custom_bottom_sheet.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_label_text.dart';
+import 'package:sisi_iot_app/ui/widgets/widget_tank.dart';
 
 ///Useful
 import '../useful/useful.dart';
@@ -113,16 +115,19 @@ class _ScreenHomeState extends State<ScreenHome> {
             imagen: pvPrincipal.companyResponse.imagen ?? "",
             business: pvPrincipal.companyResponse.nombre_empresa,
             topic: pvPrincipal.companyResponse.topic ?? ""),
-        body: Column(
-          children: [
-            if (pageScreen == 0) ...[
-              const ScreenChartNodos()
-            ] else if (pageScreen == 1) ...[
-              const ScreenCardNodos()
-            ] else if (pageScreen == 3) ...[
-              const Expanded(child: ScreenGoogle())
-            ]
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              if (pageScreen == 0) const ScreenChartNodos(),
+              if (pageScreen == 1) const ScreenCardNodos(),
+              if (pageScreen == 3)
+                SizedBox(
+                  height: MediaQuery.of(context).size.height, // Limita el tamaño
+                  child: const ScreenGoogle(),
+                ),
+              if (pageScreen == 4) TankPage(),
+            ],
+          ),
         ),
         bottomNavigationBar: BottomBarCreative(
           items: items,
@@ -149,6 +154,7 @@ class ScreenMenuNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final prPrincipalRead = context.read<ProviderPrincipal>();
     return SizedBox(
       height: MediaQuery.of(context).size.height / 2,
       width: double.infinity,
@@ -201,16 +207,16 @@ class ScreenMenuNavbar extends StatelessWidget {
                             text: "Acerca de",
                             fontSize: 14,
                             colortext: UsefulColor.colorlettertitle),
-
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(width: 10,),
+                const SizedBox(
+                  width: 10,
+                ),
                 InkWell(
                   onTap: () {
-                    Navigator.of(Useful.globalContext.currentContext!)
-                        .pushNamed(ScreenTermCondition.routePage);
+                    prPrincipalRead.logoOut();
                   },
                   child: Container(
                     padding: const EdgeInsets.all(5),
@@ -228,12 +234,10 @@ class ScreenMenuNavbar extends StatelessWidget {
                             text: "Cerrar sesión",
                             fontSize: 14,
                             colortext: UsefulColor.colorlettertitle),
-
                       ],
                     ),
                   ),
                 ),
-
               ],
             ),
             const Spacer(),
@@ -241,13 +245,9 @@ class ScreenMenuNavbar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 WidgetViewLabelText().labelTextNormal(
-                    text: "Copyright ",
-                    fontSize: 12,
-                    colortext: UsefulColor.colorBlack),
+                    text: "Copyright ", fontSize: 12, colortext: UsefulColor.colorBlack),
                 WidgetViewLabelText().labelTextNormal(
-                    text: "2018. ",
-                    fontSize: 12,
-                    colortext: UsefulColor.colorBlack),
+                    text: "2018. ", fontSize: 12, colortext: UsefulColor.colorBlack),
                 WidgetViewLabelText().labelTextNormal(
                     text: "Sentinel, Sisi Internet of things",
                     fontSize: 16,

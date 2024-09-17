@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
+import 'package:sisi_iot_app/ui/screen/screen_splash.dart';
 
 import 'data/repositories/repository_implement.dart';
 import 'ui/routes/routes_pages.dart';
@@ -64,7 +65,7 @@ class MyApp extends StatelessWidget {
             buttonTheme: const ButtonThemeData(buttonColor: UsefulColor.colorPrimary, textTheme: ButtonTextTheme.primary),
             colorScheme: const ColorScheme.light(background: UsefulColor.colorWhite),
           ),
-          initialRoute: routeInit,
+          initialRoute: ScreenSpash.routePage,
           routes: routes(),
         ),
       ),

@@ -76,7 +76,7 @@ class ScreenOnBoarding extends StatelessWidget {
   Widget widgetOnboard() {
     return const Padding(
       padding: EdgeInsets.all(15),
-      child: Image(image: AssetImage("${UsefulLabel.assetsImages}onboard.png"),)
+      child: Image(image: AssetImage("${UsefulLabel.assetsImages}connect.png"),)
     );
   }
 
