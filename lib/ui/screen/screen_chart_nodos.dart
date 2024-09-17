@@ -19,17 +19,14 @@ class ScreenChartNodos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            TextFieldSearch(),
-            SizedBox(
-              height: 10,
-            ),
-            ListChartNodos(),
-          ],
-        ),
+      child: Column(
+        children: [
+          TextFieldSearch(),
+          SizedBox(
+            height: 10,
+          ),
+          ListChartNodos(),
+        ],
       ),
     );
   }
@@ -95,80 +92,97 @@ class ListChartNodos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pvPrincipal = context.watch<ProviderPrincipal>();
-    int _selectedValue = 1;
 
     return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
-      runAlignment: WrapAlignment.center,
-      alignment: WrapAlignment.center,
       spacing: 10,
-      // Espacio horizontal entre los elementos
       runSpacing: 10,
-      // Espacio vertical entre los elementos
       children: List.generate(pvPrincipal.listFilterDevice?.length ?? 0, (index) {
         final device = pvPrincipal.listFilterDevice![index];
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width:
-                  MediaQuery.of(context).size.width / 2 - 20, // Ajuste para dos columnas
-              decoration: const BoxDecoration(
+        return SizedBox(
+          width: (MediaQuery.of(context).size.width / 2) - 25, // Ajuste para dos columnas
+          height: 145,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                decoration: const BoxDecoration(
                   color: Colors.black12,
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
-              height: 120,
-              child: GestureDetector(
-                onTap: () {
-                  pvPrincipal.idWebDevice = device.ide!;
-                  Navigator.of(Useful.globalContext.currentContext!).pushNamed(
-                    ScreenWebView.routePage,
-                    arguments: device.ide,
-                  );
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/images/tank.svg', // Ruta del archivo SVG del tanque
-                          width: 100,
-                          height: 100,
-                          colorFilter: ColorFilter.mode(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    pvPrincipal.idWebDevice = device.ide!;
+                    Navigator.of(Useful.globalContext.currentContext!).pushNamed(
+                      ScreenWebView.routePage,
+                      arguments: device.ide,
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/tank.svg',
+                            width: 100,
+                            height: 100,
+                            colorFilter: ColorFilter.mode(
                               device.valor! > 100
                                   ? Colors.red
                                   : device.valor! <= 30
                                       ? Colors.orange
                                       : Colors.blue,
-                              BlendMode.srcIn),
-                        ),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CardColor(color: Colors.red, text: "Alto",),
-                            CardColor(color: Colors.blue, text: "Normal",),
-                            CardColor(color: Colors.orange, text: "Bajo",),
-
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CardColor(
+                                color: Colors.red,
+                                text: "Alto",
+                              ),
+                              CardColor(
+                                color: Colors.blue,
+                                text: "Normal",
+                              ),
+                              CardColor(
+                                color: Colors.orange,
+                                text: "Bajo",
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Text(
-              device.nombre!.toUpperCase(),
-              style: const TextStyle(
+              Text(
+                device.nombre!.toUpperCase(),
+                style: const TextStyle(
                   fontWeight: FontWeight.w800,
                   fontSize: 14,
                   overflow: TextOverflow.ellipsis,
-                  color: UsefulColor.colorPrimary),
-            ),
-            WidgetViewLabelText()
-                .labelTextTitle(text: "${device.valor ?? "0.0"}%", fontSize: 12)
-          ],
+                  color: UsefulColor.colorPrimary,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  WidgetViewLabelText().labelTextTitle(
+                    text: "${device.valor ?? "0.0"}%",
+                    fontSize: 12,
+                  ),
+                  const SizedBox(width: 4), // Espacio entre el icono y el texto
+                  const Icon(
+                    Icons.arrow_forward_ios_outlined,
+                    size: 18,
+                    color: UsefulColor.colorhintstyletext,
+                  ),
+                ],
+              ),
+            ],
+          ),
         );
       }),
     );
