@@ -15,6 +15,7 @@ class UsefulColor {
 
   static const colorGrey = Color(0xffD9D9D9);
   static const colorWhite =  Color.fromRGBO(255, 255, 255, 1);
+  static const colorBackgroundWhite =  Color(0xfff1f9f3);
 
 
 

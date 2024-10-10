@@ -74,7 +74,7 @@ class WidgetAppBarHome extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       centerTitle: false, // Cambiar para que el título esté alineado a la izquierda con la imagen
       leading: Padding(
-        padding: const EdgeInsets.all(8.0), // Añadir un pequeño padding alrededor de la imagen
+        padding: const EdgeInsets.all(6.0), // Añadir un pequeño padding alrededor de la imagen
         child: CircleAvatar(
           radius: 24, // Aumentar ligeramente el tamaño para mayor visibilidad
           backgroundColor: Colors.transparent,
@@ -125,7 +125,7 @@ class WidgetAppBarHome extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
-      toolbarHeight: 70,
+      toolbarHeight: 240,
       elevation: 2.0, // Darle un poco más de elevación para un efecto de sombra suave
       titleSpacing: 0,
       automaticallyImplyLeading: false,
@@ -140,11 +140,10 @@ class WidgetAppBarHome extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
     );
-
   }
 
   @override
   // TODO: implement preferredSize
   Size get preferredSize =>
-      const Size.fromHeight(kToolbarHeight); // Altura estándar de AppBar
+      const Size.fromHeight(80); // Altura estándar de AppBar
 }

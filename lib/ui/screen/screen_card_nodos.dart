@@ -35,7 +35,7 @@ class ListCardNodos extends StatelessWidget {
         final device = pvPrincipal.listFilterDevice![index];
         return SizedBox(
           width: MediaQuery.of(context).size.width, // Usar todo el ancho disponible
-          height: 115,
+          height: 125,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -48,6 +48,7 @@ class ListCardNodos extends StatelessWidget {
                   );
                 },
                 child: Container(
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     color: UsefulColor.colorWhite,
                     borderRadius: BorderRadius.circular(10),
@@ -64,14 +65,18 @@ class ListCardNodos extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: Image.asset(
-                              "${UsefulLabel.assetsImages}water.png",
-                              width: 100,
-                              height: 100,
-                              color: UsefulColor.colorPrimary, // Color de la imagen
+                              "${UsefulLabel.assetsImages}wifi.gif",
+                              width: 50,
+                              height: 50,
+                              color: device.valor! > 100
+                                  ? Colors.red
+                                  : device.valor! <= 30
+                                  ? Colors.orange
+                                  : Colors.blue, // Color de la imagen
                             ),
                           ),
                           Expanded(
-                            flex: 0,
+                            flex: 3,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -140,7 +145,7 @@ class ListCardNodos extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const Expanded(child: Icon(Icons.arrow_forward_ios_outlined, size: 30,))
+                          const Expanded(flex: 1, child: Icon(Icons.arrow_forward_ios_outlined, size: 30,))
                         ],
                       ),
                     ],

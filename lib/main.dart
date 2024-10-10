@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,13 +19,18 @@ import 'ui/useful/useful.dart';
 import 'ui/useful/useful_palette.dart';
 
 Future main() async {
-  ///Lock device orientation
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  HttpOverrides.global = MyHttpOverrides();
+  if (Platform.isAndroid) {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
+    if (androidDeviceInfo.version.sdkInt! < 30) {
+      HttpOverrides.global = MyHttpOverrides();
+    }
+  }
 
   await GlobalPreference().getIdEmpresa().then((idEmpresa) {
     if (idEmpresa != null) {
@@ -42,6 +48,7 @@ class MyApp extends StatelessWidget {
   String routeInit;
 
   MyApp(this.routeInit, {super.key});
+
   final Connectivity _connectivity = Connectivity();
   StreamSubscription<ConnectivityResult>? _streamSubscription;
 
@@ -49,7 +56,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     if (_streamSubscription == null) {
       Useful().initConnectivity(_connectivity);
-      _streamSubscription = _connectivity.onConnectivityChanged.listen(Useful().updateConectivity);
+      _streamSubscription =
+          _connectivity.onConnectivityChanged.listen(Useful().updateConectivity);
     }
     return MultiProvider(
       providers: providers(),
@@ -62,7 +70,9 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             primaryColor: UsefulColor.colorPrimary,
             iconTheme: const IconThemeData(color: UsefulColor.colorGrey),
-            buttonTheme: const ButtonThemeData(buttonColor: UsefulColor.colorPrimary, textTheme: ButtonTextTheme.primary),
+            buttonTheme: const ButtonThemeData(
+                buttonColor: UsefulColor.colorPrimary,
+                textTheme: ButtonTextTheme.primary),
             colorScheme: const ColorScheme.light(background: UsefulColor.colorWhite),
           ),
           initialRoute: ScreenSpash.routePage,
@@ -73,8 +83,11 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHttpOverrides extends HttpOverrides {
-  HttpClient repositoryImplement(SecurityContext context) {
-    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }
+

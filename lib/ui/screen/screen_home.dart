@@ -89,6 +89,7 @@ class _ScreenHomeState extends State<ScreenHome> {
             imagen: pvPrincipal.companyResponse.imagen ?? "",
             business: pvPrincipal.companyResponse.nombre_empresa,
             topic: pvPrincipal.companyResponse.topic ?? ""),
+        backgroundColor: UsefulColor.colorBackgroundWhite,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -99,7 +100,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                   height: MediaQuery.of(context).size.height, // Limita el tamaño
                   child: const ScreenGoogle(),
                 ),
-              if (pageScreen == 4) TankPage(),
+              if (pageScreen == 4) const ScreenProfile(),
             ],
           ),
         ),

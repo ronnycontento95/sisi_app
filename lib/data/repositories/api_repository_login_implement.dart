@@ -19,6 +19,7 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
   @override
   Future login(String username, String password, VoidCallback? Function(int code, dynamic data) callback) async {
     try {
+
       final response = await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getLogin}$username/$password");
       if(kDebugMode){
         print("RESPONDE LOGIN $response");
@@ -27,7 +28,7 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
       if(kDebugMode){
-        print("ERROR >>> $errorMessage");
+        print("ERROR >>> DioError: ${e.type}, Message: ${e.message}, Response: ${e.response} --> ${errorMessage}" );
       }
       callback(-1, Company(bandera: false));
     }

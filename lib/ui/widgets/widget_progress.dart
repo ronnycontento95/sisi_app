@@ -40,10 +40,10 @@ class _WidgetProgressState extends State<WidgetProgress> {
                 color: UsefulColor.colorPrimary,
               ),
               const SizedBox(height: 10),
-              const Text(
-                UsefulLabel.txtWait,
-                style: TextStyle(fontSize: 16),
-              )
+              // const Text(
+              //   UsefulLabel.txtWait,
+              //   style: TextStyle(fontSize: 16),
+              // )
             ],
           ),
         ),

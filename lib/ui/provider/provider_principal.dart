@@ -262,7 +262,7 @@ class ProviderPrincipal extends ChangeNotifier {
   /// Get nodos id bussiness
   getDevice(int id, BuildContext context) async {
     Useful().showProgress();
-    // _timerDevice = Timer.periodic(const Duration(seconds: 10), (timer) async {
+    print('prueba >>> ingreso ');
     await apiRepositoryLoginInterface?.getNodoId(id, (code, data) {
       Useful().hideProgress(context);
       if (code == 1) {

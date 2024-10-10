@@ -19,13 +19,11 @@ class _ScreenSpashState extends State<ScreenSpash> {
   @override
   void initState() {
     super.initState();
-    // final waitSplash = difference.inMinutes >= 2;
     GlobalPreference().getIdEmpresa().then((idEmpresa) {
       Future.delayed(const Duration(milliseconds: 720), () async {
         String initialRoute =
             idEmpresa != null ? ScreenHome.routePage : ScreenOnBoarding.routePage;
         if (idEmpresa != null) {
-
           Useful.globalContext.currentState!.pushAndRemoveUntil(
               MaterialPageRoute(
                   settings: RouteSettings(
@@ -54,10 +52,7 @@ class _ScreenSpashState extends State<ScreenSpash> {
           backgroundColor: UsefulColor.colorPrimary,
           body: SafeArea(
             child: Stack(
-              children: [
-                // backgroundImagen(),
-                copy()
-              ],
+              children: [const BackgroundImagen(), copy()],
             ),
           ),
         ));
@@ -65,6 +60,26 @@ class _ScreenSpashState extends State<ScreenSpash> {
 
   Widget copy() {
     return const Align(
-        alignment: Alignment.bottomCenter, child: Text(UsefulLabel.txtCopy));
+        alignment: Alignment.bottomCenter,
+        child: Text(
+          UsefulLabel.txtCopy,
+          style: TextStyle(color: Colors.white),
+        ));
+  }
+}
+
+class BackgroundImagen extends StatelessWidget {
+  const BackgroundImagen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Image.asset(
+        '${UsefulLabel.assetsImages}app.png',
+        height: MediaQuery.of(context).size.height * 0.2,
+        width: MediaQuery.of(context).size.width * 0.5,
+        fit: BoxFit.cover,
+      ),
+    );
   }
 }
