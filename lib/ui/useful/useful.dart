@@ -44,7 +44,18 @@ class Useful {
 
   /// Show message alter
   void messageAlert(BuildContext context, String message) {
-    // player.play(AssetSource(GlobalLabel.directionAudio));
+    final snackBar = SnackBar(
+        backgroundColor: UsefulColor.colorPrimary,
+        content: Text(message,
+            style: const TextStyle(
+                fontFamily: UsefulLabel.letterWalkwayBold,
+                fontSize: 14,
+                color: UsefulColor.colorWhite),
+            textAlign: TextAlign.center));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  messageErrorScaffold(BuildContext context, String message) {
     final snackBar = SnackBar(
         backgroundColor: UsefulColor.colorPrimary,
         content: Text(message,

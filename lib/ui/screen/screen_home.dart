@@ -1,19 +1,16 @@
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:awesome_bottom_bar/tab_item.dart';
-import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_ripple_animation/simple_ripple_animation.dart';
 import 'package:sisi_iot_app/ui/screen/screen_Google.dart';
 import 'package:sisi_iot_app/ui/screen/screen_card_nodos.dart';
 import 'package:sisi_iot_app/ui/screen/screen_chart_nodos.dart';
 import 'package:sisi_iot_app/ui/screen/screen_terms.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_appbar.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_custom_bottom_sheet.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_label_text.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_tank.dart';
 
@@ -22,7 +19,6 @@ import '../useful/useful.dart';
 import '../useful/useful_palette.dart';
 
 ///Pages
-import 'screen_device.dart';
 
 /// Provider
 import '../provider/provider_principal.dart';
@@ -101,6 +97,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                   child: const ScreenGoogle(),
                 ),
               if (pageScreen == 4) const ScreenProfile(),
+
             ],
           ),
         ),

@@ -253,8 +253,7 @@ class ProviderPrincipal extends ChangeNotifier {
   getUser(BuildContext context) async {
     GlobalPreference().getIdEmpresa().then((idEmpresa) {
       companyResponse = idEmpresa!;
-      print('prueba >>> ingreso ${companyResponse.toJson()}');
-      getDevice(idEmpresa!.id_empresas!, context);
+      getDevice(idEmpresa.id_empresas!, context);
       getDeviceTimer(idEmpresa.id_empresas!, context);
     });
   }
@@ -262,7 +261,6 @@ class ProviderPrincipal extends ChangeNotifier {
   /// Get nodos id bussiness
   getDevice(int id, BuildContext context) async {
     Useful().showProgress();
-    print('prueba >>> ingreso ');
     await apiRepositoryLoginInterface?.getNodoId(id, (code, data) {
       Useful().hideProgress(context);
       if (code == 1) {
