@@ -41,11 +41,7 @@ class ListCardNodos extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  pvPrincipal.idWebDevice = device.ide!;
-                  Navigator.of(Useful.globalContext.currentContext!).pushNamed(
-                    ScreenWebView.routePage,
-                    arguments: device.ide, // Pasar el valor como argumento
-                  );
+                  pvPrincipal.getDataDeviceId(device.ide!, context);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(20),
@@ -71,8 +67,8 @@ class ListCardNodos extends StatelessWidget {
                               color: device.valor! > 100
                                   ? Colors.red
                                   : device.valor! <= 30
-                                  ? Colors.orange
-                                  : Colors.blue, // Color de la imagen
+                                      ? Colors.orange
+                                      : Colors.blue, // Color de la imagen
                             ),
                           ),
                           Expanded(
@@ -145,7 +141,12 @@ class ListCardNodos extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const Expanded(flex: 1, child: Icon(Icons.arrow_forward_ios_outlined, size: 30,))
+                          const Expanded(
+                              flex: 1,
+                              child: Icon(
+                                Icons.arrow_forward_ios_outlined,
+                                size: 30,
+                              ))
                         ],
                       ),
                     ],

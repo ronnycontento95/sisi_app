@@ -1,26 +1,27 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:awesome_bottom_bar/tab_item.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
 import 'package:sisi_iot_app/domain/entities/company.dart';
+import 'package:sisi_iot_app/domain/entities/dataDevice.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 import 'package:sisi_iot_app/ui/screen/screen_Google.dart';
 import 'package:sisi_iot_app/ui/screen/screen_card_nodos.dart';
+import 'package:sisi_iot_app/ui/screen/screen_data_device.dart';
 import 'package:sisi_iot_app/ui/screen/screen_login.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_custom_bottom_sheet.dart';
 
 import '../screen/screen_home.dart';
 import '../useful/useful.dart';
-// import '../useful/useful_gps.dart';
 
 class ProviderPrincipal extends ChangeNotifier {
   final ApiRepositoryLoginInterface? apiRepositoryLoginInterface;
@@ -29,6 +30,7 @@ class ProviderPrincipal extends ChangeNotifier {
   TextEditingController _editSearchDevice = TextEditingController();
   PageController _controller = PageController(initialPage: 1);
   Company? _companyResponse = Company();
+  DatosDevice? _datosDeviceID;
   List<Device>? _listDevice = [];
   List<Device>? listFilterDevice = [];
   String? _errorMessage;
@@ -47,6 +49,14 @@ class ProviderPrincipal extends ChangeNotifier {
   bool _visiblePassword = true;
   Timer? _timerDevice;
 
+
+  DatosDevice get datosDeviceID => _datosDeviceID!;
+
+  set datosDeviceID(DatosDevice value) {
+    _datosDeviceID = value;
+    notifyListeners();
+  }
+
   Timer get timerDevice => _timerDevice!;
 
   set timerDevice(Timer value) {
@@ -61,13 +71,13 @@ class ProviderPrincipal extends ChangeNotifier {
     _version = value;
     notifyListeners();
   }
+
   List<Widget> itemScreen = [
     const ScreenHome(),
     const ScreenCardNodos(),
     const ScreenGoogle(),
     const ScreenCardNodos()
   ];
-
 
   List<TabItem> items = [
     const TabItem(
@@ -250,7 +260,8 @@ class ProviderPrincipal extends ChangeNotifier {
   }
 
   /// Get user bussiness
-  getUser(BuildContext context) async {
+  Future<void> getUser(BuildContext context) async {
+    print('prueba >>>>');
     GlobalPreference().getIdEmpresa().then((idEmpresa) {
       companyResponse = idEmpresa!;
       getDevice(idEmpresa.id_empresas!, context);
@@ -357,16 +368,15 @@ class ProviderPrincipal extends ChangeNotifier {
     }
     if (param.length > 3) {
       // timer = Timer(const Duration(milliseconds: 500), () {
-        listFilterDevice = _listDevice!
-            .where(
-                (element) => element.nombre!.toLowerCase().contains(param.toLowerCase()))
-            .toList();
-        notifyListeners();
+      listFilterDevice = _listDevice!
+          .where((element) => element.nombre!.toLowerCase().contains(param.toLowerCase()))
+          .toList();
+      notifyListeners();
       // });
     } else {
       // timer = Timer(const Duration(milliseconds: 500), () {
-        listFilterDevice = _listDevice;
-        notifyListeners();
+      listFilterDevice = _listDevice;
+      notifyListeners();
       // });
     }
   }
@@ -418,5 +428,99 @@ class ProviderPrincipal extends ChangeNotifier {
 
   showBottomSheet(BuildContext context) {
     customBottomSheet(context, widget: const ScreenMenuNavbar());
+  }
+
+  void getDataDeviceId(int id, BuildContext context) {
+    apiRepositoryLoginInterface?.getDataDeviceId(id, (code, data) {
+      if (data != null) {
+        datosDeviceID = data;
+        Navigator.of(context).pushNamed(
+          ScreenDataDeviceId.routePage,
+        );
+      }
+      return null;
+    });
+  }
+
+
+  Icon getIconByIdentifier(int identificador) {
+    switch (identificador) {
+      case 201:
+        return Icon(FontAwesomeIcons.batteryFull, color: Colors.green); // Batería
+      case 202:
+      return Icon(FontAwesomeIcons.percent, color: Colors.orange); // Porcentaje de agua
+
+      case 203:
+        return Icon(FontAwesomeIcons.glassWhiskey, color: Colors.green); // Valumen
+
+      case 204:
+        return Icon(FontAwesomeIcons.tintSlash, color: Colors.green); // Batería
+
+      case 205:
+      case 206:
+        return Icon(FontAwesomeIcons.percent, color: Colors.orange); // Porcentaje
+
+      case 207:
+      case 208:
+      case 209:
+      case 210:
+      case 211:
+      case 212:
+        return Icon(Icons.waves, color: Colors.blue); // Nivel
+
+      case 245:
+        return Icon(FontAwesomeIcons.tint, color: Colors.blue); // Presión
+
+      case 213:
+      case 214:
+      case 215:
+      case 216:
+      case 217:
+      case 218:
+      case 219:
+      case 220:
+      case 221:
+      case 222:
+      case 223:
+      case 224:
+      case 225:
+      case 226:
+      case 227:
+      case 228:
+      case 229:
+      case 230:
+      case 231:
+      case 232:
+      case 233:
+      case 234:
+      case 235:
+      case 236:
+      case 237:
+      case 238:
+      case 239:
+      case 240:
+      case 241:
+      case 242:
+      case 243:
+      case 244:
+        return Icon(FontAwesomeIcons.toolbox, color: Colors.grey); // Medidor
+
+      case 208:
+      case 209:
+        return Icon(Icons.settings, color: Colors.blue); // Control
+
+      case 249:
+      case 250:
+      case 251:
+      case 252:
+        return Icon(FontAwesomeIcons.water, color: Colors.blueAccent); // Volumen
+
+      case 251:
+      case 204:
+        return Icon(Icons.warning, color: Colors.red); // Desborde / Alarma
+
+      default:
+        return Icon(Icons.device_unknown, color: Colors.grey); // Icono por defecto
+    }
   }
 }

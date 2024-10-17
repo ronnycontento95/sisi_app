@@ -1,11 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
+import 'package:sisi_iot_app/ui/screen/screen_data_device.dart';
 import 'package:sisi_iot_app/ui/screen/screen_web_device.dart';
 import 'package:sisi_iot_app/ui/useful/useful.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
@@ -115,11 +114,8 @@ class ListChartNodos extends StatelessWidget {
                 ),
                 child: GestureDetector(
                   onTap: () {
-                    pvPrincipal.idWebDevice = device.ide!;
-                    Navigator.of(Useful.globalContext.currentContext!).pushNamed(
-                      ScreenWebView.routePage,
-                      arguments: device.ide,
-                    );
+                    pvPrincipal.getDataDeviceId(device.ide!, context);
+
                   },
                   child: Column(
                     children: [

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:sisi_iot_app/ui/screen/screen_Google.dart';
 import 'package:sisi_iot_app/ui/screen/screen_card_nodos.dart';
 import 'package:sisi_iot_app/ui/screen/screen_chart_nodos.dart';
+import 'package:sisi_iot_app/ui/screen/screen_data_device.dart';
 import 'package:sisi_iot_app/ui/screen/screen_terms.dart';
 
 import '../screen/screen_home.dart';
@@ -23,7 +24,9 @@ Map<String, WidgetBuilder> routes() {
     ScreenSpash.routePage:(_) => const ScreenSpash(),
     ScreenCardNodos.routePage:(_) => const ScreenCardNodos(),
     ScreenGoogle.routePage:(_) => const ScreenGoogle(),
+    ScreenDataDeviceId.routePage:(_) => const ScreenDataDeviceId(),
     ScreenChartNodos.routePage:(_) => const ScreenChartNodos(),
     ScreenTermCondition.routePage:(_) => const ScreenTermCondition()
+
   };
 }
