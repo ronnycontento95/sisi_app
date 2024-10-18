@@ -256,12 +256,9 @@ class _CustomStatusNetworkState extends State<WidgetNetwork> {
         visible: connectionStatus == ConnectivityStatus.offline,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20 / 2),
-          child: Container(
-            // background: widget.background,
-            child: AutoSizeText(
-              widget.message ?? 'Sin conexión a internet.',
-              style: widget.textStyle ?? const TitleStyle(color: Colors.red),
-            ),
+          child: AutoSizeText(
+            widget.message ?? 'Sin conexión a internet.',
+            style: widget.textStyle ?? const TitleStyle(color: Colors.red),
           ),
         ),
       );

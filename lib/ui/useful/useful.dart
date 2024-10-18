@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +10,6 @@ import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import '../widgets/widget_progress.dart';
 import 'useful_palette.dart';
 
-///Utilidades widgets
-/// Useful metodos
 class Useful {
   static GlobalKey<NavigatorState> globalContext = GlobalKey<NavigatorState>();
 

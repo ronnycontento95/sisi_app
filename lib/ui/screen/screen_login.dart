@@ -1,6 +1,7 @@
 ///Import
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 ///Provider
@@ -138,23 +139,13 @@ class TitleHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            WidgetViewLabelText().labelTextTitle(
-                text: UsefulLabel.lblWelcome,
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                colortext: UsefulColor.colorPrimary,
-                textAlign: TextAlign.center),
-          ],
+          children: [Text( UsefulLabel.lblWelcome)],
         ),
-        WidgetViewLabelText().labelTextNormal(
-            text: UsefulLabel.lblSubWelcome,
-            fontSize: 16,
-            colortext: UsefulColor.colorPrimary),
+        Text( UsefulLabel.lblSubWelcome),
         const SizedBox(
           height: 10,
         )
@@ -184,10 +175,7 @@ class WidgetButtonLogin extends StatelessWidget {
           },
           child: Align(
             alignment: Alignment.centerRight,
-            child: WidgetViewLabelText().labelTextNormal(
-                text: UsefulLabel.txtTemCond,
-                fontSize: 14,
-                colortext: UsefulColor.colorPrimary),
+            child: Text( UsefulLabel.txtTemCond),
           ),
         ),
         const SizedBox(

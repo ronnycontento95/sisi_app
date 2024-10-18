@@ -1,5 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 
 import '../useful/useful.dart';
 import '../useful/useful_label.dart';
@@ -29,8 +30,8 @@ class ScreenOnBoarding extends StatelessWidget {
                   child: PageView(
                     controller: null,
                     children: <Widget>[
-                      widgetSlider(context, UsefulLabel.lblTitleMoni,
-                          UsefulLabel.lblSubMoni),
+                      widgetSlider(
+                          context, UsefulLabel.lblTitleMoni, UsefulLabel.lblSubMoni),
                     ],
                   ),
                 ),
@@ -60,24 +61,17 @@ class ScreenOnBoarding extends StatelessWidget {
       alignment: Alignment.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          WidgetViewLabelText().labelTextNormal(
-              text: text,
-              fontSize: 16,
-              textAlign: TextAlign.center,
-              colortext: UsefulColor.colorlettertitle,
-              fontWeight: FontWeight.w300,
-              maxLines: 4),
-        ],
+        children: [Text( text)],
       ),
     );
   }
 
   Widget widgetOnboard() {
     return const Padding(
-      padding: EdgeInsets.all(15),
-      child: Image(image: AssetImage("${UsefulLabel.assetsImages}connect.png"),)
-    );
+        padding: EdgeInsets.all(15),
+        child: Image(
+          image: AssetImage("${UsefulLabel.assetsImages}connect.png"),
+        ));
   }
 
   Widget widgetIndicator() {
@@ -88,8 +82,7 @@ class ScreenOnBoarding extends StatelessWidget {
         decorator: DotsDecorator(
           size: const Size.square(9.0),
           activeSize: const Size(18.0, 9.0),
-          activeShape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+          activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
           color: Colors.grey.shade300,
           activeColor: UsefulColor.colorPrimary,
         ),
@@ -144,7 +137,8 @@ class ScreenOnBoarding extends StatelessWidget {
             text: UsefulLabel.lblStartNow,
             color: UsefulColor.colorPrimary,
             onTap: () {
-              Navigator.of(Useful.globalContext.currentContext!).pushNamed(ScreenLogin.routePage);
+              Navigator.of(Useful.globalContext.currentContext!)
+                  .pushNamed(ScreenLogin.routePage);
             },
           ),
         ],

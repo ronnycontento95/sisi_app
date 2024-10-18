@@ -1,11 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
+import 'package:sisi_iot_app/ui/screen/screen_web_device.dart';
+import 'package:sisi_iot_app/ui/useful/useful.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
+import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 
 import '../widgets/widget_appbar.dart';
 
@@ -60,12 +61,12 @@ class ListDataDeviceId extends StatelessWidget {
         pvPrincipalRead.datosDeviceID!.ultimosDatos != null &&
         pvPrincipalRead.datosDeviceID!.ultimosDatos!.isNotEmpty) {
       return Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
         ),
         child: Table(
           columnWidths: const {
-            0: FixedColumnWidth(100.0), // Ancho fijo para la primera columna
+            0: FixedColumnWidth(80.0), // Ancho fijo para la primera columna
             1: FlexColumnWidth(), // Ancho flexible para la segunda columna
             2: FlexColumnWidth(), // Ancho flexible para la segunda columna
           },
@@ -73,29 +74,26 @@ class ListDataDeviceId extends StatelessWidget {
             // Encabezado de la tabla
             TableRow(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                   color: Colors.grey[200]),
-              children: const [
+              children: [
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "Variable",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                     "Estado",
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "Estado",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                     "Variable",
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "Dato",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                     "Valor",
                   ),
                 ),
               ],
@@ -104,12 +102,6 @@ class ListDataDeviceId extends StatelessWidget {
             for (var item in pvPrincipalRead.datosDeviceID!.ultimosDatos!) ...[
               TableRow(
                 children: [
-                  // Columna Alias
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(item.alias ?? 'N/A'),
-                  ),
-                  // Columna Detalles
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -127,7 +119,7 @@ class ListDataDeviceId extends StatelessWidget {
                                 color: item.valor == 1.0 ? Colors.green : Colors.red,
                               ),
                               const SizedBox(width: 5.0),
-                              Text(item.valor == 1.0 ? "ON" : "OFF")
+                              Text( item.valor == 1.0 ? "ON" : "OFF")
                             ],
                           )
                         ] else ...[
@@ -136,14 +128,14 @@ class ListDataDeviceId extends StatelessWidget {
                       ],
                     ),
                   ),
-
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text( "${item.alias}")),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(item.valor.toString()),
-                      ],
+                      children: [Text( "${item.valor}")],
                     ),
                   ),
                 ],
@@ -189,15 +181,60 @@ class NodoCard extends StatelessWidget {
             const Icon(
               Icons.router,
               size: 150,
-              color: Colors.blue,
+              color: UsefulColor.colorPrimary,
             ),
-            Container(
-              child: Column(
-                children: [
-                  Text("${prPrincipalRead.datosDeviceID?.nodo?.nombrePresentar}"),
-                  Text("${prPrincipalRead.datosDeviceID?.nodo?.nombre}"),
-                ],
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                     "${prPrincipalRead.datosDeviceID?.nodo?.nombrePresentar}}"),
+                Text(
+                     "${prPrincipalRead.datosDeviceID?.nodo?.nombre}"),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: UsefulColor.colorPrimary,
+                          borderRadius: BorderRadius.circular(50)),
+                      child: InkWell(
+                        onTap: () {},
+                        child: const Text(
+                          "Ubicacion",
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: UsefulColor.colorPrimary,
+                          borderRadius: BorderRadius.circular(50)),
+                      child: InkWell(
+                        onTap: () {
+                          if (prPrincipalRead.datosDeviceID?.nodo != null) {
+                            prPrincipalRead.idWebDevice =
+                                prPrincipalRead.datosDeviceID!.nodo!.id!;
+                            Navigator.of(Useful.globalContext.currentContext!).pushNamed(
+                              ScreenWebView.routePage,
+                            );
+                          }
+                        },
+                        child: const Text(
+                          "Ver graficas",
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
             )
           ],
         )

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
-import 'package:sisi_iot_app/ui/screen/screen_web_device.dart';
-import 'package:sisi_iot_app/ui/useful/useful.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
 
@@ -119,7 +117,7 @@ class ListCardNodos extends StatelessWidget {
                                     ),
                                     const SizedBox(width: 5), // Espaciado
                                     Text(
-                                      "Hora: ${pvPrincipal!.extractTime(device.fechahora!)}",
+                                      "Hora: ${pvPrincipal.extractTime(device.fechahora!)}",
                                       style: const TextStyle(color: Colors.black),
                                     ),
                                   ],
@@ -133,7 +131,7 @@ class ListCardNodos extends StatelessWidget {
                                     ),
                                     const SizedBox(width: 5), // Espaciado
                                     Text(
-                                      "Fecha: ${pvPrincipal!.extractDate(device.fechahora!)}",
+                                      "Fecha: ${pvPrincipal.extractDate(device.fechahora!)}",
                                       style: const TextStyle(color: Colors.black),
                                     ),
                                   ],

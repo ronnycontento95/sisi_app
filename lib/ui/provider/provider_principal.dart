@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:awesome_bottom_bar/tab_item.dart';
@@ -50,9 +49,9 @@ class ProviderPrincipal extends ChangeNotifier {
   Timer? _timerDevice;
 
 
-  DatosDevice get datosDeviceID => _datosDeviceID!;
+  DatosDevice? get datosDeviceID => _datosDeviceID;
 
-  set datosDeviceID(DatosDevice value) {
+  set datosDeviceID(DatosDevice? value) {
     _datosDeviceID = value;
     notifyListeners();
   }
@@ -446,19 +445,19 @@ class ProviderPrincipal extends ChangeNotifier {
   Icon getIconByIdentifier(int identificador) {
     switch (identificador) {
       case 201:
-        return Icon(FontAwesomeIcons.batteryFull, color: Colors.green); // Batería
+        return const Icon(FontAwesomeIcons.batteryFull, color: Colors.green); // Batería
       case 202:
-      return Icon(FontAwesomeIcons.percent, color: Colors.orange); // Porcentaje de agua
+      return Icon(FontAwesomeIcons.tint, color: Colors.green); // Porcentaje de agua
 
       case 203:
         return Icon(FontAwesomeIcons.glassWhiskey, color: Colors.green); // Valumen
 
       case 204:
-        return Icon(FontAwesomeIcons.tintSlash, color: Colors.green); // Batería
+        return Icon(FontAwesomeIcons.exclamationTriangle, color: Colors.green); // Batería
 
       case 205:
       case 206:
-        return Icon(FontAwesomeIcons.percent, color: Colors.orange); // Porcentaje
+        return Icon(FontAwesomeIcons.fillDrip, color: Colors.orange); // Porcentaje
 
       case 207:
       case 208:

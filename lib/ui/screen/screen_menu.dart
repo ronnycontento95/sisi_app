@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
-import 'package:sisi_iot_app/ui/screen/screen_login.dart';
+import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 
 import '../provider/provider_principal.dart';
-import '../useful/useful.dart';
 import '../useful/useful_label.dart';
 import '../useful/useful_palette.dart';
 import '../widgets/widget_appbar.dart';
-import '../widgets/widget_label_text.dart';
 
 class ScreenMenu extends StatefulWidget {
   ScreenMenu({Key? key}) : super(key: key);
@@ -40,38 +36,22 @@ class _ScreenMenuState extends State<ScreenMenu> {
                 const MenuItems(),
                 Container(
                   alignment: Alignment.center,
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          WidgetViewLabelText().labelTextNormal(
-                              text: "Versión ",
-                              fontSize: 14,
-                              colortext: UsefulColor.colorBlack),
-                          WidgetViewLabelText().labelTextNormal(
-                              text: "${prPrincipalWatch.version} ",
-                              fontSize: 14,
-                              colortext: UsefulColor.colorBlack),
+                          Text( "Versión"),
+                          Text( "${prPrincipalWatch.version} "),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          WidgetViewLabelText().labelTextNormal(
-                              text: "Copyright ",
-                              fontSize: 12,
-                              colortext: UsefulColor.colorBlack),
-                          WidgetViewLabelText().labelTextNormal(
-                              text: "2018. ",
-                              fontSize: 12,
-                              colortext: UsefulColor.colorBlack),
-                          WidgetViewLabelText().labelTextNormal(
-                              text: "Sentinel, Sisi Internet of things",
-                              fontSize: 16,
-                              colortext: UsefulColor.colorPrimary),
+                          Text( "Copyright"),
+                          Text( "2018."),
+                          Text( "Sentinel, Sisi Internet de las cosas"),
                         ],
                       ),
                     ],
@@ -103,9 +83,7 @@ class MenuItems extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(5)),
         boxShadow: const <BoxShadow>[
           BoxShadow(
-              color: UsefulColor.colorWhite,
-              blurRadius: 3.0,
-              offset: Offset(0.75, 0.75))
+              color: UsefulColor.colorWhite, blurRadius: 3.0, offset: Offset(0.75, 0.75))
         ],
       ),
       child: Column(
@@ -135,11 +113,7 @@ class MenuItems extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            Expanded(
-                child: WidgetViewLabelText().labelTextNormal(
-                    text: text,
-                    fontSize: 14,
-                    colortext: UsefulColor.colorlettertitle)),
+            Expanded(child: Text( text)),
             const Icon(Icons.arrow_forward_ios_outlined),
           ],
         ),

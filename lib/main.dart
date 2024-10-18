@@ -9,6 +9,9 @@ import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/provider/network_status.dart';
+import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
+import 'package:sisi_iot_app/ui/provider/provider_setting.dart';
+import 'package:sisi_iot_app/ui/provider/theme.dart';
 import 'package:sisi_iot_app/ui/screen/screen_splash.dart';
 
 import 'data/repositories/repository_implement.dart';
@@ -63,32 +66,51 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: providers(),
       child: OKToast(
-        child: MaterialApp(
-          navigatorKey: Useful.globalContext,
-          debugShowCheckedModeBanner: false,
-          title: 'Sentinel IoT',
-          theme: ThemeData(
-            useMaterial3: true,
-            primaryColor: UsefulColor.colorPrimary,
-            iconTheme: const IconThemeData(color: UsefulColor.colorGrey),
-            buttonTheme: const ButtonThemeData(
-                buttonColor: UsefulColor.colorPrimary,
-                textTheme: ButtonTextTheme.primary),
-            colorScheme: const ColorScheme.light(background: UsefulColor.colorWhite),
+        child: ChangeNotifierProvider(
+          create: (_) => ProviderSetting(),
+          builder: (context, _) => MaterialApp(
+            title: 'Sentinel IoT',
+            debugShowCheckedModeBanner: false,
+            navigatorKey: Useful.globalContext,
+            initialRoute: ScreenSpash.routePage,
+            routes: routes(),
+            theme: lightThemeData(context),
+            darkTheme: darkThemeData(context),
+            themeMode: context.watch<ProviderSetting>().themeMode,
+            // locale: Locale(context.watch<SettingController>().localeMode ?? localeMode),
+            // localizationsDelegates: const [
+            //   GlobalMaterialLocalizations.delegate,
+            //   GlobalWidgetsLocalizations.delegate,
+            //   GlobalCupertinoLocalizations.delegate,
+            //   S.delegate,
+            //   LocalizationsW.delegate,
+            // ],
+            // supportedLocales: <Locale>{
+            //   ...LocalizationsW.delegate.supportedLocales,
+            //   ...S.delegate.supportedLocales,
+            // },
           ),
-          initialRoute: ScreenSpash.routePage,
-          routes: routes(),
         ),
+
+        // child: MaterialApp(
+        //   navigatorKey: Useful.globalContext,
+        //   debugShowCheckedModeBanner: false,
+        //   title:
+        //   theme: lightThemeData(context),
+        //   darkTheme: darkThemeData(context),
+        //   themeMode: context.watch<ProviderPrincipal>().themeMode,
+        //   initialRoute: ScreenSpash.routePage,
+        //   routes: routes(),
+        // ),
       ),
     );
   }
 }
 
-class MyHttpOverrides extends HttpOverrides{
+class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext? context){
+  HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
-

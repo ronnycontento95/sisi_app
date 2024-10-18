@@ -1,6 +1,4 @@
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
-import 'package:awesome_bottom_bar/tab_item.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -11,16 +9,10 @@ import 'package:sisi_iot_app/ui/screen/screen_chart_nodos.dart';
 import 'package:sisi_iot_app/ui/screen/screen_terms.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_appbar.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_label_text.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_tank.dart';
-
-///Useful
+import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 import '../useful/useful.dart';
 import '../useful/useful_palette.dart';
-
-///Pages
-
-/// Provider
 import '../provider/provider_principal.dart';
 
 class ScreenHome extends StatefulWidget {
@@ -97,7 +89,6 @@ class _ScreenHomeState extends State<ScreenHome> {
                   child: const ScreenGoogle(),
                 ),
               if (pageScreen == 4) const ScreenProfile(),
-
             ],
           ),
         ),
@@ -149,8 +140,7 @@ class ScreenMenuNavbar extends StatelessWidget {
                 const SizedBox(
                   width: 20,
                 ),
-                WidgetViewLabelText().labelTextTitle(
-                    text: 'Que puedo hacer en Sentinel IoT', fontSize: 16),
+                Text( 'Que puedo hacer en Sentinel IoT')
               ],
             ),
             const SizedBox(
@@ -175,10 +165,7 @@ class ScreenMenuNavbar extends StatelessWidget {
                           Icons.policy,
                           color: UsefulColor.colorlettertitle,
                         ),
-                        WidgetViewLabelText().labelTextNormal(
-                            text: "Acerca de",
-                            fontSize: 14,
-                            colortext: UsefulColor.colorlettertitle),
+                        Text( "Acerca de ")
                       ],
                     ),
                   ),
@@ -202,10 +189,7 @@ class ScreenMenuNavbar extends StatelessWidget {
                           Icons.login_rounded,
                           color: UsefulColor.colorlettertitle,
                         ),
-                        WidgetViewLabelText().labelTextNormal(
-                            text: "Cerrar sesión",
-                            fontSize: 14,
-                            colortext: UsefulColor.colorlettertitle),
+                        Text( "Cerrar sesión")
                       ],
                     ),
                   ),
@@ -216,14 +200,9 @@ class ScreenMenuNavbar extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                WidgetViewLabelText().labelTextNormal(
-                    text: "Copyright ", fontSize: 12, colortext: UsefulColor.colorBlack),
-                WidgetViewLabelText().labelTextNormal(
-                    text: "2018. ", fontSize: 12, colortext: UsefulColor.colorBlack),
-                WidgetViewLabelText().labelTextNormal(
-                    text: "Sentinel, Sisi Internet of things",
-                    fontSize: 16,
-                    colortext: UsefulColor.colorPrimary),
+                Text( "Copyright"),
+                Text( "2018."),
+                Text( "Sentinel, Sisi Internet de las cosas")
               ],
             ),
           ],

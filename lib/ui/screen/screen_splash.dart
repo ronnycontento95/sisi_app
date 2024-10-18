@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pretty_animated_text/pretty_animated_text.dart';
 import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
 import 'package:sisi_iot_app/ui/screen/screen_home.dart';
 import 'package:sisi_iot_app/ui/screen/screen_onboarding.dart';
@@ -74,12 +75,12 @@ class BackgroundImagen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Image.asset(
-        '${UsefulLabel.assetsImages}app.png',
-        height: MediaQuery.of(context).size.height * 0.2,
-        width: MediaQuery.of(context).size.width * 0.5,
-        fit: BoxFit.cover,
-      ),
+      child:   SpringText(
+        text: 'Lorem ipsum dolor sit amet ...',
+        duration: const Duration(seconds: 4),
+        type: AnimationType.word,
+        textStyle: const TextStyle(fontSize: 18),
+      )
     );
   }
 }

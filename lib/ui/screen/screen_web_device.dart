@@ -37,7 +37,7 @@ class _ScreenWebViewState extends State<ScreenWebView> {
           },
         ))
         ..loadRequest(Uri.parse(
-            'https://sisi.com.ec/aplicacion/api/nodo/${pvPrincipal!.idWebDevice}/'));
+            'http://157.245.11.84/aplicacion/api/nodo/${pvPrincipal!.idWebDevice}/'));
     }
   }
 

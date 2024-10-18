@@ -13,14 +13,14 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   provider: ^6.0.4
-  oktoast: ^3.3.1
+  oktoast: ^3.4.0
   auto_size_text: ^3.0.0
   intl: ^0.17.0
   dots_indicator: ^2.1.0
   dio: ^4.0.6
   shared_preferences: ^2.0.15
-  device_info_plus: ^4.1.2
-  package_info_plus: ^3.1.2
+  device_info_plus: ^11.1.0
+  package_info_plus: ^8.1.0
   sleek_circular_slider: ^2.0.1
   syncfusion_flutter_gauges: ^20.4.52
   google_maps_flutter: ^2.2.5
@@ -39,8 +39,8 @@ dependencies:
   flutter_svg: ^2.0.9
   cached_network_image: ^3.3.1
   font_awesome_flutter: ^10.7.0
-#  flutter_cache_manager: ^3.4.1
-#  http: ^1.2.2
+  pretty_animated_text: ^2.0.0
+  win32: ^5.6.1
 
 dev_dependencies:
   flutter_test:

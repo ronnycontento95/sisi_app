@@ -1,15 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
-import 'package:sisi_iot_app/ui/screen/screen_data_device.dart';
-import 'package:sisi_iot_app/ui/screen/screen_web_device.dart';
-import 'package:sisi_iot_app/ui/useful/useful.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_label_text.dart';
+import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 
 class ScreenChartNodos extends StatelessWidget {
   const ScreenChartNodos({super.key});
@@ -18,7 +14,7 @@ class ScreenChartNodos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  const SingleChildScrollView(
+    return const SingleChildScrollView(
       child: Column(
         children: [
           TextFieldSearch(),
@@ -62,7 +58,10 @@ class TextFieldSearch extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: UsefulLabel.lblSearhDevice,
                 contentPadding: const EdgeInsets.only(top: 10.0),
-                prefixIcon: const Icon(Icons.search_outlined, color: UsefulColor.colorPrimary,),
+                prefixIcon: const Icon(
+                  Icons.search_outlined,
+                  color: UsefulColor.colorPrimary,
+                ),
                 hintStyle: TextStyle(color: UsefulColor.colorLetterTitle.withOpacity(.3)),
                 filled: true,
                 fillColor: UsefulColor.colorBackground,
@@ -74,7 +73,10 @@ class TextFieldSearch extends StatelessWidget {
                   onTap: () {
                     prPrincipalRead.cleanTextFieldSearch(context);
                   },
-                  child: const Icon(Icons.close, color: UsefulColor.colorPrimary,),
+                  child: const Icon(
+                    Icons.close,
+                    color: UsefulColor.colorPrimary,
+                  ),
                 ),
                 focusedBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -103,7 +105,7 @@ class ListChartNodos extends StatelessWidget {
         final device = pvPrincipal.listFilterDevice![index];
         return SizedBox(
           width: (MediaQuery.of(context).size.width / 2) - 25, // Ajuste para dos columnas
-          height: 145,
+          height: 155,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -115,7 +117,6 @@ class ListChartNodos extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     pvPrincipal.getDataDeviceId(device.ide!, context);
-
                   },
                   child: Column(
                     children: [
@@ -157,22 +158,11 @@ class ListChartNodos extends StatelessWidget {
                   ),
                 ),
               ),
-              Text(
-                device.nombre!.toUpperCase(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 14,
-                  overflow: TextOverflow.ellipsis,
-                  color: UsefulColor.colorPrimary,
-                ),
-              ),
+              Text(device.nombre!.toUpperCase()),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  WidgetViewLabelText().labelTextTitle(
-                    text: "${device.valor ?? "0.0"}%",
-                    fontSize: 12,
-                  ),
+                  Text( "${device.valor ?? "0.0"}%"),
                   const SizedBox(width: 4), // Espacio entre el icono y el texto
                   const Icon(
                     Icons.arrow_forward_ios_outlined,
