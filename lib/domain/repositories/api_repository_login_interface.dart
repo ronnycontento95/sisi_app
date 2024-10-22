@@ -7,4 +7,7 @@ abstract class ApiRepositoryLoginInterface {
   Future getNodoId(int id, VoidCallback? Function(int code, dynamic data) callback);
 
   Future getDataDeviceId(int id, VoidCallback? Function(int code, dynamic data) callback);
+
+  Future getDataDiccionarioIdNodoID(
+      int idNodo, int idDiccionario, VoidCallback? Function(int code, dynamic data) callback);
 }

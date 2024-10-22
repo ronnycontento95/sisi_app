@@ -10,11 +10,14 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
 import 'package:sisi_iot_app/domain/entities/company.dart';
 import 'package:sisi_iot_app/domain/entities/dataDevice.dart';
+import 'package:sisi_iot_app/domain/entities/datos_diccionario.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';
+import 'package:sisi_iot_app/domain/entities/model_diccionario_nodo.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 import 'package:sisi_iot_app/ui/screen/screen_Google.dart';
 import 'package:sisi_iot_app/ui/screen/screen_card_nodos.dart';
 import 'package:sisi_iot_app/ui/screen/screen_data_device.dart';
+import 'package:sisi_iot_app/ui/screen/screen_detail_diccionario.dart';
 import 'package:sisi_iot_app/ui/screen/screen_login.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_custom_bottom_sheet.dart';
@@ -29,7 +32,7 @@ class ProviderPrincipal extends ChangeNotifier {
   TextEditingController _editSearchDevice = TextEditingController();
   PageController _controller = PageController(initialPage: 1);
   Company? _companyResponse = Company();
-  DatosDevice? _datosDeviceID;
+  DatosDiccionario? _datosDiccionario;
   List<Device>? _listDevice = [];
   List<Device>? listFilterDevice = [];
   String? _errorMessage;
@@ -47,11 +50,20 @@ class ProviderPrincipal extends ChangeNotifier {
   String? _version;
   bool _visiblePassword = true;
   Timer? _timerDevice;
+  ModelDiccionarioNodo? _modelDiccionarioNodo;
 
-  DatosDevice? get datosDeviceID => _datosDeviceID;
 
-  set datosDeviceID(DatosDevice? value) {
-    _datosDeviceID = value;
+  ModelDiccionarioNodo? get modelDiccionarioNodo => _modelDiccionarioNodo;
+
+  set modelDiccionarioNodo(ModelDiccionarioNodo? value) {
+    _modelDiccionarioNodo = value;
+    notifyListeners();
+  }
+
+  DatosDiccionario? get datosDiccionario => _datosDiccionario;
+
+  set datosDiccionario(DatosDiccionario? value) {
+    _datosDiccionario = value;
     notifyListeners();
   }
 
@@ -433,7 +445,7 @@ class ProviderPrincipal extends ChangeNotifier {
     apiRepositoryLoginInterface?.getDataDeviceId(id, (code, data) {
       Useful().hideProgress(context);
       if (data != null) {
-        datosDeviceID = data;
+        datosDiccionario = data;
         Navigator.of(context).pushNamed(
           ScreenDataDeviceId.routePage,
         );
@@ -468,7 +480,7 @@ class ProviderPrincipal extends ChangeNotifier {
         return Icon(Icons.waves, color: Colors.blue); // Nivel
 
       case 245:
-        return Icon(FontAwesomeIcons.tint, color: Colors.blue); // Presión
+        return const Icon(FontAwesomeIcons.solidCircle, color: Colors.green); // Presión
 
       case 213:
       case 214:
@@ -502,17 +514,21 @@ class ProviderPrincipal extends ChangeNotifier {
       case 242:
       case 243:
       case 244:
-        return Icon(FontAwesomeIcons.toolbox, color: Colors.grey); // Medidor
+        return const Icon(FontAwesomeIcons.toolbox, color: Colors.grey); // Medidor
+      case 246:
+        return const Icon(FontAwesomeIcons.solidCircle, color: Colors.green); // Medidor
+      case 247:
+        return const Icon(FontAwesomeIcons.solidCircle, color: Colors.green); // Medidor
 
       case 208:
       case 209:
-        return Icon(Icons.settings, color: Colors.blue); // Control
+        return const Icon(Icons.settings, color: Colors.blue); // Control
 
       case 249:
       case 250:
       case 251:
       case 252:
-        return Icon(FontAwesomeIcons.water, color: Colors.blueAccent); // Volumen
+        return const Icon(FontAwesomeIcons.water, color: Colors.blueAccent); // Volumen
 
       case 251:
       case 204:
@@ -524,8 +540,23 @@ class ProviderPrincipal extends ChangeNotifier {
   }
 
   typeImagen() async {
-    GlobalPreference().getIdEmpresa().then((idEmpresa) {
+    GlobalPreference().getIdEmpresa().then((idEmpresa) {});
+  }
 
-    });
+  void getDataDiccionarioIdNodoId(int idNodo, int idDiccionario, BuildContext context) {
+    Useful().showProgress();
+    apiRepositoryLoginInterface?.getDataDiccionarioIdNodoID(
+        idNodo, idDiccionario, (code, data) {
+          print("pruebas >>> ${data}");
+          if(data != null){
+            modelDiccionarioNodo = data;
+
+            Navigator.of(context).pushNamed(
+              ScreenDetailDiccionario.routePage,
+            );
+          }
+
+          return null;
+        });
   }
 }

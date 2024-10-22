@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
-import 'package:sisi_iot_app/ui/screen/screen_web_device.dart';
-import 'package:sisi_iot_app/ui/useful/useful.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 
 import '../widgets/widget_appbar.dart';
 
 class ScreenDataDeviceId extends StatefulWidget {
   const ScreenDataDeviceId({super.key});
 
-  static const routePage = UsefulLabel.routerScreenDataDeviceId;
+  static const routePage = UsefulLabel.routerScreenDetailDiccionario;
 
   @override
   State<ScreenDataDeviceId> createState() => _ScreenDataDeviceIdState();
@@ -36,11 +33,8 @@ class _ScreenDataDeviceIdState extends State<ScreenDataDeviceId> {
             padding: EdgeInsets.all(10.0),
             child: Column(
               children: [
-                NodoCard(),
-                ListDataDeviceId(),
-                SizedBox(
-                  height: 50,
-                )
+                CardNodo(),
+                CardDiccionario(),
               ],
             ),
           ),
@@ -50,193 +44,179 @@ class _ScreenDataDeviceIdState extends State<ScreenDataDeviceId> {
   }
 }
 
-class ListDataDeviceId extends StatelessWidget {
-  const ListDataDeviceId({super.key});
+class CardNodo extends StatelessWidget {
+  const CardNodo({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final pvPrincipalRead = context.watch<ProviderPrincipal>();
+    final pvPrincipal = context.watch<ProviderPrincipal>();
 
-    if (pvPrincipalRead.datosDeviceID != null &&
-        pvPrincipalRead.datosDeviceID!.ultimosDatos != null &&
-        pvPrincipalRead.datosDeviceID!.ultimosDatos!.isNotEmpty) {
-      return Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Table(
-          columnWidths: const {
-            0: FixedColumnWidth(100), // Ancho fijo para la primera columna
-          },
-          children: [
-            // Encabezado de la tabla
-            TableRow(
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-                  color: Colors.grey[200]),
-              children: const [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                     "Estado",
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                     "Variable",
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                     "Valor",
-                  ),
-                ),
-              ],
-            ),
-            // Filas de datos
-            for (var item in pvPrincipalRead.datosDeviceID!.ultimosDatos!) ...[
-              TableRow(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (item.identificador == 247 ||
-                            item.identificador == 246 ||
-                            item.identificador == 245) ...[
-                          Row(
-                            children: [
-                              Icon(
-                                item.valor == 1.0
-                                    ? FontAwesomeIcons.toggleOn
-                                    : FontAwesomeIcons.toggleOff,
-                                color: item.valor == 1.0 ? Colors.green : Colors.red,
-                              ),
-                              const SizedBox(width: 5.0),
-                              Text( item.valor == 1.0 ? "ON" : "OFF")
-                            ],
-                          )
-                        ] else ...[
-                          pvPrincipalRead.getIconByIdentifier(item.identificador!)
-                        ]
-                      ],
-                    ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text( "${item.alias}")),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [Text( "${item.valor}")],
-                    ),
-                  ),
-                ],
-              ),
-              // Separador entre filas
-              const TableRow(
-                children: [
-                  TableCell(
-                    child: Divider(thickness: 1, color: Colors.grey),
-                  ),
-                  TableCell(
-                    child: Divider(thickness: 1, color: Colors.grey),
-                  ),
-                  TableCell(
-                    child: Divider(thickness: 1, color: Colors.grey),
-                  ),
-                ],
-              ),
-            ],
-          ],
-        ),
-      );
+    if (pvPrincipal.datosDiccionario == null ||
+        pvPrincipal.datosDiccionario!.data == null) {
+      return const Center(child: Text("No hay datos disponibles."));
     }
 
-    // Si no hay datos, retorna un contenedor vacío
-    return Container();
-  }
-}
-
-class NodoCard extends StatelessWidget {
-  const NodoCard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final prPrincipalRead = context.watch<ProviderPrincipal>();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const Icon(
-              Icons.router,
-              size: 150,
-              color: UsefulColor.colorPrimary,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3), // Cambia la dirección de la sombra
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          ],
+        ),
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            Row(
               children: [
-                Text(
-                     "${prPrincipalRead.datosDeviceID?.nodo?.nombrePresentar}}"),
-                Text(
-                     "${prPrincipalRead.datosDeviceID?.nodo?.nombre}"),
-                const SizedBox(
-                  height: 10,
+                const Icon(
+                  Icons.router_sharp,
+                  size: 50,
                 ),
-                Row(
+                const SizedBox(
+                  width: 15,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          color: UsefulColor.colorPrimary,
-                          borderRadius: BorderRadius.circular(50)),
-                      child: InkWell(
-                        onTap: () {},
-                        child: const Text(
-                          "Ubicacion",
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          color: UsefulColor.colorPrimary,
-                          borderRadius: BorderRadius.circular(50)),
-                      child: InkWell(
-                        onTap: () {
-                          if (prPrincipalRead.datosDeviceID?.nodo != null) {
-                            prPrincipalRead.idWebDevice =
-                                prPrincipalRead.datosDeviceID!.nodo!.id!;
-                            Navigator.of(Useful.globalContext.currentContext!).pushNamed(
-                              ScreenWebView.routePage,
-                            );
-                          }
-                        },
-                        child: const Text(
-                          "Ver graficas",
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      ),
-                    ),
+                    Text("${pvPrincipal.datosDiccionario!.nombrePresentar}"),
+                    Text("${pvPrincipal.datosDiccionario!.nombre}"),
                   ],
                 )
               ],
             )
           ],
-        )
-      ],
+        ),
+      ),
+    );
+  }
+}
+
+class CardDiccionario extends StatelessWidget {
+  const CardDiccionario({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final pvPrincipal = context.watch<ProviderPrincipal>();
+
+    // Verificar si hay datos antes de renderizar
+    if (pvPrincipal.datosDiccionario == null ||
+        pvPrincipal.datosDiccionario!.data == null) {
+      return const Center(child: Text("No hay datos disponibles."));
+    }
+
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: pvPrincipal.datosDiccionario!.data!.length,
+      itemBuilder: (context, index) {
+        final item = pvPrincipal.datosDiccionario!.data![index];
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+          child: DiccionarioItemCard(
+              idDiccionario: item.idDiccionario,
+              valor: item.valor,
+              fechahora: item.fechahora,
+              hora: item.hora,
+              identificador: item.identificador,
+              nombre: item.nombreDiccionario),
+        );
+      },
+    );
+  }
+}
+
+class DiccionarioItemCard extends StatelessWidget {
+  final int? idDiccionario;
+  final double? valor;
+  final DateTime? fechahora;
+  final String? hora;
+  final String? nombre;
+  final int? identificador;
+
+  const DiccionarioItemCard(
+      {Key? key,
+      this.idDiccionario,
+      this.valor,
+      this.fechahora,
+      this.hora,
+      this.nombre,
+      this.identificador})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final pvPrincipal = context.watch<ProviderPrincipal>();
+    return InkWell(
+      onTap: () {
+        if (pvPrincipal.datosDiccionario != null ||
+            pvPrincipal.datosDiccionario!.data != null) {
+          pvPrincipal.getDataDiccionarioIdNodoId(
+               pvPrincipal.datosDiccionario!.idNodo!, idDiccionario!, context);
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: UsefulColor.colorWhite,
+          borderRadius: BorderRadius.circular(20.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3), // Cambia la dirección de la sombra
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(5.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                    width: 70, child: pvPrincipal.getIconByIdentifier(identificador!)),
+                const SizedBox(
+                  width: 15,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Variable: $nombre",
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    const SizedBox(height: 5),
+                    Text("Valor: $valor",
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    const SizedBox(height: 5),
+                    Row(
+                      children: [
+                        Text("Fecha: ${DateFormat('yyyy-MM-dd').format(fechahora!)}",
+                            style: const TextStyle(fontSize: 14)),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text("Hora: $hora", style: const TextStyle(fontSize: 14)),
+                      ],
+                    ),
+                    const SizedBox(height: 5),
+                  ],
+                )
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }

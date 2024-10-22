@@ -6,7 +6,9 @@ import 'package:sisi_iot_app/data/repositories/api_global_url.dart';
 import 'package:sisi_iot_app/data/repositories/dio_exceptions.dart';
 import 'package:sisi_iot_app/domain/entities/company.dart';
 import 'package:sisi_iot_app/domain/entities/dataDevice.dart';
+import 'package:sisi_iot_app/domain/entities/datos_diccionario.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';
+import 'package:sisi_iot_app/domain/entities/model_diccionario_nodo.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 
 class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
@@ -71,7 +73,26 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
         log("RESPONDE DATA NODOS ID $response");
       }
       if (response.data != null) {
-        callback(1, DatosDevice.fromMap(response.data));
+        callback(1, DatosDiccionario.fromMap(response.data));
+      }
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      callback(-1, errorMessage);
+    }
+  }
+
+  @override
+  Future getDataDiccionarioIdNodoID(
+      int idNodo, int idDiccionario, VoidCallback? Function(int code, dynamic data) callback) async {
+    try {
+      final response =
+          await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getDataDiccionarioNodo}$idNodo/$idDiccionario");
+      if (kDebugMode) {
+        log("url : ${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getDataDiccionarioNodo}$idNodo/$idDiccionario");
+        log("RESPONDE DATA NODOS ID $response");
+      }
+      if (response.data != null) {
+        callback(1, ModelDiccionarioNodo.fromMap(response.data));
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();

@@ -122,7 +122,7 @@ class ListChartNodos extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          pvPrincipal.typeImagen(),
+                          // pvPrincipal.typeImagen(),
                           SvgPicture.asset(
                             'assets/images/tank.svg',
                             width: 100,
@@ -161,18 +161,18 @@ class ListChartNodos extends StatelessWidget {
                 ),
               ),
               Text(device.nombre!.toUpperCase()),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text( "${device.valor ?? "0.0"}%"),
-                  const SizedBox(width: 4), // Espacio entre el icono y el texto
-                  const Icon(
-                    Icons.arrow_forward_ios_outlined,
-                    size: 18,
-                    color: UsefulColor.colorhintstyletext,
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Text( "${device.valor ?? "0.0"}%"),
+              //     const SizedBox(width: 4), // Espacio entre el icono y el texto
+              //     const Icon(
+              //       Icons.arrow_forward_ios_outlined,
+              //       size: 18,
+              //       color: UsefulColor.colorhintstyletext,
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         );
