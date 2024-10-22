@@ -122,6 +122,7 @@ class ListChartNodos extends StatelessWidget {
                     children: [
                       Row(
                         children: [
+                          pvPrincipal.typeImagen(),
                           SvgPicture.asset(
                             'assets/images/tank.svg',
                             width: 100,
@@ -138,6 +139,7 @@ class ListChartNodos extends StatelessWidget {
                           const Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+
                               CardColor(
                                 color: Colors.red,
                                 text: "Alto",
@@ -198,6 +200,9 @@ class CardColor extends StatelessWidget {
           height: 10, // Altura del contenedor
           color: color, // Color rojo
         ),
+        const SizedBox(height: 10,),
+        const SizedBox(width: 5,),
+
         Text(
           text,
           style: const TextStyle(fontSize: 8),

@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
-import 'package:sisi_iot_app/ui/provider/network_status.dart';
+import 'package:sisi_iot_app/config/network_status.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:sisi_iot_app/ui/provider/provider_setting.dart';
-import 'package:sisi_iot_app/ui/provider/theme.dart';
+import 'package:sisi_iot_app/config/theme.dart';
 import 'package:sisi_iot_app/ui/screen/screen_splash.dart';
 
 import 'data/repositories/repository_implement.dart';

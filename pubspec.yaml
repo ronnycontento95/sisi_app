@@ -1,6 +1,7 @@
 name: sisi_iot_app
-description: Application for the monitoring of lpg and water
+description: Application for the monitoring of glp and water
 
+#Development Ronny Contento
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.8+8
@@ -52,9 +53,7 @@ dev_dependencies:
 flutter_icons:
   android: "ic_launcher"
   ios: true
-#  image_path: "assets/icon/icon.png"
-#  adaptive_icon_background: "assets/icon/icon-background.png"
-#  adaptive_icon_foreground: "assets/icon/icon.png"
+
 flutter_native_splash:
   color: '#8eb72c '
 

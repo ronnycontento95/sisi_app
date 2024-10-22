@@ -66,9 +66,7 @@ class ListDataDeviceId extends StatelessWidget {
         ),
         child: Table(
           columnWidths: const {
-            0: FixedColumnWidth(80.0), // Ancho fijo para la primera columna
-            1: FlexColumnWidth(), // Ancho flexible para la segunda columna
-            2: FlexColumnWidth(), // Ancho flexible para la segunda columna
+            0: FixedColumnWidth(100), // Ancho fijo para la primera columna
           },
           children: [
             // Encabezado de la tabla
@@ -77,7 +75,7 @@ class ListDataDeviceId extends StatelessWidget {
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                   color: Colors.grey[200]),
-              children: [
+              children: const [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(

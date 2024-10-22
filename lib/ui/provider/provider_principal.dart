@@ -48,7 +48,6 @@ class ProviderPrincipal extends ChangeNotifier {
   bool _visiblePassword = true;
   Timer? _timerDevice;
 
-
   DatosDevice? get datosDeviceID => _datosDeviceID;
 
   set datosDeviceID(DatosDevice? value) {
@@ -430,7 +429,9 @@ class ProviderPrincipal extends ChangeNotifier {
   }
 
   void getDataDeviceId(int id, BuildContext context) {
+    Useful().showProgress();
     apiRepositoryLoginInterface?.getDataDeviceId(id, (code, data) {
+      Useful().hideProgress(context);
       if (data != null) {
         datosDeviceID = data;
         Navigator.of(context).pushNamed(
@@ -441,13 +442,12 @@ class ProviderPrincipal extends ChangeNotifier {
     });
   }
 
-
   Icon getIconByIdentifier(int identificador) {
     switch (identificador) {
       case 201:
         return const Icon(FontAwesomeIcons.batteryFull, color: Colors.green); // Batería
       case 202:
-      return Icon(FontAwesomeIcons.tint, color: Colors.green); // Porcentaje de agua
+        return Icon(FontAwesomeIcons.tint, color: Colors.green); // Porcentaje de agua
 
       case 203:
         return Icon(FontAwesomeIcons.glassWhiskey, color: Colors.green); // Valumen
@@ -521,5 +521,11 @@ class ProviderPrincipal extends ChangeNotifier {
       default:
         return Icon(Icons.device_unknown, color: Colors.grey); // Icono por defecto
     }
+  }
+
+  typeImagen() async {
+    GlobalPreference().getIdEmpresa().then((idEmpresa) {
+
+    });
   }
 }

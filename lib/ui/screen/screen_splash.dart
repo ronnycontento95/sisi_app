@@ -47,40 +47,30 @@ class _ScreenSpashState extends State<ScreenSpash> {
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion(
+    return const AnnotatedRegion(
         value: Colors.white,
         child: Scaffold(
           backgroundColor: UsefulColor.colorPrimary,
           body: SafeArea(
             child: Stack(
-              children: [const BackgroundImagen(), copy()],
+              children: [
+                OffsetText(
+                  text: 'Lorem ipsum dolor sit amet ...',
+                  duration: const Duration(seconds: 4),
+                  type: AnimationType.word,
+                  slideType: SlideAnimationType.topBottom,
+                  textStyle: const TextStyle(fontSize: 18, color: Colors.red),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    UsefulLabel.txtCopy,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
             ),
           ),
         ));
-  }
-
-  Widget copy() {
-    return const Align(
-        alignment: Alignment.bottomCenter,
-        child: Text(
-          UsefulLabel.txtCopy,
-          style: TextStyle(color: Colors.white),
-        ));
-  }
-}
-
-class BackgroundImagen extends StatelessWidget {
-  const BackgroundImagen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child:   SpringText(
-        text: 'Lorem ipsum dolor sit amet ...',
-        duration: const Duration(seconds: 4),
-        type: AnimationType.word,
-        textStyle: const TextStyle(fontSize: 18),
-      )
-    );
   }
 }
