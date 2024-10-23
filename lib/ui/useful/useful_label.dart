@@ -22,7 +22,7 @@ class UsefulLabel{
   static const routerScreenCharNodos="ScreenCharNodos";
   static const routerScreenTermCondition="ScreenTermCondition";
   static const routerScreenDataDeviceId="ScreenDataDeviceId";
-  static const routerScreenDetailDiccionario="ScreenDetailDiccionario";
+  static const routerScreenDetailNodo="ScreenDetailNodo";
 
   /// Global Target Marker
   static const targetWidth = 80;

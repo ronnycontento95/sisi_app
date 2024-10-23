@@ -18,7 +18,7 @@ import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.
 import 'package:sisi_iot_app/ui/screen/screen_Google.dart';
 import 'package:sisi_iot_app/ui/screen/screen_card_nodos.dart';
 import 'package:sisi_iot_app/ui/screen/screen_chart_nodos.dart';
-import 'package:sisi_iot_app/ui/screen/screen_data_device.dart';
+import 'package:sisi_iot_app/ui/screen/screen_detail_nodo.dart';
 import 'package:sisi_iot_app/ui/screen/screen_detail_diccionario.dart';
 import 'package:sisi_iot_app/ui/screen/screen_login.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
@@ -407,7 +407,7 @@ class ProviderPrincipal extends ChangeNotifier {
       if (data != null) {
         datosDiccionario = data;
         Navigator.of(context).pushNamed(
-          ScreenDataDeviceId.routePage,
+          ScreenDetailNodo.routePage,
         );
       }
       return null;

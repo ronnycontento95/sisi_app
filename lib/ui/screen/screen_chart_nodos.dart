@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:sisi_iot_app/data/repositories/api_global_url.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
@@ -15,18 +16,52 @@ class ScreenChartNodos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Nodos'),
-        centerTitle: true,
-      ),
-      body: const SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16.0), // Reduce un poco el padding para mayor coherencia
-          child: Column(
-            children: [
-              ListChartNodos(),
-            ],
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Encabezado con imagen
+            Stack(
+              children: [
+                // Imagen en el encabezado
+                Container(
+                  width: double.infinity,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      // Usa Image.network en lugar de Image.asset para cargar la imagen desde la URL
+                      image: NetworkImage('${ApiGlobalUrl.generalLinkImagen}${context.watch<ProviderPrincipal>().companyResponse.imagen}'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 20,
+                  left: 20,
+                  child: Text(
+                    'Nodos \n${context.watch<ProviderPrincipal>().companyResponse.nombre_empresa} ',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 10.0,
+                          color: Colors.black45,
+                          offset: Offset(2, 2),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            // Contenido principal
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: ListChartNodos(),
+            ),
+          ],
         ),
       ),
     );
@@ -89,14 +124,6 @@ class ListChartNodos extends StatelessWidget {
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: Colors.black87,
-                      ),
-                    ),
-                    const SizedBox(height: 5), // Un poco de espacio antes de más contenido
-                    Text(
-                      'ID: ${device.idNodos}',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey,
                       ),
                     ),
                   ],
