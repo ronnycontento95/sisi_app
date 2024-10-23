@@ -79,4 +79,5 @@ class Datum {
   String toString() {
     return 'Datum{fechahora: $fechahora, idDatos: $idDatos, identificador: $identificador, nombreDiccionario: $nombreDiccionario, idDiccionario: $idDiccionario, valor: $valor, hora: $hora}';
   }
+
 }

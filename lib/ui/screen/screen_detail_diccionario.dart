@@ -12,8 +12,8 @@ class ScreenDetailDiccionario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
+      appBar: AppBar(backgroundColor: Colors.white, title: Text("Detalle 4"),),
+      body: const SingleChildScrollView(
         child: Column(
           children: [TablaDiccionarioNodo()],
         ),

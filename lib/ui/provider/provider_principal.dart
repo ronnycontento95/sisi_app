@@ -275,7 +275,7 @@ class ProviderPrincipal extends ChangeNotifier {
     GlobalPreference().getIdEmpresa().then((idEmpresa) {
       companyResponse = idEmpresa!;
       getDevice(idEmpresa.id_empresas!, context);
-      getDeviceTimer(idEmpresa.id_empresas!, context);
+      // getDeviceTimer(idEmpresa.id_empresas!, context);
     });
   }
 
@@ -548,6 +548,7 @@ class ProviderPrincipal extends ChangeNotifier {
     apiRepositoryLoginInterface?.getDataDiccionarioIdNodoID(
         idNodo, idDiccionario, (code, data) {
           print("pruebas >>> ${data}");
+          Useful().hideProgress(context);
           if(data != null){
             modelDiccionarioNodo = data;
 

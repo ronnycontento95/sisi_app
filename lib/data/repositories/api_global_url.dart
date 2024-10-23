@@ -9,7 +9,3 @@ class ApiGlobalUrl {
   static const getDataDiccionarioNodo = "aplicacion/api/nodo_type/";
 
 }
-
-// url(r'^api/nodo/(?P<ide>\S+)/$', views.celular_nodo_individual, name='celular_nodo_individual'),
-// url(r'^api/nodo_diccionario/(?P<id_nodo>\d+)/$', views.getDiccionarioNodos, name='getDiccionarioNodos'),
-// url(r'^api/nodo_type/(?P<id_nodo>\d+)/(?P<id_diccionario>\d+)/$', views.getDiccionarioBuyNodos, name='getDiccionarioBuyNodos'),
