@@ -1,80 +1,81 @@
 import 'dart:convert';
 
-class Device {
-  Device({
-    this.ide,
-    this.clase,
-    this.nombre,
-    this.datosEnviados,
-    this.valor,
-    this.valMin,
-    this.valMax,
-    this.fechahora,
-    this.tipoDato,
-    this.lat,
-    this.lot
+class ModelBusinessNodo {
+  List<Nodo>? data;
+
+  ModelBusinessNodo({
+    this.data,
   });
 
-  int? ide;
-  String? clase;
-  String? nombre;
-  int? datosEnviados;
-  double? valor;
-  double? valMin;
-  double? valMax;
-  String? fechahora;
-  String? tipoDato;
-  String? lat;
-  String? lot;
-
-  factory Device.fromJson(String str) => Device.fromMap(json.decode(str));
+  factory ModelBusinessNodo.fromJson(String str) => ModelBusinessNodo.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Device.fromMap(Map<String, dynamic> json) => Device(
-    ide: json["ide"],
-    clase: json["clase"],
-    nombre: json["nombre"],
-    datosEnviados: json["datos_enviados"],
-    valor: json["valor"]?.toDouble(),
-    valMin: json["val_min"]?.toDouble(),
-    valMax: json["val_max"]?.toDouble(),
-    fechahora: json["fechahora"],
-    tipoDato: json["tipo_dato"],
-    lat: json["lat"],
-    lot: json["lot"],
+  factory ModelBusinessNodo.fromMap(Map<String, dynamic> json) => ModelBusinessNodo(
+    data: json["data"] == null ? [] : List<Nodo>.from(json["data"]!.map((x) => Nodo.fromMap(x))),
   );
 
   Map<String, dynamic> toMap() => {
-    "ide": ide,
-    "clase": clase,
-    "nombre": nombre,
-    "datos_enviados": datosEnviados,
-    "valor": valor,
-    "val_min": valMin,
+    "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toMap())),
+  };
+}
+
+class Nodo {
+  double? valMax;
+  String? lot;
+  String? fechahora;
+  String? tipoDato;
+  String? lat;
+  int? ide;
+  int? valor;
+  int? datosEnviados;
+  double? valMin;
+  String? nombre;
+  String? clase;
+
+  Nodo({
+    this.valMax,
+    this.lot,
+    this.fechahora,
+    this.tipoDato,
+    this.lat,
+    this.ide,
+    this.valor,
+    this.datosEnviados,
+    this.valMin,
+    this.nombre,
+    this.clase,
+  });
+
+  factory Nodo.fromJson(String str) => Nodo.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory Nodo.fromMap(Map<String, dynamic> json) => Nodo(
+    valMax: json["val_max"],
+    lot: json["lot"],
+    fechahora: json["fechahora"],
+    tipoDato: json["tipo_dato"],
+    lat: json["lat"],
+    ide: json["ide"],
+    valor: json["valor"],
+    datosEnviados: json["datos_enviados"],
+    valMin: json["val_min"],
+    nombre: json["nombre"],
+    clase: json["clase"],
+  );
+
+  Map<String, dynamic> toMap() => {
     "val_max": valMax,
+    "lot": lot,
     "fechahora": fechahora,
     "tipo_dato": tipoDato,
     "lat": lat,
-    "lot": lot,
+    "ide": ide,
+    "valor": valor,
+    "datos_enviados": datosEnviados,
+    "val_min": valMin,
+    "nombre": nombre,
+    "clase": clase,
   };
-
-  Device.map(dynamic obj) {
-    ide= obj["ide"];
-    clase= obj["clase"];
-    nombre= obj["nombre"];
-    datosEnviados= obj["datos_enviados"];
-    valor= obj["valor"];
-    valMin= obj["val_min"];
-    valMax= obj["val_max"];
-    fechahora= obj["fechahora"];
-    tipoDato= obj["tipo_dato"];
-    lat= obj["lat"];
-    lot= obj["lot"];
-  }
-
-  @override
-  String toString() {
-    return 'Device{ide: $ide, clase: $clase, nombre: $nombre, datosEnviados: $datosEnviados, valor: $valor, valMin: $valMin, valMax: $valMax, fechahora: $fechahora, tipoDato: $tipoDato, lat: $lat, lot: $lot}';
-  }
 }

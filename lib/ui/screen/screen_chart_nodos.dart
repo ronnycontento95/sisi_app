@@ -14,19 +14,103 @@ class ScreenChartNodos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      child: Column(
-        children: [
-          TextFieldSearch(),
-          SizedBox(
-            height: 10,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Nodos'),
+        centerTitle: true,
+      ),
+      body: const SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0), // Reduce un poco el padding para mayor coherencia
+          child: Column(
+            children: [
+              ListChartNodos(),
+            ],
           ),
-          ListChartNodos(),
-        ],
+        ),
       ),
     );
   }
 }
+
+class ListChartNodos extends StatelessWidget {
+  const ListChartNodos({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final pvPrincipal = context.watch<ProviderPrincipal>();
+
+    return Wrap(
+      spacing: 16, // Más espacio entre los widgets
+      runSpacing: 16, // Más espacio entre las filas
+      children: List.generate(pvPrincipal.modelListNodos?.nodos?.length ?? 0, (index) {
+        final device = pvPrincipal.modelListNodos?.nodos![index];
+
+        return SizedBox(
+          width: (MediaQuery.of(context).size.width / 2) - 24, // Ajuste para mantener un margen más consistente
+          height: 180, // Ajusta la altura para darle más espacio al contenido
+          child: GestureDetector(
+            onTap: () {
+              pvPrincipal.getDataDeviceId(device!.idNodos!, context);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/images/tank.svg',
+                      width: 80, // Reduzco el tamaño para dar más espacio a otros elementos
+                      height: 80,
+                      colorFilter: const ColorFilter.mode(
+                        Colors.blue,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    const SizedBox(height: 10), // Espacio entre la imagen y el texto
+                    Text(
+                      device!.nombrePresentar!.toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 5), // Un poco de espacio antes de más contenido
+                    Text(
+                      'ID: ${device.idNodos}',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      }),
+    );
+  }
+}
+
+
 
 class TextFieldSearch extends StatelessWidget {
   const TextFieldSearch({Key? key}) : super(key: key);
@@ -87,127 +171,6 @@ class TextFieldSearch extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class ListChartNodos extends StatelessWidget {
-  const ListChartNodos({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final pvPrincipal = context.watch<ProviderPrincipal>();
-
-    return Wrap(
-      spacing: 10,
-      runSpacing: 10,
-      children: List.generate(pvPrincipal.listFilterDevice?.length ?? 0, (index) {
-        final device = pvPrincipal.listFilterDevice![index];
-        return SizedBox(
-          width: (MediaQuery.of(context).size.width / 2) - 25, // Ajuste para dos columnas
-          height: 155,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    pvPrincipal.getDataDeviceId(device.ide!, context);
-                  },
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          // pvPrincipal.typeImagen(),
-                          SvgPicture.asset(
-                            'assets/images/tank.svg',
-                            width: 100,
-                            height: 100,
-                            colorFilter: ColorFilter.mode(
-                              device.valor! > 100
-                                  ? Colors.red
-                                  : device.valor! <= 30
-                                      ? Colors.orange
-                                      : Colors.blue,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                          const Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-
-                              CardColor(
-                                color: Colors.red,
-                                text: "Alto",
-                              ),
-                              CardColor(
-                                color: Colors.blue,
-                                text: "Normal",
-                              ),
-                              CardColor(
-                                color: Colors.orange,
-                                text: "Bajo",
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Text(device.nombre!.toUpperCase()),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Text( "${device.valor ?? "0.0"}%"),
-              //     const SizedBox(width: 4), // Espacio entre el icono y el texto
-              //     const Icon(
-              //       Icons.arrow_forward_ios_outlined,
-              //       size: 18,
-              //       color: UsefulColor.colorhintstyletext,
-              //     ),
-              //   ],
-              // ),
-            ],
-          ),
-        );
-      }),
-    );
-  }
-}
-
-class CardColor extends StatelessWidget {
-  const CardColor({
-    super.key,
-    required this.color,
-    required this.text,
-  });
-
-  final Color color;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 10, // Ancho del contenedor
-          height: 10, // Altura del contenedor
-          color: color, // Color rojo
-        ),
-        const SizedBox(height: 10,),
-        const SizedBox(width: 5,),
-
-        Text(
-          text,
-          style: const TextStyle(fontSize: 8),
-        ),
-      ],
     );
   }
 }

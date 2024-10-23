@@ -13,14 +13,17 @@ import 'package:sisi_iot_app/domain/entities/dataDevice.dart';
 import 'package:sisi_iot_app/domain/entities/datos_diccionario.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';
 import 'package:sisi_iot_app/domain/entities/model_diccionario_nodo.dart';
+import 'package:sisi_iot_app/domain/entities/model_list_nodos.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 import 'package:sisi_iot_app/ui/screen/screen_Google.dart';
 import 'package:sisi_iot_app/ui/screen/screen_card_nodos.dart';
+import 'package:sisi_iot_app/ui/screen/screen_chart_nodos.dart';
 import 'package:sisi_iot_app/ui/screen/screen_data_device.dart';
 import 'package:sisi_iot_app/ui/screen/screen_detail_diccionario.dart';
 import 'package:sisi_iot_app/ui/screen/screen_login.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_custom_bottom_sheet.dart';
+import 'package:sisi_iot_app/ui/widgets/widget_tank.dart';
 
 import '../screen/screen_home.dart';
 import '../useful/useful.dart';
@@ -33,8 +36,6 @@ class ProviderPrincipal extends ChangeNotifier {
   PageController _controller = PageController(initialPage: 1);
   Company? _companyResponse = Company();
   DatosDiccionario? _datosDiccionario;
-  List<Device>? _listDevice = [];
-  List<Device>? listFilterDevice = [];
   String? _errorMessage;
   GoogleMapController? mapControllerExplorer;
   Map<MarkerId, Marker> _markersNodo = {};
@@ -51,7 +52,14 @@ class ProviderPrincipal extends ChangeNotifier {
   bool _visiblePassword = true;
   Timer? _timerDevice;
   ModelDiccionarioNodo? _modelDiccionarioNodo;
+  ModelListNodos? _modelListNodos = ModelListNodos();
 
+  ModelListNodos? get modelListNodos => _modelListNodos;
+
+  set modelListNodos(ModelListNodos? value) {
+    _modelListNodos = value;
+    notifyListeners();
+  }
 
   ModelDiccionarioNodo? get modelDiccionarioNodo => _modelDiccionarioNodo;
 
@@ -82,35 +90,7 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Widget> itemScreen = [
-    const ScreenHome(),
-    const ScreenCardNodos(),
-    const ScreenGoogle(),
-    const ScreenCardNodos()
-  ];
 
-  List<TabItem> items = [
-    const TabItem(
-      icon: Icons.home,
-      title: 'Home',
-    ),
-    const TabItem(
-      icon: Icons.push_pin,
-      title: 'Tarjetas',
-    ),
-    const TabItem(
-      icon: Icons.menu,
-      title: 'menu',
-    ),
-    const TabItem(
-      icon: Icons.public,
-      title: 'Mapa',
-    ),
-    const TabItem(
-      icon: Icons.account_box,
-      title: 'profile',
-    ),
-  ];
 
   ProviderPrincipal(this.apiRepositoryLoginInterface) {
     Useful()
@@ -119,13 +99,6 @@ class ProviderPrincipal extends ChangeNotifier {
       final bitmap = BitmapDescriptor.fromBytes(value);
       iconLocation.complete(bitmap);
     });
-    notifyListeners();
-  }
-
-  List<Device> get listDevice => _listDevice!;
-
-  set listDevice(List<Device> value) {
-    _listDevice = value;
     notifyListeners();
   }
 
@@ -282,24 +255,21 @@ class ProviderPrincipal extends ChangeNotifier {
   /// Get nodos id bussiness
   getDevice(int id, BuildContext context) async {
     Useful().showProgress();
-    await apiRepositoryLoginInterface?.getNodoId(id, (code, data) {
+    await apiRepositoryLoginInterface?.getListNodo(id, (code, data) {
       Useful().hideProgress(context);
       if (code == 1) {
-        listDevice = data;
-        listFilterDevice = data;
-        for (var element in listDevice) {
-          MarkerId markerId = MarkerId(element.ide.toString());
-          LatLng latLng = LatLng(double.parse(element.lat!), double.parse(element.lot!));
-          addMarker(
-            markers,
-            markerId.toString(),
-            latLng,
-            size: 60,
-          );
-        }
-      } else {
-        listDevice = [];
-      }
+        modelListNodos = data;
+        // for (var element in listDevice) {
+        //   MarkerId markerId = MarkerId(element.ide.toString());
+        //   LatLng latLng = LatLng(double.parse(element.lat!), double.parse(element.lot!));
+        //   addMarker(
+        //     markers,
+        //     markerId.toString(),
+        //     latLng,
+        //     size: 60,
+        //   );
+        // }
+      } else {}
       return null;
     });
     // });
@@ -309,24 +279,22 @@ class ProviderPrincipal extends ChangeNotifier {
   getDeviceTimer(int id, BuildContext context) async {
     _timerDevice = Timer.periodic(const Duration(minutes: 1), (timer) async {
       // Useful().showProgress();
-      await apiRepositoryLoginInterface?.getNodoId(id, (code, data) {
+      await apiRepositoryLoginInterface?.getBusinessNodo(id, (code, data) {
         Useful().hideProgress(context);
         if (code == 1) {
-          listDevice = data;
-          listFilterDevice = data;
-          for (var element in listDevice) {
-            MarkerId markerId = MarkerId(element.ide.toString());
-            LatLng latLng =
-                LatLng(double.parse(element.lat!), double.parse(element.lot!));
-            addMarker(
-              markers,
-              markerId.toString(),
-              latLng,
-              size: 60,
-            );
-          }
+          // for (var element in listDevice) {
+          //   MarkerId markerId = MarkerId(element.ide.toString());
+          //   LatLng latLng =
+          //       LatLng(double.parse(element.lat!), double.parse(element.lot!));
+          //   addMarker(
+          //     markers,
+          //     markerId.toString(),
+          //     latLng,
+          //     size: 60,
+          //   );
+          // }
         } else {
-          listDevice = [];
+          // listDevice = [];
         }
         return null;
       });
@@ -376,19 +344,13 @@ class ProviderPrincipal extends ChangeNotifier {
       _timer!.cancel();
       _timer = null;
     }
-    if (param.length > 3) {
-      // timer = Timer(const Duration(milliseconds: 500), () {
-      listFilterDevice = _listDevice!
-          .where((element) => element.nombre!.toLowerCase().contains(param.toLowerCase()))
-          .toList();
-      notifyListeners();
-      // });
-    } else {
-      // timer = Timer(const Duration(milliseconds: 500), () {
-      listFilterDevice = _listDevice;
-      notifyListeners();
-      // });
-    }
+    // if (param.length > 3) {
+    //   listFilterDevice = listDevice!.where((element) => element.data.!.toLowerCase().contains(param.toLowerCase())).toList();
+    //   notifyListeners();
+    // } else {
+    //   listFilterDevice = listDevice;
+    //   notifyListeners();
+    // }
   }
 
   ///Clean text fiel search
@@ -428,8 +390,6 @@ class ProviderPrincipal extends ChangeNotifier {
   }
 
   void logoOut() {
-    listDevice.clear();
-    listFilterDevice!.clear();
     editUser.text = "";
     editPassword.text = "";
     GlobalPreference().deleteUser();
@@ -437,7 +397,7 @@ class ProviderPrincipal extends ChangeNotifier {
   }
 
   showBottomSheet(BuildContext context) {
-    customBottomSheet(context, widget: const ScreenMenuNavbar());
+    // customBottomSheet(context, widget: const ScreenMenuNavbar());
   }
 
   void getDataDeviceId(int id, BuildContext context) {
@@ -543,21 +503,22 @@ class ProviderPrincipal extends ChangeNotifier {
     GlobalPreference().getIdEmpresa().then((idEmpresa) {});
   }
 
-  void getDataDiccionarioIdNodoId(int idNodo, int idDiccionario, BuildContext context) {
+  void getDataDiccionarioIdNodoId(
+      String idNodo, int idDiccionario, BuildContext context) {
     Useful().showProgress();
-    apiRepositoryLoginInterface?.getDataDiccionarioIdNodoID(
-        idNodo, idDiccionario, (code, data) {
-          print("pruebas >>> ${data}");
-          Useful().hideProgress(context);
-          if(data != null){
-            modelDiccionarioNodo = data;
+    apiRepositoryLoginInterface?.getDataDiccionarioIdNodoID(idNodo, idDiccionario,
+        (code, data) {
+      print("pruebas >>> ${data}");
+      Useful().hideProgress(context);
+      if (data != null) {
+        modelDiccionarioNodo = data;
 
-            Navigator.of(context).pushNamed(
-              ScreenDetailDiccionario.routePage,
-            );
-          }
+        Navigator.of(context).pushNamed(
+          ScreenDetailDiccionario.routePage,
+        );
+      }
 
-          return null;
-        });
+      return null;
+    });
   }
 }

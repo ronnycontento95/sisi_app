@@ -9,6 +9,7 @@ import 'package:sisi_iot_app/domain/entities/dataDevice.dart';
 import 'package:sisi_iot_app/domain/entities/datos_diccionario.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';
 import 'package:sisi_iot_app/domain/entities/model_diccionario_nodo.dart';
+import 'package:sisi_iot_app/domain/entities/model_list_nodos.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 
 class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
@@ -35,26 +36,38 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
       callback(-1, Company(bandera: false));
     }
   }
-
   @override
-  Future getNodoId(
+  Future getListNodo(
       int id, VoidCallback? Function(int code, dynamic data) callback) async {
     try {
       final response =
-          await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getNodosId}$id");
-      List<Device> device = [];
+      await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getListNodo}$id");
+      if (kDebugMode) {
+        log("url : ${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getListNodo}$id");
+        log("RESPONDE >>> LIST NDOOS $response");
+      }
       if (response.data != null) {
-        if (kDebugMode) {
-          log("url : ${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getNodosId}$id");
-          log("RESPONDE ALL NODOS $response");
-        }
-        List<dynamic> listNodo = response.data;
-        for (var element in listNodo) {
-          device.add(Device.fromMap(element));
-        }
-        callback(1, device);
-      } else {
-        callback(-1, "No existe datos");
+        callback(1, ModelListNodos.fromMap(response.data));
+      }
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      callback(-1, errorMessage);
+    }
+  }
+
+
+  @override
+  Future getBusinessNodo(
+      int id, VoidCallback? Function(int code, dynamic data) callback) async {
+    try {
+      final response =
+          await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getBusinessNodo}$id");
+      if (kDebugMode) {
+        log("url : ${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getBusinessNodo}$id");
+        log("RESPONDE DATA NODOS ID $response");
+      }
+      if (response.data != null) {
+        callback(1, ModelBusinessNodo.fromMap(response.data));
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
@@ -83,7 +96,7 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
 
   @override
   Future getDataDiccionarioIdNodoID(
-      int idNodo, int idDiccionario, VoidCallback? Function(int code, dynamic data) callback) async {
+      String idNodo, int idDiccionario, VoidCallback? Function(int code, dynamic data) callback) async {
     try {
       final response =
           await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getDataDiccionarioNodo}$idNodo/$idDiccionario");

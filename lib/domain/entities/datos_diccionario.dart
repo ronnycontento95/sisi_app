@@ -3,7 +3,7 @@ import 'dart:convert';
 class DatosDiccionario {
   String? nombrePresentar;
   List<Datum>? data;
-  int? idNodo;
+  String? idNodo;
   String? nombre;
 
   DatosDiccionario({

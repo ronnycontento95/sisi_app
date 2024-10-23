@@ -29,8 +29,8 @@ class ListCardNodos extends StatelessWidget {
     return Wrap(
       spacing: 5,
       runSpacing: 5,
-      children: List.generate(pvPrincipal.listFilterDevice?.length ?? 0, (index) {
-        final device = pvPrincipal.listFilterDevice![index];
+      children: List.generate(pvPrincipal.modelListNodos?.nodos?.length ?? 0, (index) {
+        final device = pvPrincipal.modelListNodos?.nodos?[index];
         return SizedBox(
           width: MediaQuery.of(context).size.width, // Usar todo el ancho disponible
           height: 125,
@@ -39,7 +39,7 @@ class ListCardNodos extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  pvPrincipal.getDataDeviceId(device.ide!, context);
+                  pvPrincipal.getDataDeviceId(device!.idNodos!, context);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(20),
@@ -62,11 +62,7 @@ class ListCardNodos extends StatelessWidget {
                               "${UsefulLabel.assetsImages}wifi.gif",
                               width: 50,
                               height: 50,
-                              color: device.valor! > 100
-                                  ? Colors.red
-                                  : device.valor! <= 30
-                                      ? Colors.orange
-                                      : Colors.blue, // Color de la imagen
+                              color: Colors.blue // Color de la imagen
                             ),
                           ),
                           Expanded(
@@ -85,54 +81,12 @@ class ListCardNodos extends StatelessWidget {
                                     const SizedBox(width: 5),
                                     // Espaciado entre el icono y el texto
                                     Text(
-                                      device.nombre!,
+                                      device!.nombrePresentar!,
                                       style: const TextStyle(
                                         color: UsefulColor.colorPrimary,
                                         fontWeight: FontWeight.w800,
                                         fontSize: 16,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.numbers_outlined,
-                                      color: UsefulColor.colorhintstyletext,
-                                      size: 15,
-                                    ),
-                                    const SizedBox(width: 5), // Espaciado
-                                    Text(
-                                      "Nivel: ${device.valor!}",
-                                      style: const TextStyle(color: Colors.black),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.timer,
-                                      color: UsefulColor.colorhintstyletext,
-                                      size: 15,
-                                    ),
-                                    const SizedBox(width: 5), // Espaciado
-                                    Text(
-                                      "Hora: ${pvPrincipal.extractTime(device.fechahora!)}",
-                                      style: const TextStyle(color: Colors.black),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.date_range_outlined,
-                                      color: UsefulColor.colorhintstyletext,
-                                      size: 15,
-                                    ),
-                                    const SizedBox(width: 5), // Espaciado
-                                    Text(
-                                      "Fecha: ${pvPrincipal.extractDate(device.fechahora!)}",
-                                      style: const TextStyle(color: Colors.black),
                                     ),
                                   ],
                                 ),
