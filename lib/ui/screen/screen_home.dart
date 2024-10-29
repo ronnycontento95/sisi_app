@@ -23,23 +23,6 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
-  int pageScreen = 0;
-  List<Widget> itemScreen = [
-    const ScreenChartNodos(),
-    const ScreenCardNodos(),
-    const ScreenGoogle(),
-    const ScreenGoogle(),
-    const ScreenProfile(),
-  ];
-
-  List<TabItem> items = [
-    const TabItem(icon: Icons.home, title: 'Home'),
-    const TabItem(icon: Icons.push_pin, title: 'Tarjetas'),
-    const TabItem(icon: Icons.menu, title: 'Menu'),
-    const TabItem(icon: Icons.public, title: 'Mapa'),
-    const TabItem(icon: Icons.account_box, title: 'Perfil'),
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -57,31 +40,16 @@ class _ScreenHomeState extends State<ScreenHome> {
     final pvPrincipal = context.watch<ProviderPrincipal>();
 
     return Scaffold(
-      backgroundColor: UsefulColor.colorBackgroundWhite,
-      body: Column(
-        children: [
-          // Usa Expanded para que la pantalla se ajuste correctamente
-          Expanded(
-            child: itemScreen[pageScreen], // Aquí seleccionamos la pantalla según el índice
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomBarCreative(
-        items: items,
-        backgroundColor: Colors.white,
-        color: Colors.black38,
-        colorSelected: UsefulColor.colorPrimary,
-        indexSelected: pageScreen,
-        isFloating: true,
-        onTap: (int index) => setState(() {
-          print('prueba >>> ingreso $index');
-          if (index == 2) {
-            pvPrincipal.showBottomSheet(context);
-          } else {
-            pageScreen = index;
-          }
-        }),
-      ),
-    );
+        backgroundColor: UsefulColor.colorBackgroundWhite,
+        body: Column(
+          children: [
+            // Usa Expanded para que la pantalla se ajuste correctamente
+            Expanded(
+              child: pvPrincipal.itemScreen[pvPrincipal
+                  .pageScreen], // Aquí seleccionamos la pantalla según el índice
+            ),
+          ],
+        ),
+        bottomNavigationBar: pvPrincipal.buildBottomBar(context));
   }
 }

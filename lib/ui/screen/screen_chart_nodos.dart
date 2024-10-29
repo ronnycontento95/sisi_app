@@ -16,6 +16,7 @@ class ScreenChartNodos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: UsefulColor.colorBackgroundWhite,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -123,6 +124,15 @@ class ListChartNodos extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 5), // Espacio entre la imagen y el texto
+                    Text(
+                      device.nombre!.toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 12,
                         color: Colors.black87,
                       ),
                     ),

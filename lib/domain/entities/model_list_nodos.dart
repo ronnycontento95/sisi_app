@@ -34,6 +34,7 @@ class Nodo {
   String? nombrePresentar;
   int? idDiccionario;
   int? idNodos;
+  String? alias;
 
   Nodo({
     this.longitud,
@@ -43,6 +44,7 @@ class Nodo {
     this.nombrePresentar,
     this.idDiccionario,
     this.idNodos,
+    this.alias,
   });
 
   factory Nodo.fromJson(String str) => Nodo.fromMap(json.decode(str));
@@ -57,6 +59,8 @@ class Nodo {
         nombrePresentar: json["nombre_presentar"],
         idDiccionario: json["id_diccionario"],
         idNodos: json["id_nodos"],
+        alias: json["alias"],
+
       );
 
   Map<String, dynamic> toMap() => {
@@ -67,6 +71,7 @@ class Nodo {
         "nombre_presentar": nombrePresentar,
         "id_diccionario": idDiccionario,
         "id_nodos": idNodos,
+        "alias": alias,
       };
 
   @override

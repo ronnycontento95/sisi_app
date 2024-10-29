@@ -143,18 +143,12 @@ class TitleHeader extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: [Text( UsefulLabel.lblWelcome)],
+          children: [Text( UsefulLabel.lblWelcome, style: TextStyle(fontSize: 25))],
         ),
-        Text( UsefulLabel.lblSubWelcome),
-        const SizedBox(
+        Text( UsefulLabel.lblSubWelcome,),
+        SizedBox(
           height: 10,
         )
-        // const SizedBox(
-        //   height: 150,
-        //   child: Image(
-        //     image: AssetImage("${UsefulLabel.assetsImages}background.jpg"),
-        //   ),
-        // )
       ],
     );
   }

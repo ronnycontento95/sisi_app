@@ -11,10 +11,12 @@ class ScreenCardNodos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: ListCardNodos(),
+    return const SafeArea(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: ListCardNodos(),
+        ),
       ),
     );
   }

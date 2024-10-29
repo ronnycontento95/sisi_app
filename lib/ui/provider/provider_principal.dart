@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:awesome_bottom_bar/tab_item.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,6 +23,7 @@ import 'package:sisi_iot_app/ui/screen/screen_detail_nodo.dart';
 import 'package:sisi_iot_app/ui/screen/screen_detail_diccionario.dart';
 import 'package:sisi_iot_app/ui/screen/screen_login.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
+import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_custom_bottom_sheet.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_tank.dart';
 
@@ -53,6 +55,15 @@ class ProviderPrincipal extends ChangeNotifier {
   Timer? _timerDevice;
   ModelDiccionarioNodo? _modelDiccionarioNodo;
   ModelListNodos? _modelListNodos = ModelListNodos();
+  int _pageScreen = 0;
+
+
+  int get pageScreen => _pageScreen;
+
+  set pageScreen(int value) {
+    _pageScreen = value;
+    notifyListeners();
+  }
 
   ModelListNodos? get modelListNodos => _modelListNodos;
 
@@ -242,6 +253,22 @@ class ProviderPrincipal extends ChangeNotifier {
     });
   }
 
+  List<Widget> itemScreen = [
+    const ScreenChartNodos(),
+    const ScreenCardNodos(),
+    const ScreenGoogle(),
+    const ScreenGoogle(),
+    const ScreenProfile(),
+  ];
+
+  List<TabItem> items = [
+    const TabItem(icon: Icons.home, title: 'Home'),
+    const TabItem(icon: Icons.push_pin, title: 'Tarjetas'),
+    const TabItem(icon: Icons.menu, title: 'Menu'),
+    const TabItem(icon: Icons.public, title: 'Mapa'),
+    const TabItem(icon: Icons.account_box, title: 'Perfil'),
+  ];
+
   /// Get user bussiness
   Future<void> getUser(BuildContext context) async {
     print('prueba >>>>');
@@ -419,13 +446,13 @@ class ProviderPrincipal extends ChangeNotifier {
       case 201:
         return const Icon(FontAwesomeIcons.batteryFull, color: Colors.green); // Batería
       case 202:
-        return Icon(FontAwesomeIcons.tint, color: Colors.green); // Porcentaje de agua
+        return const Icon(FontAwesomeIcons.tint, color: Colors.green); // Porcentaje de agua
 
       case 203:
-        return Icon(FontAwesomeIcons.glassWhiskey, color: Colors.green); // Valumen
+        return const Icon(FontAwesomeIcons.glassWhiskey, color: Colors.green); // Valumen
 
       case 204:
-        return Icon(FontAwesomeIcons.exclamationTriangle, color: Colors.green); // Batería
+        return const Icon(FontAwesomeIcons.exclamationTriangle, color: Colors.green); // Batería
 
       case 205:
       case 206:
@@ -521,4 +548,24 @@ class ProviderPrincipal extends ChangeNotifier {
       return null;
     });
   }
+
+  buildBottomBar(BuildContext context) {
+    return BottomBarCreative(
+      items: items,
+      backgroundColor: Colors.white,
+      color: Colors.black38,
+      colorSelected: UsefulColor.colorPrimary,
+      indexSelected: pageScreen,
+      isFloating: true,
+      onTap: (int index) {
+        print('prueba >>> ingreso $index');
+        if (index == 2) {
+          showBottomSheet(context);
+        } else {
+          pageScreen = index;
+        }
+      },
+    );
+  }
+
 }

@@ -40,6 +40,7 @@ class Datum {
   int? idDiccionario;
   double? valor;
   String? hora;
+  String? alias_diccionario;
 
   Datum({
     this.fechahora,
@@ -49,6 +50,7 @@ class Datum {
     this.idDiccionario,
     this.valor,
     this.hora,
+    this.alias_diccionario
   });
 
   factory Datum.fromJson(String str) => Datum.fromMap(json.decode(str));
@@ -63,6 +65,7 @@ class Datum {
     idDiccionario: json["id_diccionario"],
     valor: json["valor"]?.toDouble(),
     hora: json["hora"],
+    alias_diccionario: json["alias_diccionario"],
   );
 
   Map<String, dynamic> toMap() => {
@@ -73,6 +76,8 @@ class Datum {
     "id_diccionario": idDiccionario,
     "valor": valor,
     "hora": hora,
+    "alias_diccionario": alias_diccionario,
+
   };
 
   @override
