@@ -141,6 +141,8 @@ class TitleHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
+        Image(image: AssetImage("${UsefulLabel.assetsImages}login.png")),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [Text( UsefulLabel.lblWelcome, style: TextStyle(fontSize: 25))],

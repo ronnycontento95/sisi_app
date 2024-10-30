@@ -8,8 +8,6 @@ import 'package:sisi_iot_app/ui/screen/screen_terms.dart';
 
 import '../screen/screen_home.dart';
 import '../screen/screen_login.dart';
-import '../screen/screen_menu.dart';
-import '../screen/screen_device.dart';
 import '../screen/screen_onboarding.dart';
 import '../screen/screen_splash.dart';
 import '../screen/screen_web_device.dart';
@@ -19,8 +17,6 @@ Map<String, WidgetBuilder> routes() {
     ScreenOnBoarding.routePage: (_) => const ScreenOnBoarding(),
     ScreenLogin.routePage: (_) => ScreenLogin(),
     ScreenHome.routePage: (_) => const ScreenHome(),
-    // ScreenDevice.routePage: (_) => const ScreenDevice(),
-    ScreenMenu.routePage: (_) => ScreenMenu(),
     ScreenWebView.routePage: (_) => const ScreenWebView(),
     ScreenSpash.routePage:(_) => const ScreenSpash(),
     ScreenCardNodos.routePage:(_) => const ScreenCardNodos(),

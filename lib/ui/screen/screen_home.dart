@@ -12,7 +12,7 @@ import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
 
 import '../provider/provider_principal.dart';
 import '../useful/useful_label.dart';
-import '../widgets/widget_tank.dart';
+import 'screen_profile.dart';
 
 class ScreenHome extends StatefulWidget {
   const ScreenHome({Key? key}) : super(key: key);
@@ -40,10 +40,9 @@ class _ScreenHomeState extends State<ScreenHome> {
     final pvPrincipal = context.watch<ProviderPrincipal>();
 
     return Scaffold(
-        backgroundColor: UsefulColor.colorBackgroundWhite,
+        backgroundColor: Colors.white,
         body: Column(
           children: [
-            // Usa Expanded para que la pantalla se ajuste correctamente
             Expanded(
               child: pvPrincipal.itemScreen[pvPrincipal
                   .pageScreen], // Aquí seleccionamos la pantalla según el índice

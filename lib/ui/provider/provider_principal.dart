@@ -25,7 +25,7 @@ import 'package:sisi_iot_app/ui/screen/screen_login.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_custom_bottom_sheet.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_tank.dart';
+import 'package:sisi_iot_app/ui/screen/screen_profile.dart';
 
 import '../screen/screen_home.dart';
 import '../useful/useful.dart';
@@ -257,21 +257,18 @@ class ProviderPrincipal extends ChangeNotifier {
     const ScreenChartNodos(),
     const ScreenCardNodos(),
     const ScreenGoogle(),
-    const ScreenGoogle(),
     const ScreenProfile(),
   ];
 
   List<TabItem> items = [
     const TabItem(icon: Icons.home, title: 'Home'),
     const TabItem(icon: Icons.push_pin, title: 'Tarjetas'),
-    const TabItem(icon: Icons.menu, title: 'Menu'),
     const TabItem(icon: Icons.public, title: 'Mapa'),
     const TabItem(icon: Icons.account_box, title: 'Perfil'),
   ];
 
   /// Get user bussiness
   Future<void> getUser(BuildContext context) async {
-    print('prueba >>>>');
     GlobalPreference().getIdEmpresa().then((idEmpresa) {
       companyResponse = idEmpresa!;
       getDevice(idEmpresa.id_empresas!, context);
@@ -535,7 +532,6 @@ class ProviderPrincipal extends ChangeNotifier {
     Useful().showProgress();
     apiRepositoryLoginInterface?.getDataDiccionarioIdNodoID(idNodo, idDiccionario,
         (code, data) {
-      print("pruebas >>> ${data}");
       Useful().hideProgress(context);
       if (data != null) {
         modelDiccionarioNodo = data;
@@ -550,20 +546,15 @@ class ProviderPrincipal extends ChangeNotifier {
   }
 
   buildBottomBar(BuildContext context) {
-    return BottomBarCreative(
+    return BottomBarDefault(
       items: items,
       backgroundColor: Colors.white,
       color: Colors.black38,
       colorSelected: UsefulColor.colorPrimary,
       indexSelected: pageScreen,
-      isFloating: true,
+      // isFloating: true,
       onTap: (int index) {
-        print('prueba >>> ingreso $index');
-        if (index == 2) {
-          showBottomSheet(context);
-        } else {
-          pageScreen = index;
-        }
+        pageScreen = index;
       },
     );
   }

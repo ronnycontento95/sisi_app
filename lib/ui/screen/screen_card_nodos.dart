@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
@@ -11,11 +12,19 @@ class ScreenCardNodos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
-      child: SingleChildScrollView(
+    SystemUiOverlayStyle statusBarIconBrightness =
+        Theme.of(context).brightness == Brightness.light
+            ? SystemUiOverlayStyle.dark
+            : SystemUiOverlayStyle.light;
+
+    return AnnotatedRegion(
+      value: statusBarIconBrightness,
+      child: const SafeArea(
         child: Padding(
           padding: EdgeInsets.all(10.0),
-          child: ListCardNodos(),
+          child: CustomScrollView(
+            slivers: [ListCardNodos()],
+          ),
         ),
       ),
     );
@@ -28,89 +37,58 @@ class ListCardNodos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pvPrincipal = context.watch<ProviderPrincipal>();
-    return Wrap(
-      spacing: 5,
-      runSpacing: 5,
-      children: List.generate(pvPrincipal.modelListNodos?.nodos?.length ?? 0, (index) {
-        final device = pvPrincipal.modelListNodos?.nodos?[index];
-        return SizedBox(
-          width: MediaQuery.of(context).size.width, // Usar todo el ancho disponible
-          height: 125,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  pvPrincipal.getDataDeviceId(device!.idNodos!, context);
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: UsefulColor.colorWhite,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: UsefulColor.colorhintstyletext.withOpacity(0.5),
-                    ),
+
+    if (pvPrincipal.modelListNodos?.nodos == null ||
+        pvPrincipal.modelListNodos!.nodos!.isEmpty) {
+      return const Center(
+        child: Text("No hay datos disponibles."),
+      );
+    }
+
+    return SliverGrid(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 4,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 5,
+        childAspectRatio: 0.7,
+      ),
+      delegate: SliverChildBuilderDelegate((context, index) {
+        final itemNodo = pvPrincipal.modelListNodos!.nodos![index];
+
+        return Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          elevation: 4,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 8),
+                Text(
+                  itemNodo.nombrePresentar ?? "Sin nombre",
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Image.asset(
-                              "${UsefulLabel.assetsImages}wifi.gif",
-                              width: 50,
-                              height: 50,
-                              color: Colors.blue // Color de la imagen
-                            ),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.device_thermostat_outlined,
-                                      color: UsefulColor.colorhintstyletext,
-                                      size: 15,
-                                    ),
-                                    const SizedBox(width: 5),
-                                    // Espaciado entre el icono y el texto
-                                    Text(
-                                      device!.nombrePresentar!,
-                                      style: const TextStyle(
-                                        color: UsefulColor.colorPrimary,
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Expanded(
-                              flex: 1,
-                              child: Icon(
-                                Icons.arrow_forward_ios_outlined,
-                                size: 30,
-                              ))
-                        ],
-                      ),
-                    ],
-                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-            ],
+                const SizedBox(height: 4),
+                Text(
+                  itemNodo.nombre ?? "Sin nombre de presentación",
+                  style: const TextStyle(
+                    fontSize: 10,
+                    color: Colors.black54,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
         );
-      }),
+      }, childCount: pvPrincipal.modelListNodos!.nodos!.length),
     );
   }
 }

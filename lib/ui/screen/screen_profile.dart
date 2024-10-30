@@ -1,0 +1,101 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:sisi_iot_app/data/repositories/api_global_url.dart';
+import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
+import 'package:sisi_iot_app/ui/screen/screen_terms.dart';
+import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
+
+class ScreenProfile extends StatelessWidget {
+  const ScreenProfile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    SystemUiOverlayStyle statusBarIconBrightness =
+    Theme.of(context).brightness == Brightness.light
+        ? SystemUiOverlayStyle.dark
+        : SystemUiOverlayStyle.light;
+    final pvPrincipal = context.watch<ProviderPrincipal>();
+
+    return AnnotatedRegion(
+      value: statusBarIconBrightness,
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 40),
+                  // Imagen de perfil
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundImage: NetworkImage(
+                      '${ApiGlobalUrl.generalLinkImagen}${pvPrincipal.companyResponse.imagen}',
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  // Nombre de la empresa
+                  Text(
+                    "${pvPrincipal.companyResponse.nombre_empresa}",
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "${pvPrincipal.companyResponse.descripcion}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ListTile(
+                        leading: Icon(Icons.info_outline, color: UsefulColor.colorPrimary),
+                        title: const Text(
+                          "Acerca de la app",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pushNamed(ScreenTermCondition.routePage);
+
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.description_outlined, color: UsefulColor.colorPrimary),
+                        title: const Text(
+                          "Términos y condiciones",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pushNamed(ScreenTermCondition.routePage);
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.logout, color: UsefulColor.colorPrimary),
+                        title: const Text(
+                          "Cerrar sesión",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        onTap: () {
+                          pvPrincipal.logoOut();
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

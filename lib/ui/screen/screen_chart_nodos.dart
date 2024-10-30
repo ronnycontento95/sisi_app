@@ -15,54 +15,75 @@ class ScreenChartNodos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: UsefulColor.colorBackgroundWhite,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Encabezado con imagen
-            Stack(
-              children: [
-                // Imagen en el encabezado
-                Container(
-                  width: double.infinity,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      // Usa Image.network en lugar de Image.asset para cargar la imagen desde la URL
-                      image: NetworkImage('${ApiGlobalUrl.generalLinkImagen}${context.watch<ProviderPrincipal>().companyResponse.imagen}'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 20,
-                  left: 20,
-                  child: Text(
-                    'Nodos \n${context.watch<ProviderPrincipal>().companyResponse.nombre_empresa} ',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      shadows: [
-                        Shadow(
-                          blurRadius: 10.0,
-                          color: Colors.black45,
-                          offset: Offset(2, 2),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+    SystemUiOverlayStyle statusBarIconBrightness = SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, // Hace la barra de estado transparente
+      statusBarIconBrightness: Theme.of(context).brightness == Brightness.light
+          ? Brightness.light
+          : Brightness.light, // Controla el brillo de los íconos
+    );
 
-            // Contenido principal
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: ListChartNodos(),
-            ),
-          ],
+    return AnnotatedRegion(
+      value: statusBarIconBrightness,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  // Imagen en el encabezado
+                  Container(
+                    width: double.infinity,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage('${ApiGlobalUrl.generalLinkImagen}${context.watch<ProviderPrincipal>().companyResponse.imagen}'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 20,
+                    left: 20,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10.0),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      alignment: Alignment.center,
+                      child: Row(
+                        children: [
+                          const Icon(Icons.business, color: Colors.white,),
+                          Text(
+                            '${context.watch<ProviderPrincipal>().companyResponse.nombre_empresa} ',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 23,
+                              fontWeight: FontWeight.bold,
+                              shadows: [
+                                Shadow(
+                                  blurRadius: 12.0,
+                                  color: Colors.black45,
+                                  offset: Offset(3, 3),
+                                ),
+                              ],
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+
+                  ),
+                ],
+              ),
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: ListChartNodos(),
+              ),
+            ],
+          ),
         ),
       ),
     );

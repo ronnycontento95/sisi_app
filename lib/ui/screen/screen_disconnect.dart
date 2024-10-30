@@ -20,7 +20,7 @@ class ScreenServiceDisconnected extends StatelessWidget {
           child: Stack(
             children: [
               imagenDisconnected(),
-              Text( UsefulLabel.lblTextdisconnectedWifi),
+              const Text( UsefulLabel.lblTextdisconnectedWifi),
               WidgetButtonView(
                 text: UsefulLabel.lblAgain,
                 color: UsefulColor.colorPrimary,
