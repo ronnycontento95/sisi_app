@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/main.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
@@ -12,10 +13,25 @@ class ScreenDetailDiccionario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.white, title: Text("Detalle 4"),),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: const Text(
+          "Reportes de Nodos",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
       body: const SingleChildScrollView(
         child: Column(
-          children: [TablaDiccionarioNodo()],
+          children: [
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: TablaDiccionarioNodo(),
+            ),
+          ],
         ),
       ),
     );
@@ -28,30 +44,83 @@ class TablaDiccionarioNodo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pvPrincipal = context.watch<ProviderPrincipal>();
-    if(pvPrincipal.modelDiccionarioNodo == null|| pvPrincipal.modelDiccionarioNodo!.data == null){
-      return const Center(child: Text("No hay datos disponibles."));
+
+    // Muestra un indicador de carga si no hay datos
+    if (pvPrincipal.modelDiccionarioNodo == null ||
+        pvPrincipal.modelDiccionarioNodo!.data == null) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: CircularProgressIndicator(),
+        ),
+      );
     }
+
+    int contador = 1; // Inicia el contador en 1
+
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,  // Permitir scroll horizontal si la tabla es ancha
+        scrollDirection: Axis.horizontal,
         child: DataTable(
+          headingRowColor: MaterialStateProperty.resolveWith(
+                (states) => Colors.deepPurpleAccent.withOpacity(0.1),
+          ),
           columns: const [
-            // DataColumn(label: Text('ID Datos')),
-            DataColumn(label: Text('Id')),
-            DataColumn(label: Text('Valor')),
-            DataColumn(label: Text('Fecha')),
-            DataColumn(label: Text('Hora')),
+            DataColumn(
+              label: Text(
+                '#', // Contador de filas
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            DataColumn(
+              label: Text(
+                'Dic',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            DataColumn(
+              label: Text(
+                'Valor',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            DataColumn(
+              label: Text(
+                'Fecha',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            DataColumn(
+              label: Text(
+                'Hora',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
           ],
           rows: pvPrincipal.modelDiccionarioNodo!.data!.map((item) {
-            return DataRow(cells: [
-              // DataCell(Text(item.idDatos.toString())),    // ID Datos
-              DataCell(Text("${item.nombreDiccionario}")),     // Nombre Diccionario
-              DataCell(Text(item.valor.toString())),      // Valor
-              DataCell(Text(item.fechahora!.toString())),             // Fecha
-              DataCell(Text(item.hora!)),                  // Hora
-            ]);
+            final fila = DataRow(
+              cells: [
+                DataCell(Text(contador.toString())), // Contador de filas
+                DataCell(Text(item.nombreDiccionario ?? "Sin Nombre")),
+                DataCell(Text(item.valor.toString())),
+                DataCell(Text(DateFormat('yyyy-MM-dd').format(item.fechahora!))),
+                DataCell(Text(item.hora!)),
+              ],
+            );
+            contador++; // Incrementa el contador después de cada fila
+            return fila;
           }).toList(),
+          dividerThickness: 1,
+          dataRowColor: MaterialStateProperty.resolveWith(
+                (states) => Colors.white,
+          ),
+          dataRowHeight: 48,
+          headingTextStyle: const TextStyle(
+            fontSize: 14,
+            color: Colors.black87,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
@@ -59,4 +128,3 @@ class TablaDiccionarioNodo extends StatelessWidget {
 }
 
 
-// Ejemplo de modelo

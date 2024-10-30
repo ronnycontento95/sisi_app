@@ -21,7 +21,7 @@ class ScreenCardNodos extends StatelessWidget {
       value: statusBarIconBrightness,
       child: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(10.0),
           child: CustomScrollView(
             slivers: [
               SliverList(
@@ -29,7 +29,7 @@ class ScreenCardNodos extends StatelessWidget {
                   return const TitleCardNodos();
                 }, childCount: 1),
               ),
-              ListCardNodos()
+              const ListCardNodos()
             ],
           ),
         ),
@@ -44,10 +44,17 @@ class TitleCardNodos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Padding(
-      padding: const EdgeInsets.only(right: 10, left: 10),
-      child: Text(
-        "${context.read<ProviderPrincipal>().companyResponse.nombre_empresa} nodos",
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "${context.read<ProviderPrincipal>().companyResponse.nombre_empresa} nodos",
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+
+          const Icon(Icons.search)
+        ],
       ),
     );
   }
@@ -132,7 +139,7 @@ class ListCardNodos extends StatelessWidget {
                           ],
                         ),
                       ),
-
+                      const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white,),
                       // Fecha a la derecha
                       // Text(
                       //   itemNodo!.fecha ?? "00/00/0000",
