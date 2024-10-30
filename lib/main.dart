@@ -53,16 +53,8 @@ class MyApp extends StatelessWidget {
 
   MyApp(this.routeInit, {super.key});
 
-  final Connectivity _connectivity = Connectivity();
-  StreamSubscription<ConnectivityResult>? _streamSubscription;
-
   @override
   Widget build(BuildContext context) {
-    if (_streamSubscription == null) {
-      Useful().initConnectivity(_connectivity);
-      _streamSubscription =
-          _connectivity.onConnectivityChanged.listen(Useful().updateConectivity);
-    }
     return MultiProvider(
       providers: providers(),
       child: OKToast(
@@ -77,31 +69,9 @@ class MyApp extends StatelessWidget {
             theme: lightThemeData(context),
             darkTheme: darkThemeData(context),
             themeMode: context.watch<ProviderSetting>().themeMode,
-            // locale: Locale(context.watch<SettingController>().localeMode ?? localeMode),
-            // localizationsDelegates: const [
-            //   GlobalMaterialLocalizations.delegate,
-            //   GlobalWidgetsLocalizations.delegate,
-            //   GlobalCupertinoLocalizations.delegate,
-            //   S.delegate,
-            //   LocalizationsW.delegate,
-            // ],
-            // supportedLocales: <Locale>{
-            //   ...LocalizationsW.delegate.supportedLocales,
-            //   ...S.delegate.supportedLocales,
-            // },
           ),
         ),
 
-        // child: MaterialApp(
-        //   navigatorKey: Useful.globalContext,
-        //   debugShowCheckedModeBanner: false,
-        //   title:
-        //   theme: lightThemeData(context),
-        //   darkTheme: darkThemeData(context),
-        //   themeMode: context.watch<ProviderPrincipal>().themeMode,
-        //   initialRoute: ScreenSpash.routePage,
-        //   routes: routes(),
-        // ),
       ),
     );
   }

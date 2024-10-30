@@ -25,20 +25,6 @@ class Useful {
     return newByteData!.buffer.asUint8List();
   }
 
-  /// Init connectivity
-  initConnectivity(Connectivity connectivity) async {
-    ConnectivityResult result = ConnectivityResult.none;
-    try {
-      result = await connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
-    }
-
-    return updateConectivity(result);
-  }
-
   /// Show message alter
   void messageAlert(BuildContext context, String message) {
     final snackBar = SnackBar(
@@ -90,60 +76,6 @@ class Useful {
     Navigator.of(Useful.globalContext.currentContext!).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => newPage),
         (Route<dynamic> route) => false);
-  }
-
-  updateConectivity(ConnectivityResult result) async {
-    switch (result) {
-      case ConnectivityResult.wifi:
-        checkConnection().then((value) {
-          if (!value) {
-            // Navigator.push(
-            //   Useful.globalContext!.currentContext!,
-            //   CustomPageRoute(
-            //       builder: (context) => const PageDisconnectedService()),
-            // );
-          }
-        });
-        break;
-      case ConnectivityResult.mobile:
-        checkConnection().then((value) {
-          if (!value) {
-            // Navigator.push(
-            //   Useful.globalContext!.currentContext!,
-            //   CustomPageRoute(
-            //       builder: (context) => const PageDisconnectedService()),
-            // );
-          }
-        });
-        break;
-
-      /// reporte de pirata vista
-      ///
-      case ConnectivityResult.none:
-        // Navigator.push(
-        //   Useful.globalContext!.currentContext!,
-        //   CustomPageRoute(
-        //       builder: (context) => const PageDisconnectedService()),
-        // );
-        break;
-      default:
-        break;
-    }
-  }
-
-  Future checkConnection() async {
-    bool state = false;
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isEmpty && result[0].rawAddress.isEmpty) {
-        state = false;
-      } else {
-        state = true;
-      }
-    } on SocketException catch (_) {
-      state = false;
-    }
-    return state;
   }
 }
 

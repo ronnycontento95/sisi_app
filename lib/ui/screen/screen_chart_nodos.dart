@@ -4,8 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/data/repositories/api_global_url.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
+import 'package:sisi_iot_app/ui/screen/screen_home.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
+import 'package:sisi_iot_app/ui/widgets/widget_network.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 
 class ScreenChartNodos extends StatelessWidget {
@@ -78,6 +80,7 @@ class ScreenChartNodos extends StatelessWidget {
                   ),
                 ],
               ),
+              WidgetNetwork.alert(textAlert: 'Revisa tu conexión de internet e intenta nuevamente',),
               const Padding(
                 padding: EdgeInsets.all(16.0),
                 child: ListChartNodos(),
