@@ -31,13 +31,13 @@ class ScreenChartNodos extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  // Imagen en el encabezado
+
                   Container(
                     width: double.infinity,
                     height: 200,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage('${ApiGlobalUrl.generalLinkImagen}${context.watch<ProviderPrincipal>().companyResponse.imagen}'),
+                        image: NetworkImage('${ApiGlobalUrl.generalLinkImagen}${context.watch<ProviderPrincipal>().companyResponse.imagen_app}'),
                         fit: BoxFit.cover,
                       ),
                     ),

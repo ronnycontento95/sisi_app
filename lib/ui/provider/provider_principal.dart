@@ -11,7 +11,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
 import 'package:sisi_iot_app/domain/entities/model_business.dart';
 import 'package:sisi_iot_app/domain/entities/dataDevice.dart';
-import 'package:sisi_iot_app/domain/entities/datos_diccionario.dart';
+import 'package:sisi_iot_app/domain/entities/model_nodos_diccionario.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';
 import 'package:sisi_iot_app/domain/entities/model_diccionario_nodo.dart';
 import 'package:sisi_iot_app/domain/entities/model_list_nodos.dart';
@@ -37,7 +37,7 @@ class ProviderPrincipal extends ChangeNotifier {
   TextEditingController _editSearchDevice = TextEditingController();
   PageController _controller = PageController(initialPage: 1);
   Company? _companyResponse = Company();
-  DatosDiccionario? _datosDiccionario;
+  ModelNodosDiccionario? _datosDiccionario;
   String? _errorMessage;
   GoogleMapController? mapControllerExplorer;
   Map<MarkerId, Marker> _markersNodo = {};
@@ -79,9 +79,9 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
-  DatosDiccionario? get datosDiccionario => _datosDiccionario;
+  ModelNodosDiccionario? get datosDiccionario => _datosDiccionario;
 
-  set datosDiccionario(DatosDiccionario? value) {
+  set datosDiccionario(ModelNodosDiccionario? value) {
     _datosDiccionario = value;
     notifyListeners();
   }

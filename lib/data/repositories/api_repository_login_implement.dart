@@ -6,7 +6,7 @@ import 'package:sisi_iot_app/data/repositories/api_global_url.dart';
 import 'package:sisi_iot_app/data/repositories/dio_exceptions.dart';
 import 'package:sisi_iot_app/domain/entities/model_business.dart';
 import 'package:sisi_iot_app/domain/entities/dataDevice.dart';
-import 'package:sisi_iot_app/domain/entities/datos_diccionario.dart';
+import 'package:sisi_iot_app/domain/entities/model_nodos_diccionario.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';
 import 'package:sisi_iot_app/domain/entities/model_diccionario_nodo.dart';
 import 'package:sisi_iot_app/domain/entities/model_list_nodos.dart';
@@ -86,7 +86,7 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
         log("RESPONDE DATA NODOS ID $response");
       }
       if (response.data != null) {
-        callback(1, DatosDiccionario.fromMap(response.data));
+        callback(1, ModelNodosDiccionario.fromMap(response.data));
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();

@@ -30,11 +30,13 @@ class ScreenProfile extends StatelessWidget {
                   const SizedBox(height: 40),
                   // Imagen de perfil
                   CircleAvatar(
-                    radius: 60,
+                    radius: 30, // Ajusta el tamaño para que sea pequeño
                     backgroundImage: NetworkImage(
                       '${ApiGlobalUrl.generalLinkImagen}${pvPrincipal.companyResponse.imagen}',
                     ),
+                    backgroundColor: Colors.transparent, // Si quieres eliminar cualquier borde de fondo
                   ),
+
                   const SizedBox(height: 16),
                   // Nombre de la empresa
                   Text(

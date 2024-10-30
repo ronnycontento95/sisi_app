@@ -64,7 +64,7 @@ class SliverGridComponent extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        childAspectRatio: 0.6,
+        childAspectRatio: 1,
       ),
       delegate: SliverChildBuilderDelegate((context, index) {
         final item = pvPrincipal.datosDiccionario!.data![index];
@@ -75,7 +75,7 @@ class SliverGridComponent extends StatelessWidget {
           hora: item.hora,
           identificador: item.identificador,
           nombre: item.nombreDiccionario,
-          alias: item.alias_diccionario,
+          alias: item.aliasDiccionario,
         );
       },
           childCount: pvPrincipal.datosDiccionario!.data!
@@ -199,7 +199,7 @@ class CardNodo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${pvPrincipal.datosDiccionario!.nombrePresentar}",
+                "${pvPrincipal.datosDiccionario!.nombre}",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -208,7 +208,7 @@ class CardNodo extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(
-                "${pvPrincipal.datosDiccionario!.nombre}",
+                "${pvPrincipal.datosDiccionario!.topic}",
                 style: const TextStyle(
                   fontSize: 14,
                   color: Colors.grey,

@@ -8,6 +8,7 @@ class Company {
     this.id_empresas,
     this.imagen,
     this.descripcion,
+    this.imagen_app
   });
 
   bool? bandera;
@@ -16,6 +17,7 @@ class Company {
   int? id_empresas;
   String? imagen;
   String? descripcion;
+  String? imagen_app;
 
   factory Company.fromJson(String str) => Company.fromMap(json.decode(str));
 
@@ -28,6 +30,7 @@ class Company {
         id_empresas: json["id_empresas"],
         imagen: json["imagen"],
         descripcion: json["descripcion"],
+        imagen_app: json["imagen_app"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -37,6 +40,7 @@ class Company {
         "id_empresas": id_empresas,
         "imagen": imagen,
         "descripcion": descripcion,
+        "imagen_app": imagen_app,
       };
 
   // cover to map
@@ -47,10 +51,11 @@ class Company {
     id_empresas = obj["id_empresas"];
     imagen = obj["imagen"];
     descripcion = obj["descripcion"];
+    imagen_app = obj["imagen_app"];
   }
 
   @override
   String toString() {
-    return 'Company{bandera: $bandera, topic: $topic, nombre_empresa: $nombre_empresa, id_empresas: $id_empresas, imagen: $imagen, descripcion: $descripcion}';
+    return 'Company{bandera: $bandera, topic: $topic, nombre_empresa: $nombre_empresa, id_empresas: $id_empresas, imagen: $imagen, descripcion: $descripcion, imagen_app: $imagen_app}';
   }
 }
