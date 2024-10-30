@@ -1,20 +1,13 @@
-///Import
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-///Provider
 import '../provider/provider_principal.dart';
 import '../useful/useful_formatters.dart';
 import '../useful/useful_label.dart';
 import '../useful/useful_palette.dart';
 
-///Useful
-
-///Widgets
 import '../widgets/widget_button_view.dart';
-import '../widgets/widget_label_text.dart';
 import '../widgets/widget_text_form_field.dart';
 
 final _formKey = GlobalKey<FormState>();

@@ -4,7 +4,6 @@ import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../useful/useful_label.dart';
-import '../widgets/widget_appbar.dart';
 
 class ScreenWebView extends StatefulWidget {
   static const routePage = UsefulLabel.routeScreenWebView;

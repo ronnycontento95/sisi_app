@@ -4,10 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_bar_chart.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_water_level.dart';
-
-import '../widgets/widget_appbar.dart';
 
 class ScreenDetailNodo extends StatefulWidget {
   const ScreenDetailNodo({super.key});

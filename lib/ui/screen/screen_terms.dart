@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_appbar.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_button_view.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_label_text.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../useful/useful_palette.dart';

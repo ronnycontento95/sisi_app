@@ -1,12 +1,10 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 
 import '../useful/useful.dart';
 import '../useful/useful_label.dart';
 import '../useful/useful_palette.dart';
 import '../widgets/widget_button_view.dart';
-import '../widgets/widget_label_text.dart';
 import 'screen_login.dart';
 
 class ScreenOnBoarding extends StatelessWidget {
