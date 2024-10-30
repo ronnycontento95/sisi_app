@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sisi_iot_app/data/repositories/api_global_url.dart';
 import 'package:sisi_iot_app/data/repositories/dio_exceptions.dart';
-import 'package:sisi_iot_app/domain/entities/company.dart';
+import 'package:sisi_iot_app/domain/entities/model_business.dart';
 import 'package:sisi_iot_app/domain/entities/dataDevice.dart';
 import 'package:sisi_iot_app/domain/entities/datos_diccionario.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';

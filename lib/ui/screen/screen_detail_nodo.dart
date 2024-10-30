@@ -23,14 +23,12 @@ class _ScreenDataDeviceIdState extends State<ScreenDetailNodo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
         title: const Text(
           "Datos del nodo",
           style: TextStyle(color: Colors.black, letterSpacing: 3),
         ),
         backgroundColor: Colors.white,
       ),
-      backgroundColor: UsefulColor.colorBackgroundWhite,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -66,7 +64,7 @@ class SliverGridComponent extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        childAspectRatio: 0.9,
+        childAspectRatio: 0.6,
       ),
       delegate: SliverChildBuilderDelegate((context, index) {
         final item = pvPrincipal.datosDiccionario!.data![index];

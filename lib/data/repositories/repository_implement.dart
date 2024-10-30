@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sisi_iot_app/domain/entities/company.dart';
+import 'package:sisi_iot_app/domain/entities/model_business.dart';
 
 class GlobalPreference {
   static const _userEmpresa = 'userEmpresa';

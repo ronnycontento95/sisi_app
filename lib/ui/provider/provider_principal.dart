@@ -9,7 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
-import 'package:sisi_iot_app/domain/entities/company.dart';
+import 'package:sisi_iot_app/domain/entities/model_business.dart';
 import 'package:sisi_iot_app/domain/entities/dataDevice.dart';
 import 'package:sisi_iot_app/domain/entities/datos_diccionario.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';

@@ -1,4 +1,4 @@
-import 'package:sisi_iot_app/domain/entities/company.dart';
+import 'package:sisi_iot_app/domain/entities/model_business.dart';
 
 abstract class RepositoryInterface {
    Future saveUser(Company idEmpresa);

@@ -19,13 +19,35 @@ class ScreenCardNodos extends StatelessWidget {
 
     return AnnotatedRegion(
       value: statusBarIconBrightness,
-      child: const SafeArea(
+      child: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(10.0),
           child: CustomScrollView(
-            slivers: [ListCardNodos()],
+            slivers: [
+              SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  return const TitleCardNodos();
+                }, childCount: 1),
+              ),
+              ListCardNodos()
+            ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class TitleCardNodos extends StatelessWidget {
+  const TitleCardNodos({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return  Padding(
+      padding: const EdgeInsets.only(right: 10, left: 10),
+      child: Text(
+        "${context.read<ProviderPrincipal>().companyResponse.nombre_empresa} nodos",
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -47,46 +69,83 @@ class ListCardNodos extends StatelessWidget {
 
     return SliverGrid(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
-        crossAxisSpacing: 10,
+        crossAxisCount: 1,
+        crossAxisSpacing: 5,
         mainAxisSpacing: 5,
-        childAspectRatio: 0.7,
+        childAspectRatio: 5,
       ),
       delegate: SliverChildBuilderDelegate((context, index) {
         final itemNodo = pvPrincipal.modelListNodos!.nodos![index];
+        return InkWell(
+          onTap: (){
+            pvPrincipal.getDataDeviceId(itemNodo.idNodos!, context);
+          },
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              elevation: 6,
+              shadowColor: Colors.black26,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFE1BEE7), Color(0xFF9575CD)], // Degradado morado suave
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // Icono a la izquierda
+                      Icon(
+                        Icons.device_hub,
+                        color: Colors.purple[700],
+                        size: 40,
+                      ),
+                      const SizedBox(width: 12),
 
-        return Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          elevation: 4,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 8),
-                Text(
-                  itemNodo.nombrePresentar ?? "Sin nombre",
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                      // Texto en el centro
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              itemNodo.nombrePresentar ?? "Sin nombre",
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              itemNodo.nombre ?? "Sin nombre de presentación",
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.white70,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Fecha a la derecha
+                      // Text(
+                      //   itemNodo!.fecha ?? "00/00/0000",
+                      //   style: const TextStyle(
+                      //     fontSize: 12,
+                      //     color: Colors.white60,
+                      //   ),
+                      // ),
+                    ],
                   ),
-                  textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  itemNodo.nombre ?? "Sin nombre de presentación",
-                  style: const TextStyle(
-                    fontSize: 10,
-                    color: Colors.black54,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
+              ),
+            )
         );
       }, childCount: pvPrincipal.modelListNodos!.nodos!.length),
     );

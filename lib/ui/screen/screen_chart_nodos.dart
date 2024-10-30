@@ -104,11 +104,11 @@ class ListChartNodos extends StatelessWidget {
         final device = pvPrincipal.modelListNodos?.nodos![index];
 
         return SizedBox(
-          width: (MediaQuery.of(context).size.width / 2) - 24, // Ajuste para mantener un margen más consistente
-          height: 180, // Ajusta la altura para darle más espacio al contenido
+          width: (MediaQuery.of(context).size.width / 2) - 24,
+          height: 180,
           child: GestureDetector(
             onTap: () {
-              pvPrincipal.getDataDeviceId(device!.idNodos!, context);
+              pvPrincipal.getDataDeviceId(device.idNodos!, context);
             },
             child: Container(
               decoration: BoxDecoration(
