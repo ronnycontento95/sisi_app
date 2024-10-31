@@ -5,16 +5,22 @@ import 'package:sisi_iot_app/data/repositories/api_global_url.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:sisi_iot_app/ui/screen/screen_terms.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
+import 'package:sisi_iot_app/ui/widgets/widget_alert_dialog.dart';
 
-class ScreenProfile extends StatelessWidget {
+class ScreenProfile extends StatefulWidget {
   const ScreenProfile({super.key});
 
   @override
+  State<ScreenProfile> createState() => _ScreenProfileState();
+}
+
+class _ScreenProfileState extends State<ScreenProfile> {
+  @override
   Widget build(BuildContext context) {
     SystemUiOverlayStyle statusBarIconBrightness =
-    Theme.of(context).brightness == Brightness.light
-        ? SystemUiOverlayStyle.dark
-        : SystemUiOverlayStyle.light;
+        Theme.of(context).brightness == Brightness.light
+            ? SystemUiOverlayStyle.dark
+            : SystemUiOverlayStyle.light;
     final pvPrincipal = context.watch<ProviderPrincipal>();
 
     return AnnotatedRegion(
@@ -34,7 +40,8 @@ class ScreenProfile extends StatelessWidget {
                     backgroundImage: NetworkImage(
                       '${ApiGlobalUrl.generalLinkImagen}${pvPrincipal.companyResponse.imagen}',
                     ),
-                    backgroundColor: Colors.transparent, // Si quieres eliminar cualquier borde de fondo
+                    backgroundColor: Colors
+                        .transparent, // Si quieres eliminar cualquier borde de fondo
                   ),
 
                   const SizedBox(height: 16),
@@ -60,18 +67,19 @@ class ScreenProfile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       ListTile(
-                        leading: Icon(Icons.info_outline, color: UsefulColor.colorPrimary),
+                        leading:
+                            Icon(Icons.info_outline, color: UsefulColor.colorPrimary),
                         title: const Text(
                           "Acerca de la app",
                           style: TextStyle(color: Colors.black),
                         ),
                         onTap: () {
                           Navigator.of(context).pushNamed(ScreenTermCondition.routePage);
-
                         },
                       ),
                       ListTile(
-                        leading: const Icon(Icons.description_outlined, color: UsefulColor.colorPrimary),
+                        leading: const Icon(Icons.description_outlined,
+                            color: UsefulColor.colorPrimary),
                         title: const Text(
                           "Términos y condiciones",
                           style: TextStyle(color: Colors.black),
@@ -81,13 +89,21 @@ class ScreenProfile extends StatelessWidget {
                         },
                       ),
                       ListTile(
-                        leading: const Icon(Icons.logout, color: UsefulColor.colorPrimary),
+                        leading:
+                            const Icon(Icons.logout, color: UsefulColor.colorPrimary),
                         title: const Text(
                           "Cerrar sesión",
                           style: TextStyle(color: Colors.black),
                         ),
                         onTap: () {
-                          pvPrincipal.logoOut();
+                          showConfirmationAlert(
+                            context: context,
+                            title: "Aviso",
+                            subtitle: "¿Estás seguro de que deseas continuar?",
+                            onConfirm: () => pvPrincipal.logoOut()
+                            ,
+                          );
+
                         },
                       ),
                     ],

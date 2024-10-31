@@ -168,10 +168,12 @@ class CustomMap extends StatelessWidget {
           ),
           zoom: 13),
       zoomControlsEnabled: false,
+      myLocationEnabled: true,
+      myLocationButtonEnabled: false,
+
       onMapCreated: (controller) {
         pvPrincipal.googleMapController = controller;
       },
-      myLocationButtonEnabled: true,
       markers: Set<Marker>.of(pvPrincipal.markers.values),
     );
   }
