@@ -39,7 +39,6 @@ class ProviderPrincipal extends ChangeNotifier {
   Company? _companyResponse = Company();
   ModelNodosDiccionario? _datosDiccionario;
   String? _errorMessage;
-  GoogleMapController? mapControllerExplorer;
   Map<MarkerId, Marker> _markersNodo = {};
   Map<MarkerId, Marker> _markersExplorer = {};
   final iconLocation = Completer<BitmapDescriptor>();
@@ -284,34 +283,8 @@ class ProviderPrincipal extends ChangeNotifier {
     }
   }
 
-  void addMarker(markers, String idMarker, LatLng latLng,
-      {Function? function,
-      String? text = "",
-      int size = UsefulLabel.targetWidth,
-      bool draggable = false,
-      String? networkImage,
-      Function(LatLng)? onDragEnd}) async {
-    MarkerId markerId = MarkerId(idMarker.toString());
-    markers[markerId] = Marker(
-        markerId: markerId,
-        position: latLng,
-        zIndex: 1,
-        icon: await iconLocation.future,
-        rotation: 0.0,
-        anchor: const Offset(0.5, 0.5),
-        infoWindow: InfoWindow(snippet: "", title: text),
-        onDragEnd: (newPosition) {
-          if (onDragEnd != null) onDragEnd(newPosition);
-        },
-        draggable: draggable,
-        onTap: () {
-          if (function != null) function();
-        });
-    notifyListeners();
-  }
-
   void onCameraCenter(CameraPosition position) {
-    mapControllerExplorer!.animateCamera(CameraUpdate.newCameraPosition(
+    googleMapController.animateCamera(CameraUpdate.newCameraPosition(
       position,
     ));
   }
@@ -367,10 +340,6 @@ class ProviderPrincipal extends ChangeNotifier {
     editPassword.text = "";
     GlobalPreference().deleteUser();
     Useful().nextScreenViewUntil(ScreenLogin());
-  }
-
-  showBottomSheet(BuildContext context) {
-    // customBottomSheet(context, widget: const ScreenMenuNavbar());
   }
 
   void getDataDeviceId(int id, BuildContext context) {
@@ -467,15 +436,11 @@ class ProviderPrincipal extends ChangeNotifier {
 
       case 251:
       case 204:
-        return Icon(Icons.warning, color: Colors.red); // Desborde / Alarma
+        return const Icon(Icons.warning, color: Colors.red); // Desborde / Alarma
 
       default:
-        return Icon(Icons.device_unknown, color: Colors.grey); // Icono por defecto
+        return const Icon(Icons.device_unknown, color: Colors.grey); // Icono por defecto
     }
-  }
-
-  typeImagen() async {
-    GlobalPreference().getIdEmpresa().then((idEmpresa) {});
   }
 
   void getDataDiccionarioIdNodoId(
@@ -503,7 +468,6 @@ class ProviderPrincipal extends ChangeNotifier {
       color: Colors.black38,
       colorSelected: UsefulColor.colorPrimary,
       indexSelected: pageScreen,
-      // isFloating: true,
       onTap: (int index) {
         pageScreen = index;
       },
@@ -514,8 +478,60 @@ class ProviderPrincipal extends ChangeNotifier {
     final locationServices = LocationProvider();
     final location = await locationServices.initLocationService();
     if ((location.status == LocationStatus.success) && location.latLng != null) {
-      print('prueba >>> ingreso ${location.position!.latitude} ${location.position!.longitude}');
       currentPosition = location.position!;
+    }
+  }
+
+  void selectNodoToMap(Nodo item) {
+    if (double.parse(item.latitud ?? "0.0") != 0.0 &&
+        double.parse(item.longitud ?? "0.0") != 0.0) {
+      googleMapController.animateCamera(CameraUpdate.newLatLngZoom(
+          LatLng(double.parse(item.latitud!), double.parse(item.longitud!)), 16));
+    }
+  }
+
+  void addMarkerNodos(markers, String idMarker, LatLng latLng,
+      {Function? function,
+      String? text = "",
+      int size = UsefulLabel.targetWidth,
+      bool draggable = false,
+      String? networkImage,
+      Function(LatLng)? onDragEnd}) async {
+    MarkerId markerId = MarkerId(idMarker.toString());
+    markers[markerId] = Marker(
+        markerId: markerId,
+        position: latLng,
+        zIndex: 1,
+        icon: await iconLocation.future,
+        rotation: 0.0,
+        anchor: const Offset(0.5, 0.5),
+        infoWindow: InfoWindow(snippet: "", title: text),
+        onDragEnd: (newPosition) {
+          if (onDragEnd != null) onDragEnd(newPosition);
+        },
+        draggable: draggable,
+        onTap: () {
+          if (function != null) function();
+        });
+    notifyListeners();
+  }
+
+  void createMarkerMapNodo() {
+    markers.clear();
+    final nodos = modelListNodos?.nodos;
+    if (nodos == null && nodos!.isEmpty) return;
+    if (modelListNodos?.nodos?.isNotEmpty ?? true) {
+      for (int i = 0; i < modelListNodos!.nodos!.length; i++) {
+        MarkerId markerId = MarkerId(i.toString());
+        LatLng latLng = LatLng(double.parse(modelListNodos!.nodos![i].latitud!),
+            double.parse(modelListNodos!.nodos![i].longitud!));
+        addMarkerNodos(
+          markers,
+          markerId.toString(),
+          latLng,
+          size: 80,
+        );
+      }
     }
   }
 }

@@ -14,7 +14,7 @@ class Useful {
   static GlobalKey<NavigatorState> globalContext = GlobalKey<NavigatorState>();
 
   /// Cover to bytes imagen
-  Future<Uint8List> assetsCoverToBytes(String path, {int width = 60}) async {
+  Future<Uint8List> assetsCoverToBytes(String path, {int width = 80}) async {
     final byteData = await rootBundle.load(path);
     final byte = byteData.buffer.asUint8List();
     final codec = await ui.instantiateImageCodec(byte, targetWidth: width);
