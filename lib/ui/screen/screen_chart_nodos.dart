@@ -195,8 +195,6 @@ class TextFieldSearch extends StatelessWidget {
               onChanged: (value) {
                 if (value.length > 3) {
                   prPrincipalRead.searchHistorialFilter(value);
-                } else if (value.isEmpty) {
-                  prPrincipalRead.cleanTextFieldSearch(context);
                 }
               },
               style: TextStyle(color: UsefulColor.colorLetterTitle.withOpacity(.8)),
@@ -216,7 +214,7 @@ class TextFieldSearch extends StatelessWidget {
                 ),
                 suffixIcon: InkWell(
                   onTap: () {
-                    prPrincipalRead.cleanTextFieldSearch(context);
+                    // prPrincipalRead.cleanTextFieldSearch(context);
                   },
                   child: const Icon(
                     Icons.close,

@@ -46,26 +46,21 @@ class NetworkStatus {
     final previousConnection = hasConnection;
     try {
       final connectivityResult = await _connectivity.checkConnectivity();
-      print('prueba >>> ingreso 1 ${hasConnection}');
       if (connectivityResult == ConnectivityResult.none) {
         hasConnection = ConnectivityStatus.offline;
-        print('prueba >>> ingreso 2 ${hasConnection}');
       } else {
         final client = http.Client();
         try {
           final response = await http.head(Uri.parse('https://www.google.com'));
           if (response.statusCode == 200) {
             hasConnection = ConnectivityStatus.online;
-            print('prueba >>> ingreso 3 ${hasConnection}');
 
           } else {
             hasConnection = ConnectivityStatus.offline;
-            print('prueba >>> ingreso 4 ${hasConnection}');
 
           }
         } catch (_) {
           hasConnection = ConnectivityStatus.offline;
-          print('prueba >>> ingreso 5 ${hasConnection}');
 
         } finally {
           client.close();

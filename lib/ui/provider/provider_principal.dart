@@ -6,13 +6,14 @@ import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:awesome_bottom_bar/tab_item.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:sisi_iot_app/config/location_provider.dart';
 import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
 import 'package:sisi_iot_app/domain/entities/model_business.dart';
-import 'package:sisi_iot_app/domain/entities/dataDevice.dart';
+import 'package:sisi_iot_app/domain/entities/model_location.dart';
 import 'package:sisi_iot_app/domain/entities/model_nodos_diccionario.dart';
-import 'package:sisi_iot_app/domain/entities/device.dart';
 import 'package:sisi_iot_app/domain/entities/model_diccionario_nodo.dart';
 import 'package:sisi_iot_app/domain/entities/model_list_nodos.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
@@ -24,7 +25,6 @@ import 'package:sisi_iot_app/ui/screen/screen_detail_diccionario.dart';
 import 'package:sisi_iot_app/ui/screen/screen_login.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_custom_bottom_sheet.dart';
 import 'package:sisi_iot_app/ui/screen/screen_profile.dart';
 
 import '../screen/screen_home.dart';
@@ -56,7 +56,7 @@ class ProviderPrincipal extends ChangeNotifier {
   ModelDiccionarioNodo? _modelDiccionarioNodo;
   ModelListNodos? _modelListNodos = ModelListNodos();
   int _pageScreen = 0;
-
+  Position? currentPosition;
 
   int get pageScreen => _pageScreen;
 
@@ -100,8 +100,6 @@ class ProviderPrincipal extends ChangeNotifier {
     _version = value;
     notifyListeners();
   }
-
-
 
   ProviderPrincipal(this.apiRepositoryLoginInterface) {
     Useful()
@@ -267,62 +265,23 @@ class ProviderPrincipal extends ChangeNotifier {
     const TabItem(icon: Icons.account_box, title: 'Perfil'),
   ];
 
-  /// Get user bussiness
-  Future<void> getUser(BuildContext context) async {
-    GlobalPreference().getIdEmpresa().then((idEmpresa) {
-      companyResponse = idEmpresa!;
-      getDevice(idEmpresa.id_empresas!, context);
-      // getDeviceTimer(idEmpresa.id_empresas!, context);
-    });
-  }
-
   /// Get nodos id bussiness
-  getDevice(int id, BuildContext context) async {
+  void getDataBusiness() async {
     Useful().showProgress();
-    await apiRepositoryLoginInterface?.getListNodo(id, (code, data) {
-      Useful().hideProgress(context);
-      if (code == 1) {
-        modelListNodos = data;
-        // for (var element in listDevice) {
-        //   MarkerId markerId = MarkerId(element.ide.toString());
-        //   LatLng latLng = LatLng(double.parse(element.lat!), double.parse(element.lot!));
-        //   addMarker(
-        //     markers,
-        //     markerId.toString(),
-        //     latLng,
-        //     size: 60,
-        //   );
-        // }
-      } else {}
-      return null;
-    });
-    // });
-  }
-
-  /// Get nodos id bussiness
-  getDeviceTimer(int id, BuildContext context) async {
-    _timerDevice = Timer.periodic(const Duration(minutes: 1), (timer) async {
-      // Useful().showProgress();
-      await apiRepositoryLoginInterface?.getBusinessNodo(id, (code, data) {
-        Useful().hideProgress(context);
+    var dataBusiness = await GlobalPreference().getIdEmpresa();
+    if (dataBusiness != null) {
+      companyResponse = dataBusiness;
+      await apiRepositoryLoginInterface?.getListNodo(dataBusiness.id_empresas!,
+          (code, data) {
+        Useful().hideProgress(Useful.globalContext.currentContext!);
         if (code == 1) {
-          // for (var element in listDevice) {
-          //   MarkerId markerId = MarkerId(element.ide.toString());
-          //   LatLng latLng =
-          //       LatLng(double.parse(element.lat!), double.parse(element.lot!));
-          //   addMarker(
-          //     markers,
-          //     markerId.toString(),
-          //     latLng,
-          //     size: 60,
-          //   );
-          // }
-        } else {
-          // listDevice = [];
+          modelListNodos = data;
         }
         return null;
       });
-    });
+    } else {
+      Useful().hideProgress(Useful.globalContext.currentContext!);
+    }
   }
 
   void addMarker(markers, String idMarker, LatLng latLng,
@@ -377,16 +336,6 @@ class ProviderPrincipal extends ChangeNotifier {
     // }
   }
 
-  ///Clean text fiel search
-  void cleanTextFieldSearch(BuildContext context) {
-    editSearchDevice.clear();
-    GlobalPreference().getIdEmpresa().then((idEmpresa) {
-      getDevice(idEmpresa!.id_empresas!, context);
-    });
-    notifyListeners();
-  }
-
-  ///DATE AND DATETIME NODO
   String extractDate(String dateTimeString) {
     List<String> parts = dateTimeString.split(" Hora: ");
     if (parts.length == 2) {
@@ -443,17 +392,19 @@ class ProviderPrincipal extends ChangeNotifier {
       case 201:
         return const Icon(FontAwesomeIcons.batteryFull, color: Colors.green); // Batería
       case 202:
-        return const Icon(FontAwesomeIcons.tint, color: Colors.green); // Porcentaje de agua
+        return const Icon(FontAwesomeIcons.tint,
+            color: Colors.green); // Porcentaje de agua
 
       case 203:
         return const Icon(FontAwesomeIcons.glassWhiskey, color: Colors.green); // Valumen
 
       case 204:
-        return const Icon(FontAwesomeIcons.exclamationTriangle, color: Colors.green); // Batería
+        return const Icon(FontAwesomeIcons.exclamationTriangle,
+            color: Colors.green); // Batería
 
       case 205:
       case 206:
-        return Icon(FontAwesomeIcons.fillDrip, color: Colors.orange); // Porcentaje
+        return const Icon(FontAwesomeIcons.fillDrip, color: Colors.orange); // Porcentaje
 
       case 207:
       case 208:
@@ -559,4 +510,12 @@ class ProviderPrincipal extends ChangeNotifier {
     );
   }
 
+  initLocation() async {
+    final locationServices = LocationProvider();
+    final location = await locationServices.initLocationService();
+    if ((location.status == LocationStatus.success) && location.latLng != null) {
+      print('prueba >>> ingreso ${location.position!.latitude} ${location.position!.longitude}');
+      currentPosition = location.position!;
+    }
+  }
 }

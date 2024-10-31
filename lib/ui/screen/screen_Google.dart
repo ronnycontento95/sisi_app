@@ -19,19 +19,22 @@ class _ScreenGoogleState extends State<ScreenGoogle> {
   @override
   Widget build(BuildContext context) {
     SystemUiOverlayStyle statusBarIconBrightness =
-    Theme.of(context).brightness == Brightness.light
-        ? SystemUiOverlayStyle.dark
-        : SystemUiOverlayStyle.light;
+        Theme.of(context).brightness == Brightness.light
+            ? SystemUiOverlayStyle.dark
+            : SystemUiOverlayStyle.light;
 
-    final pvPrincipal = context.read<ProviderPrincipal>();
+    final pvPrincipal = context.watch<ProviderPrincipal>();
     return AnnotatedRegion(
       value: statusBarIconBrightness,
       child: Stack(
         children: [
           GoogleMap(
-            initialCameraPosition: const CameraPosition(
-              target: LatLng(-1.2394663499056315, -78.65732525997484),
-
+            initialCameraPosition: CameraPosition(
+              target: LatLng(
+                pvPrincipal.currentPosition!.latitude,
+                pvPrincipal.currentPosition!.longitude,
+              ),
+              zoom: 13
             ),
             zoomControlsEnabled: false,
             onMapCreated: (controller) {

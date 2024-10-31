@@ -195,9 +195,7 @@ class _CustomStatusNetworkState extends State<WidgetNetwork> {
 
   @override
   Widget build(BuildContext context) {
-    print("prueba online >>> ${connectionStatus}");
     if (widget.body != null) {
-      print("prueba online 2 >>> ${connectionStatus}");
 
       return connectionStatus == ConnectivityStatus.online ||
           connectionStatus == ConnectivityStatus.none
@@ -210,7 +208,6 @@ class _CustomStatusNetworkState extends State<WidgetNetwork> {
     }
 
     if (widget.iconStatus != null) {
-      print("prueba online 3 >>> ${connectionStatus}");
 
       return connectionStatus == ConnectivityStatus.online
           ? widget.child!
@@ -224,7 +221,6 @@ class _CustomStatusNetworkState extends State<WidgetNetwork> {
     }
 
     if (widget.text != null) {
-      print("prueba online 4 >>> ${connectionStatus}");
       return Visibility(
         visible: connectionStatus == ConnectivityStatus.online,
         child: Align(
