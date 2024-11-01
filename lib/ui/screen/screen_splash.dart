@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pretty_animated_text/pretty_animated_text.dart';
 import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
 import 'package:sisi_iot_app/ui/screen/screen_home.dart';
 import 'package:sisi_iot_app/ui/screen/screen_onboarding.dart';
@@ -48,29 +47,32 @@ class _ScreenSpashState extends State<ScreenSpash> {
   @override
   Widget build(BuildContext context) {
     return const AnnotatedRegion(
-        value: Colors.white,
-        child: Scaffold(
-          backgroundColor: UsefulColor.colorPrimary,
-          body: SafeArea(
-            child: Stack(
-              children: [
-                OffsetText(
-                  text: 'Lorem ipsum dolor sit amet ...',
-                  duration: const Duration(seconds: 4),
-                  type: AnimationType.word,
-                  slideType: SlideAnimationType.topBottom,
-                  textStyle: const TextStyle(fontSize: 18, color: Colors.red),
+      value: Colors.white,
+      child: Scaffold(
+        backgroundColor: UsefulColor.colorPrimary,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Image(
+                  image: AssetImage("${UsefulLabel.assetsImages}app.png"),
                 ),
-                Align(
+              ),
+              Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Text(
                     UsefulLabel.txtCopy,
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

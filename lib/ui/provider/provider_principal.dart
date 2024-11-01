@@ -14,7 +14,6 @@ import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
 import 'package:sisi_iot_app/domain/entities/model_business.dart';
 import 'package:sisi_iot_app/domain/entities/model_location.dart';
 import 'package:sisi_iot_app/domain/entities/model_nodos_diccionario.dart';
-import 'package:sisi_iot_app/domain/entities/model_diccionario_nodo.dart';
 import 'package:sisi_iot_app/domain/entities/model_list_nodos.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 import 'package:sisi_iot_app/ui/screen/screen_Google.dart';
@@ -27,6 +26,7 @@ import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
 import 'package:sisi_iot_app/ui/screen/screen_profile.dart';
 
+import '../../domain/entities/model_diccionario_nodo.dart';
 import '../screen/screen_home.dart';
 import '../useful/useful.dart';
 
@@ -38,6 +38,7 @@ class ProviderPrincipal extends ChangeNotifier {
   PageController _controller = PageController(initialPage: 1);
   Company? _companyResponse = Company();
   ModelNodosDiccionario? _datosDiccionario;
+  List<DataDiccionario>? _datosDiccionarioFilterType;
   String? _errorMessage;
   Map<MarkerId, Marker> _markersNodo = {};
   Map<MarkerId, Marker> _markersExplorer = {};
@@ -75,6 +76,14 @@ class ProviderPrincipal extends ChangeNotifier {
 
   set modelDiccionarioNodo(ModelDiccionarioNodo? value) {
     _modelDiccionarioNodo = value;
+    notifyListeners();
+  }
+
+
+  List<DataDiccionario>? get datosDiccionarioFilterType => _datosDiccionarioFilterType;
+
+  set datosDiccionarioFilterType(List<DataDiccionario>? value) {
+    _datosDiccionarioFilterType = value;
     notifyListeners();
   }
 
@@ -348,6 +357,9 @@ class ProviderPrincipal extends ChangeNotifier {
       Useful().hideProgress(context);
       if (data != null) {
         datosDiccionario = data;
+        datosDiccionarioFilterType = datosDiccionario!.data!
+            .where((item) => item.identificador == 202)
+            .toList();
         Navigator.of(context).pushNamed(
           ScreenDetailNodo.routePage,
         );

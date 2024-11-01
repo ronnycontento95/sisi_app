@@ -1,60 +1,101 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-class CircularWaterVolumeWidget extends StatelessWidget {
-  final double currentVolume; // Volumen actual de agua
-  final double maxVolume; // Volumen máximo del tanque
+class GaugePainter extends CustomPainter {
+  final double value;
+  final double minValue;
+  final double maxValue;
 
-  CircularWaterVolumeWidget({required this.currentVolume, required this.maxVolume});
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size(150, 150), // Tamaño del círculo
-      painter: WaterVolumePainter(currentVolume, maxVolume),
-      child: Center(
-        child: Text(
-          '${currentVolume.toInt()} ', // Muestra el volumen actual en el centro
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
-        ),
-      ),
-    );
-  }
-}
-
-class WaterVolumePainter extends CustomPainter {
-  final double currentVolume;
-  final double maxVolume;
-
-  WaterVolumePainter(this.currentVolume, this.maxVolume);
+  GaugePainter({required this.value, required this.minValue, required this.maxValue});
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint circlePaint = Paint()
-      ..color = Colors.blue[100]!
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 8;
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = min(size.width / 2, size.height / 2) - 15;
 
-    final Paint fillPaint = Paint()
-      ..color = Colors.blueAccent
-      ..style = PaintingStyle.fill;
+    // Determinar el color del gauge según el valor
+    Color gaugeColor;
+    if (value <= minValue) {
+      gaugeColor = Colors.red; // Bajo
+    } else if (value >= maxValue) {
+      gaugeColor = Colors.green; // Alto
+    } else {
+      gaugeColor = Colors.blue; // Normal
+    }
 
-    // Dibuja el contorno del círculo
-    final double radius = size.width / 2;
-    final Offset center = Offset(size.width / 2, size.height / 2);
-    canvas.drawCircle(center, radius, circlePaint);
+    // Fondo del arco
+    final paintBackground = Paint()
+      ..color = Colors.grey[300]!
+      ..strokeWidth = 15
+      ..style = PaintingStyle.stroke;
 
-    // Calcula el ángulo de llenado en función del volumen
-    final double sweepAngle = 2 * pi * (currentVolume / maxVolume);
-
-    // Dibuja el volumen de agua
     canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius - 8),
-      -pi / 2, // Empieza desde la parte superior
-      sweepAngle,
-      true,
-      fillPaint,
+      Rect.fromCircle(center: center, radius: radius),
+      pi,
+      pi,
+      false,
+      paintBackground,
     );
+
+    // Arco del valor actual
+    final paintValue = Paint()
+      ..color = gaugeColor
+      ..strokeWidth = 15
+      ..style = PaintingStyle.stroke;
+
+    double sweepAngle = pi * ((value - minValue) / (maxValue - minValue));
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius),
+      pi,
+      sweepAngle,
+      false,
+      paintValue,
+    );
+
+    // Texto de valor actual
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: value.toStringAsFixed(1),
+        style: TextStyle(
+          color: gaugeColor,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout();
+    textPainter.paint(
+      canvas,
+      Offset(center.dx - textPainter.width / 2, center.dy - textPainter.height / 2),
+    );
+
+    // Texto de valor mínimo y máximo
+    final minTextPainter = TextPainter(
+      text: TextSpan(
+        text: "Min: ${minValue.toStringAsFixed(1)}",
+        style: const TextStyle(
+          color: Colors.black54,
+          fontSize: 12,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    minTextPainter.layout();
+    minTextPainter.paint(canvas, Offset(center.dx - radius, center.dy + 30));
+
+    final maxTextPainter = TextPainter(
+      text: TextSpan(
+        text: "Max: ${maxValue.toStringAsFixed(1)}",
+        style: const TextStyle(
+          color: Colors.black54,
+          fontSize: 12,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    maxTextPainter.layout();
+    maxTextPainter.paint(canvas, Offset(center.dx + radius - maxTextPainter.width, center.dy + 30));
   }
 
   @override

@@ -26,6 +26,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
     return AnnotatedRegion(
       value: statusBarIconBrightness,
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(

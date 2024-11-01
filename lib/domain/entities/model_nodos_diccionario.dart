@@ -6,7 +6,7 @@ class ModelNodosDiccionario {
   String? topic;
   String? lat;
   String? log;
-  List<Datum>? data;
+  List<DataDiccionario>? data;
 
   ModelNodosDiccionario({
     this.idNodo,
@@ -27,7 +27,7 @@ class ModelNodosDiccionario {
     topic: json["topic"],
     lat: json["lat"],
     log: json["log"],
-    data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromMap(x))),
+    data: json["data"] == null ? [] : List<DataDiccionario>.from(json["data"]!.map((x) => DataDiccionario.fromMap(x))),
   );
 
   Map<String, dynamic> toMap() => {
@@ -40,7 +40,7 @@ class ModelNodosDiccionario {
   };
 }
 
-class Datum {
+class DataDiccionario {
   int? idDatos;
   int? idDiccionario;
   String? nombreDiccionario;
@@ -52,7 +52,7 @@ class Datum {
   int? identificador;
   String? hora;
 
-  Datum({
+  DataDiccionario({
     this.idDatos,
     this.idDiccionario,
     this.nombreDiccionario,
@@ -65,11 +65,11 @@ class Datum {
     this.hora,
   });
 
-  factory Datum.fromJson(String str) => Datum.fromMap(json.decode(str));
+  factory DataDiccionario.fromJson(String str) => DataDiccionario.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Datum.fromMap(Map<String, dynamic> json) => Datum(
+  factory DataDiccionario.fromMap(Map<String, dynamic> json) => DataDiccionario(
     idDatos: json["id_datos"],
     idDiccionario: json["id_diccionario"],
     nombreDiccionario: json["nombre_diccionario"],

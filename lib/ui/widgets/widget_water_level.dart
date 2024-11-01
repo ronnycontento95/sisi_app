@@ -11,7 +11,7 @@ class CircularWaterLevelWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      size: Size(150, 150), // Tamaño del círculo
+      size: Size(50, 350), // Tamaño del círculo
       painter: WaterLevelPainter(level),
       child: Center(
         child: Text(

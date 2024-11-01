@@ -728,14 +728,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
-  pretty_animated_text:
-    dependency: "direct main"
-    description:
-      name: pretty_animated_text
-      sha256: "80c8054807bc1580df4672eb55794a60781179398b2cbe4987bc75b144ae8346"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   provider:
     dependency: "direct main"
     description:
@@ -901,6 +893,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  syncfusion_flutter_charts:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_charts
+      sha256: "0222ac9d8cb6c671f014effe9bd5c0aef35eadb16471355345ba87cc0ac007b3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "20.4.54"
   syncfusion_flutter_core:
     dependency: transitive
     description:
