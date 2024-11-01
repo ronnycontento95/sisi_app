@@ -5,6 +5,7 @@ import 'package:sisi_iot_app/main.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ScreenDetailDiccionario extends StatelessWidget {
   static const routePage = UsefulLabel.routerScreenDataDeviceId;
@@ -29,16 +30,57 @@ class ScreenDetailDiccionario extends StatelessWidget {
       body: const SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: TablaDiccionarioNodo(),
-            ),
+            CustomChartLine(),
+            TablaDiccionarioNodo(),
           ],
         ),
       ),
     );
   }
 }
+
+
+class CustomChartLine extends StatelessWidget {
+  const CustomChartLine({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final pvPrincipal = context.watch<ProviderPrincipal>();
+
+    // Control de carga si no hay datos
+    if (pvPrincipal.modelDiccionarioNodo == null ||
+        pvPrincipal.modelDiccionarioNodo!.data == null) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    // Mapea los datos a la lista de SalesData
+    final List<SalesData> chartData = pvPrincipal.modelDiccionarioNodo!.data!.map((item) {
+      return SalesData(item.fechahora!, item.valor!.toDouble());
+    }).toList();
+
+    return SfCartesianChart(
+      primaryXAxis: DateTimeAxis(),
+      primaryYAxis: NumericAxis(),
+      series: <CartesianSeries>[
+        LineSeries<SalesData, DateTime>(
+          dataSource: chartData,
+          xValueMapper: (SalesData sales, _) => sales.year,
+          yValueMapper: (SalesData sales, _) => sales.sales,
+        )
+      ],
+    );
+  }
+}
+
+class SalesData {
+  SalesData(this.year, this.sales);
+  final DateTime year;
+  final double sales;
+}
+
+
 
 class TablaDiccionarioNodo extends StatelessWidget {
   const TablaDiccionarioNodo({super.key});
