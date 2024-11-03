@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sisi_iot_app/data/repositories/api_global_url.dart';
+import 'package:sisi_iot_app/config/global_url.dart';
 import 'package:sisi_iot_app/data/repositories/dio_exceptions.dart';
 import 'package:sisi_iot_app/domain/entities/model_business.dart';
 import 'package:sisi_iot_app/domain/entities/model_nodos_diccionario.dart';

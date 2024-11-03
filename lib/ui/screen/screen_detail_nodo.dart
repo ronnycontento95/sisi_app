@@ -18,6 +18,7 @@ class ScreenDetailNodo extends StatefulWidget {
 class _ScreenDataDeviceIdState extends State<ScreenDetailNodo> {
   @override
   Widget build(BuildContext context) {
+    final pvPrincipal = context.watch<ProviderPrincipal>();
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -60,10 +61,9 @@ class SliverGridComponentChart extends StatelessWidget {
     final pvPrincipal = context.watch<ProviderPrincipal>();
     if (pvPrincipal.datosDiccionarioFilterType == null ||
         pvPrincipal.datosDiccionarioFilterType!.isEmpty) {
-      return const Center(child: Text("No hay datos disponibles."));
+      return const SizedBox.shrink();
     }
 
-    // Obtén el ancho de la pantalla usando MediaQuery
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Padding(
@@ -77,61 +77,67 @@ class SliverGridComponentChart extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: SizedBox(
-            height: screenWidth * 0.8, // Ajusta la altura según el ancho de pantalla
-            child: ListView.separated(
-              physics: const BouncingScrollPhysics(),
-              itemCount: pvPrincipal.datosDiccionarioFilterType!.length,
-              separatorBuilder: (context, index) => const Divider(height: 20),
-              itemBuilder: (context, index) {
-                final item = pvPrincipal.datosDiccionarioFilterType![index];
-                return InkWell(
-                  onTap: (){
-                    if (pvPrincipal.datosDiccionario?.data != null) {
-                      pvPrincipal.getDataDiccionarioIdNodoId(
-                          pvPrincipal.datosDiccionario!.idNodo!, item.idDiccionario!, context);
-                    }
-                  },
-                  child: Column(
-                    children: [
-                      const CardNodo(),
-                      const SizedBox(height: 10),
-                      CustomPaint(
-                        size: Size(screenWidth * 0.4, screenWidth * 0.4),
-                        // Ajusta el tamaño de forma proporcional
-                        painter: GaugePainter(
-                          value: item.valor!,
-                          minValue: item.valorMinimo!,
-                          maxValue: item.valorMaximo!,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        "Valor: ${item.valor}",
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blueAccent,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Fecha: ${DateFormat('yyyy-MM-dd').format(item.fechahora!)}",
-                            style: const TextStyle(fontSize: 14, color: Colors.black54),
+            height: screenWidth * 2,
+            child: Column(
+              children: [
+                for (int index = 0;
+                    index < pvPrincipal.datosDiccionarioFilterType!.length;
+                    index++) ...[
+                  InkWell(
+                    onTap: () {
+                      final item = pvPrincipal.datosDiccionarioFilterType![index];
+                      if (pvPrincipal.datosDiccionario?.data != null) {
+                        pvPrincipal.getDataDiccionarioIdNodoId(
+                          pvPrincipal.datosDiccionario!.idNodo!,
+                          item.idDiccionario!,
+                          context,
+                        );
+                      }
+                    },
+                    child: Column(
+                      children: [
+                        const CardNodo(),
+                        CustomPaint(
+                          size: Size(screenWidth * 0.4, screenWidth * 0.4),
+                          painter: GaugePainter(
+                            value: pvPrincipal.datosDiccionarioFilterType![index].valor!,
+                            minValue: pvPrincipal
+                                .datosDiccionarioFilterType![index].valorMinimo!,
+                            maxValue: pvPrincipal
+                                .datosDiccionarioFilterType![index].valorMaximo!,
                           ),
-                          const SizedBox(width: 20),
-                          Text(
-                            "Hora: ${item.hora}",
-                            style: const TextStyle(fontSize: 14, color: Colors.black54),
+                        ),
+                        Text(
+                          "Valor: ${pvPrincipal.datosDiccionarioFilterType![index].identificador}",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueAccent,
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Fecha: ${DateFormat('yyyy-MM-dd').format(pvPrincipal.datosDiccionarioFilterType![index].fechahora!)}",
+                              style: const TextStyle(fontSize: 14, color: Colors.black54),
+                            ),
+                            const SizedBox(width: 20),
+                            Text(
+                              "Hora: ${pvPrincipal.datosDiccionarioFilterType![index].hora}",
+                              style: const TextStyle(fontSize: 14, color: Colors.black54),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                );
-              },
+                  if (index < pvPrincipal.datosDiccionarioFilterType!.length - 1)
+                    const Divider(height: 20),
+                  // Divider entre los elementos, excepto el último
+                ],
+              ],
             ),
           ),
         ),
@@ -173,10 +179,7 @@ class SliverGridComponent extends StatelessWidget {
             aliasDiccionario: item.aliasDiccionario,
           ),
         );
-      },
-          childCount: pvPrincipal.datosDiccionario!.data!
-              .length // Asegúrate de especificar el número de elementos
-          ),
+      }, childCount: pvPrincipal.datosDiccionario!.data!.length),
     );
   }
 }
@@ -241,8 +244,16 @@ class DiccionarioItemCard extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
+              "${identificador}",
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.blueAccent,
+              ),
+            ),
+            Text(
               "${valor ?? "N/A"}",
-              style:  TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: UsefulColor.colorPrimary,
@@ -259,7 +270,6 @@ class DiccionarioItemCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     Text(
                       "Fecha: ${DateFormat('yyyy-MM-dd').format(fechahora!)}",
                       overflow: TextOverflow.ellipsis,
@@ -306,12 +316,6 @@ class CardNodo extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       child: Row(
         children: [
-          const Icon(
-            Icons.router_sharp,
-            size: 50,
-            color: UsefulColor.colorPrimary, // Añadimos color al ícono
-          ),
-          const SizedBox(width: 15),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

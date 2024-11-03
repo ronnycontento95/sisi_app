@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:sisi_iot_app/data/repositories/api_global_url.dart';
+import 'package:sisi_iot_app/config/global_url.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:sisi_iot_app/ui/screen/screen_terms.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';

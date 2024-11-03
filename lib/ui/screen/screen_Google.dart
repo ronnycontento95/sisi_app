@@ -2,13 +2,14 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
 
-import '../../data/repositories/api_global_url.dart';
+import '../../config/global_url.dart';
 
 class ScreenGoogle extends StatelessWidget {
   const ScreenGoogle({Key? key}) : super(key: key);
@@ -61,13 +62,15 @@ class _ListCardNodosState extends State<ListCardNodos> {
     if (pvPrincipal.modelListNodos?.nodos?.isEmpty ?? true) {
       return const SizedBox.shrink();
     }
+
+
+
     return Align(
       alignment: Alignment.bottomCenter,
       child: SizedBox(
         height: 120,
         child: Swiper(
           onTap: (v){
-            // print('prueba >>> aaa ${v}');
             pvPrincipal.getDataDeviceId(pvPrincipal.modelListNodos!.nodos![v].idNodos! , context);
           },
           viewportFraction: 0.85,
@@ -79,6 +82,11 @@ class _ListCardNodosState extends State<ListCardNodos> {
           },
           itemBuilder: (context, index) {
             var item = pvPrincipal.modelListNodos!.nodos![index];
+            final Color color = item.valor! >= item.valorMaximo!
+                ? Colors.redAccent
+                : item.valor! <= item.valorMinimo!
+                ? Colors.orangeAccent
+                : UsefulColor.colorPrimary;
             return Card(
               margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
               shape: RoundedRectangleBorder(
@@ -92,14 +100,13 @@ class _ListCardNodosState extends State<ListCardNodos> {
                     padding: const EdgeInsets.all(14.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      // Alinea la imagen y el texto al centro
                       children: [
-                        CircleAvatar(
-                          radius: 25,
-                          backgroundImage: NetworkImage(
-                            '${ApiGlobalUrl.generalLinkImagen}${pvPrincipal.companyResponse.imagen}',
-                          ),
-                          backgroundColor: Colors.grey[200],
+                        SvgPicture.asset(
+                          pvPrincipal.modelListNodos!.idEmpresa == '2'
+                              ? 'assets/images/glp.svg':'assets/images/tank.svg',
+                          width: 60,
+                          height: 60,
+                          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -121,20 +128,13 @@ class _ListCardNodosState extends State<ListCardNodos> {
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                  const Icon(
-                                    Icons.device_hub,
-                                    color: UsefulColor.colorPrimary,
-                                    size: 24,
-                                  ),
                                 ],
                               ),
                               const SizedBox(height: 6),
                               Text(
-                                item.nombre ?? "S/n",
-                                style: TextStyle(
+                                "${item.valor}" ?? "S/n",
+                                style: const TextStyle(
                                   fontSize: 14,
-                                  color: Colors.grey[800],
-                                  fontStyle: FontStyle.italic,
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               ),

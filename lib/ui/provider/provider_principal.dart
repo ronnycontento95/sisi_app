@@ -79,7 +79,6 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
-
   List<DataDiccionario>? get datosDiccionarioFilterType => _datosDiccionarioFilterType;
 
   set datosDiccionarioFilterType(List<DataDiccionario>? value) {
@@ -274,15 +273,13 @@ class ProviderPrincipal extends ChangeNotifier {
   ];
 
   /// Get nodos id bussiness
-  void getDataBusiness() async {
+  getDataBusiness() async {
     Useful().showProgress();
     var dataBusiness = await GlobalPreference().getIdEmpresa();
     if (dataBusiness != null) {
       companyResponse = dataBusiness;
-      print('prueba >>> ingreso ');
       await apiRepositoryLoginInterface?.getListNodo(dataBusiness.id_empresas!,
           (code, data) {
-            print('prueba >> ingreso ${data}');
         Useful().hideProgress(Useful.globalContext.currentContext!);
         if (code == 1) {
           modelListNodos = data;
@@ -360,7 +357,10 @@ class ProviderPrincipal extends ChangeNotifier {
       if (data != null) {
         datosDiccionario = data;
         datosDiccionarioFilterType = datosDiccionario!.data!
-            .where((item) => item.identificador == 202)
+            .where((item) =>
+                item.identificador == 202 ||
+                item.identificador == 205 ||
+                item.identificador == 206)
             .toList();
         Navigator.of(context).pushNamed(
           ScreenDetailNodo.routePage,
@@ -499,8 +499,27 @@ class ProviderPrincipal extends ChangeNotifier {
   void selectNodoToMap(Nodo item) {
     if (double.parse(item.latitud ?? "0.0") != 0.0 &&
         double.parse(item.longitud ?? "0.0") != 0.0) {
+      markers.clear();
+      addMarkerNodos(markers, item.idNodos.toString(),
+          LatLng(double.parse(item.latitud!), double.parse(item.longitud!)),
+          text: item.nombrePresentar);
       googleMapController.animateCamera(CameraUpdate.newLatLngZoom(
           LatLng(double.parse(item.latitud!), double.parse(item.longitud!)), 16));
+    }
+  }
+
+  void createMarkerMapNodo() {
+    markers.clear();
+    final nodos = modelListNodos?.nodos;
+    if (nodos == null && nodos!.isEmpty) return;
+    if (modelListNodos?.nodos?.isNotEmpty ?? true) {
+      for (int i = 0; i < modelListNodos!.nodos!.length; i++) {
+        MarkerId markerId = MarkerId(i.toString());
+        LatLng latLng = LatLng(double.parse(modelListNodos!.nodos![i].latitud!),
+            double.parse(modelListNodos!.nodos![i].longitud!));
+        String text = "${modelListNodos!.nodos![i].nombrePresentar}";
+        addMarkerNodos(markers, markerId.toString(), latLng, size: 80, text: text);
+      }
     }
   }
 
@@ -528,24 +547,5 @@ class ProviderPrincipal extends ChangeNotifier {
           if (function != null) function();
         });
     notifyListeners();
-  }
-
-  void createMarkerMapNodo() {
-    markers.clear();
-    final nodos = modelListNodos?.nodos;
-    if (nodos == null && nodos!.isEmpty) return;
-    if (modelListNodos?.nodos?.isNotEmpty ?? true) {
-      for (int i = 0; i < modelListNodos!.nodos!.length; i++) {
-        MarkerId markerId = MarkerId(i.toString());
-        LatLng latLng = LatLng(double.parse(modelListNodos!.nodos![i].latitud!),
-            double.parse(modelListNodos!.nodos![i].longitud!));
-        addMarkerNodos(
-          markers,
-          markerId.toString(),
-          latLng,
-          size: 80,
-        );
-      }
-    }
   }
 }
