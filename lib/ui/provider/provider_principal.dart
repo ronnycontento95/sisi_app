@@ -279,8 +279,10 @@ class ProviderPrincipal extends ChangeNotifier {
     var dataBusiness = await GlobalPreference().getIdEmpresa();
     if (dataBusiness != null) {
       companyResponse = dataBusiness;
+      print('prueba >>> ingreso ');
       await apiRepositoryLoginInterface?.getListNodo(dataBusiness.id_empresas!,
           (code, data) {
+            print('prueba >> ingreso ${data}');
         Useful().hideProgress(Useful.globalContext.currentContext!);
         if (code == 1) {
           modelListNodos = data;

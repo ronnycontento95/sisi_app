@@ -156,7 +156,7 @@ class SliverGridComponent extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 0,
         mainAxisSpacing: 5,
-        childAspectRatio: 1.2,
+        childAspectRatio: 1.1,
       ),
       delegate: SliverChildBuilderDelegate((context, index) {
         final item = pvPrincipal.datosDiccionario!.data![index];
@@ -241,7 +241,7 @@ class DiccionarioItemCard extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              "Valor: ${valor ?? "N/A"}",
+              "${valor ?? "N/A"}",
               style:  TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -259,14 +259,16 @@ class DiccionarioItemCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+
                     Text(
                       "Fecha: ${DateFormat('yyyy-MM-dd').format(fechahora!)}",
-                      style: const TextStyle(fontSize: 14, color: Colors.black54),
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 12, color: Colors.black54),
                     ),
                     const SizedBox(height: 5),
                     Text(
                       "Hora: ${hora ?? "N/A"}",
-                      style: const TextStyle(fontSize: 14, color: Colors.black54),
+                      style: const TextStyle(fontSize: 12, color: Colors.black54),
                     ),
                   ],
                 ),

@@ -33,13 +33,13 @@ class ScreenChartNodos extends StatelessWidget {
             children: [
               Stack(
                 children: [
-
                   Container(
                     width: double.infinity,
                     height: 200,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage('${ApiGlobalUrl.generalLinkImagen}${context.watch<ProviderPrincipal>().companyResponse.imagen_app}'),
+                        image: NetworkImage(
+                            '${ApiGlobalUrl.generalLinkImagen}${context.watch<ProviderPrincipal>().companyResponse.imagen_app}'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -48,7 +48,8 @@ class ScreenChartNodos extends StatelessWidget {
                     bottom: 20,
                     left: 20,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10.0),
+                      padding:
+                          const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10.0),
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(12.0),
@@ -56,7 +57,10 @@ class ScreenChartNodos extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Row(
                         children: [
-                          const Icon(Icons.business, color: Colors.white,),
+                          const Icon(
+                            Icons.business,
+                            color: Colors.white,
+                          ),
                           Text(
                             '${context.watch<ProviderPrincipal>().companyResponse.nombre_empresa} ',
                             style: const TextStyle(
@@ -76,11 +80,12 @@ class ScreenChartNodos extends StatelessWidget {
                         ],
                       ),
                     ),
-
                   ),
                 ],
               ),
-              WidgetNetwork.alert(textAlert: 'Revisa tu conexión de internet e intenta nuevamente',),
+              WidgetNetwork.alert(
+                textAlert: 'Revisa tu conexión de internet e intenta nuevamente',
+              ),
               const Padding(
                 padding: EdgeInsets.all(16.0),
                 child: ListChartNodos(),
@@ -134,16 +139,29 @@ class ListChartNodos extends StatelessWidget {
                   children: [
                     SvgPicture.asset(
                       'assets/images/tank.svg',
-                      width: 80, // Reduzco el tamaño para dar más espacio a otros elementos
+                      width: 80,
+                      // Reduzco el tamaño para dar más espacio a otros elementos
                       height: 80,
-                      colorFilter: const ColorFilter.mode(
-                        Colors.blue,
+                      colorFilter: ColorFilter.mode(
+                        device!.valor! >= device.valorMaximo!
+                            ? Colors.red
+                            : device.valor! <= device.valorMinimo!
+                                ? Colors.orangeAccent
+                                : Colors.blueAccent,
                         BlendMode.srcIn,
                       ),
                     ),
-                    const SizedBox(height: 10), // Espacio entre la imagen y el texto
+                    const SizedBox(height: 5), // Espacio entre la imagen y el texto
                     Text(
-                      device!.nombrePresentar!.toUpperCase(),
+                      "${device.valor}",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    Text(
+                      device.nombrePresentar!.toUpperCase(),
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 14,
@@ -151,14 +169,39 @@ class ListChartNodos extends StatelessWidget {
                         color: Colors.black87,
                       ),
                     ),
+
                     const SizedBox(height: 5), // Espacio entre la imagen y el texto
-                    Text(
-                      device.nombre!.toUpperCase(),
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.black87,
-                      ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Icon(
+                          Icons.rectangle,
+                          size: 13,
+                          color: Colors.red,
+                        ),
+                        Text(
+                          "Alto",
+                          style: TextStyle(fontSize: 10),
+                        ),
+                        Icon(
+                          Icons.rectangle,
+                          size: 13,
+                          color: Colors.blueAccent,
+                        ),
+                        Text(
+                          "Normal",
+                          style: TextStyle(fontSize: 10),
+                        ),
+                        Icon(
+                          Icons.rectangle,
+                          size: 13,
+                          color: Colors.orangeAccent,
+                        ),
+                        Text(
+                          "Bajo",
+                          style: TextStyle(fontSize: 10),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -170,8 +213,6 @@ class ListChartNodos extends StatelessWidget {
     );
   }
 }
-
-
 
 class TextFieldSearch extends StatelessWidget {
   const TextFieldSearch({Key? key}) : super(key: key);

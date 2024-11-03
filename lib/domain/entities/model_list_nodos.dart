@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 class ModelListNodos {
-  List<Nodo>? nodos;
   String? idEmpresa;
+  List<Nodo>? nodos;
 
   ModelListNodos({
-    this.nodos,
     this.idEmpresa,
+    this.nodos,
   });
 
   factory ModelListNodos.fromJson(String str) => ModelListNodos.fromMap(json.decode(str));
@@ -14,37 +14,39 @@ class ModelListNodos {
   String toJson() => json.encode(toMap());
 
   factory ModelListNodos.fromMap(Map<String, dynamic> json) => ModelListNodos(
-        nodos: json["nodos"] == null
-            ? []
-            : List<Nodo>.from(json["nodos"]!.map((x) => Nodo.fromMap(x))),
-        idEmpresa: json["id_empresa"],
-      );
+    idEmpresa: json["id_empresa"],
+    nodos: json["nodos"] == null ? [] : List<Nodo>.from(json["nodos"]!.map((x) => Nodo.fromMap(x))),
+  );
 
   Map<String, dynamic> toMap() => {
-        "nodos": nodos == null ? [] : List<dynamic>.from(nodos!.map((x) => x.toMap())),
-        "id_empresa": idEmpresa,
-      };
+    "id_empresa": idEmpresa,
+    "nodos": nodos == null ? [] : List<dynamic>.from(nodos!.map((x) => x.toMap())),
+  };
 }
 
 class Nodo {
-  String? longitud;
-  String? latitud;
-  String? nombre;
-  int? idEmpresas;
-  String? nombrePresentar;
-  int? idDiccionario;
   int? idNodos;
+  String? nombre;
+  String? latitud;
+  String? longitud;
+  int? idDiccionario;
+  String? nombrePresentar;
   String? alias;
+  double? valorMaximo;
+  double? valorMinimo;
+  double? valor;
 
   Nodo({
-    this.longitud,
-    this.latitud,
-    this.nombre,
-    this.idEmpresas,
-    this.nombrePresentar,
-    this.idDiccionario,
     this.idNodos,
+    this.nombre,
+    this.latitud,
+    this.longitud,
+    this.idDiccionario,
+    this.nombrePresentar,
     this.alias,
+    this.valorMaximo,
+    this.valorMinimo,
+    this.valor,
   });
 
   factory Nodo.fromJson(String str) => Nodo.fromMap(json.decode(str));
@@ -52,30 +54,28 @@ class Nodo {
   String toJson() => json.encode(toMap());
 
   factory Nodo.fromMap(Map<String, dynamic> json) => Nodo(
-        longitud: json["longitud"],
-        latitud: json["latitud"],
-        nombre: json["nombre"],
-        idEmpresas: json["id_empresas"],
-        nombrePresentar: json["nombre_presentar"],
-        idDiccionario: json["id_diccionario"],
-        idNodos: json["id_nodos"],
-        alias: json["alias"],
-
-      );
+    idNodos: json["id_nodos"],
+    nombre: json["nombre"],
+    latitud: json["latitud"],
+    longitud: json["longitud"],
+    idDiccionario: json["id_diccionario"],
+    nombrePresentar: json["nombre_presentar"],
+    alias: json["alias"],
+    valorMaximo: json["valor_maximo"],
+    valorMinimo: json["valor_minimo"],
+    valor: json["valor"],
+  );
 
   Map<String, dynamic> toMap() => {
-        "longitud": longitud,
-        "latitud": latitud,
-        "nombre": nombre,
-        "id_empresas": idEmpresas,
-        "nombre_presentar": nombrePresentar,
-        "id_diccionario": idDiccionario,
-        "id_nodos": idNodos,
-        "alias": alias,
-      };
-
-  @override
-  String toString() {
-    return 'Nodo{longitud: $longitud, latitud: $latitud, nombre: $nombre, idEmpresas: $idEmpresas, nombrePresentar: $nombrePresentar, idDiccionario: $idDiccionario, idNodos: $idNodos}';
-  }
+    "id_nodos": idNodos,
+    "nombre": nombre,
+    "latitud": latitud,
+    "longitud": longitud,
+    "id_diccionario": idDiccionario,
+    "nombre_presentar": nombrePresentar,
+    "alias": alias,
+    "valor_maximo": valorMaximo,
+    "valor_minimo": valorMinimo,
+    "valor": valor,
+  };
 }

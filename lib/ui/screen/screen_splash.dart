@@ -56,7 +56,8 @@ class _ScreenSpashState extends State<ScreenSpash> {
               Align(
                 alignment: Alignment.center,
                 child: Image(
-                  image: AssetImage("${UsefulLabel.assetsImages}app.png"),
+                  width: 150,
+                  image: AssetImage("${UsefulLabel.assetsImages}app.png", ),
                 ),
               ),
               Padding(

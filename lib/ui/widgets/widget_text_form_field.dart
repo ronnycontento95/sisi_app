@@ -144,7 +144,7 @@ class _WidgetTextFormFieldState extends State<WidgetTextFormField> {
             cursorColor: Theme.of(context).primaryColor,
             style: TextStyle(
                 fontSize: widget.fontSize,
-                color: Theme.of(context).primaryColor,
+                // color: Theme.of(context).primaryColor,
                 fontFamily: UsefulLabel.letterWalkwayBold),
             decoration: InputDecoration(
               filled: true,

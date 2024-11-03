@@ -79,7 +79,7 @@ class ListCardNodos extends StatelessWidget {
         crossAxisCount: 1,
         crossAxisSpacing: 5,
         mainAxisSpacing: 5,
-        childAspectRatio: 5,
+        childAspectRatio: 4.8,
       ),
       delegate: SliverChildBuilderDelegate((context, index) {
         final itemNodo = pvPrincipal.modelListNodos!.nodos![index];
@@ -95,11 +95,7 @@ class ListCardNodos extends StatelessWidget {
               shadowColor: Colors.black26,
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFFE1BEE7), Color(0xFF9575CD)], // Degradado morado suave
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(16.0),
                 ),
                 child: Padding(
@@ -110,7 +106,7 @@ class ListCardNodos extends StatelessWidget {
                       // Icono a la izquierda
                       Icon(
                         Icons.device_hub,
-                        color: Colors.purple[700],
+                        color: UsefulColor.colorPrimary,
                         size: 40,
                       ),
                       const SizedBox(width: 12),
@@ -125,29 +121,22 @@ class ListCardNodos extends StatelessWidget {
                               style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: Colors.black45,
                               ),
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              itemNodo.nombre ?? "Sin nombre de presentación",
+                              "${itemNodo.valor}",
                               style: const TextStyle(
-                                fontSize: 12,
-                                color: Colors.white70,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
                               ),
                             ),
                           ],
                         ),
                       ),
-                      const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white,),
-                      // Fecha a la derecha
-                      // Text(
-                      //   itemNodo!.fecha ?? "00/00/0000",
-                      //   style: const TextStyle(
-                      //     fontSize: 12,
-                      //     color: Colors.white60,
-                      //   ),
-                      // ),
+                      Icon(Icons.arrow_forward_ios_rounded, color: UsefulColor.colorPrimary,),
                     ],
                   ),
                 ),
