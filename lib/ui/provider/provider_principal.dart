@@ -18,7 +18,7 @@ import 'package:sisi_iot_app/domain/entities/model_list_nodos.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 import 'package:sisi_iot_app/ui/screen/screen_Google.dart';
 import 'package:sisi_iot_app/ui/screen/screen_card_nodos.dart';
-import 'package:sisi_iot_app/ui/screen/screen_chart_nodos.dart';
+import 'package:sisi_iot_app/ui/screen/screen_principal.dart';
 import 'package:sisi_iot_app/ui/screen/screen_detail_nodo.dart';
 import 'package:sisi_iot_app/ui/screen/screen_detail_diccionario.dart';
 import 'package:sisi_iot_app/ui/screen/screen_login.dart';
@@ -260,7 +260,7 @@ class ProviderPrincipal extends ChangeNotifier {
 
   List<Widget> itemScreen = [
     const ScreenChartNodos(),
-    const ScreenCardNodos(),
+    const ScreenPrincipal(),
     const ScreenGoogle(),
     const ScreenProfile(),
   ];

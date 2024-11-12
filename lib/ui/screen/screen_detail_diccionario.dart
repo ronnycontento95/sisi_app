@@ -56,16 +56,13 @@ class CustomChartLine extends StatelessWidget {
 
     // Mapea los datos a la lista de SalesData
     final List<SalesData> chartData = pvPrincipal.modelDiccionarioNodo!.data!.map((item) {
-      return SalesData(
-        DateFormat("HH:mm").parse(item.hora!), // Convierte hora a DateTime
+      return SalesData(DateTime.fromMillisecondsSinceEpoch(item.idDatos!), // Convierte hora a DateTime
         item.valor!.toDouble(),
       );
     }).toList();
 
     return SfCartesianChart(
-
       primaryXAxis: DateTimeAxis(),
-      // Cambiado a DateTimeAxis
       primaryYAxis: NumericAxis(),
       title: ChartTitle(text: "Gráfica"),
       tooltipBehavior: TooltipBehavior(
@@ -77,14 +74,12 @@ class CustomChartLine extends StatelessWidget {
         LineSeries<SalesData, DateTime>(
           dataSource: chartData,
           dashArray: <double>[5, 5],
-
-          // splineType: SplineType.cardinal,
           xValueMapper: (SalesData sales, _) => sales.year,
           yValueMapper: (SalesData sales, _) => sales.sales,
           dataLabelSettings: const DataLabelSettings(isVisible: true),
           color: UsefulColor.colorPrimary,
           markerSettings: const MarkerSettings(
-
+            color: UsefulColor.colorPrimary,
             isVisible: true, // Habilita los marcadores
             shape: DataMarkerType.circle, // Forma del marcador
             width: 5, // Ancho del marcador
@@ -110,7 +105,6 @@ class TablaDiccionarioNodo extends StatelessWidget {
   Widget build(BuildContext context) {
     final pvPrincipal = context.watch<ProviderPrincipal>();
 
-    // Muestra un indicador de carga si no hay datos
     if (pvPrincipal.modelDiccionarioNodo == null ||
         pvPrincipal.modelDiccionarioNodo!.data == null) {
       return const Center(
@@ -186,7 +180,7 @@ class TablaDiccionarioNodo extends StatelessWidget {
             );
             contador--;
             return fila;
-          }).toList(),
+          }).toList().reversed.toList(),
           dividerThickness: 1,
           dataRowColor: WidgetStateProperty.resolveWith((states) => Colors.white),
           dataRowMaxHeight: 20,

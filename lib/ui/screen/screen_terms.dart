@@ -37,7 +37,7 @@ class ScreenTermCondition extends StatelessWidget {
                     WidgetButtonView(
                       text: 'Términos y condiciones',
                       onTap: () {
-                        launchUrl(Uri.parse('http://34.122.67.202/politicas/'),
+                        launchUrl(Uri.parse('http://34.122.67.202/terminos/'),
                             mode: LaunchMode.externalApplication);
                       },
                       color: UsefulColor.colorPrimary,
@@ -45,7 +45,7 @@ class ScreenTermCondition extends StatelessWidget {
                     WidgetButtonView(
                       text: 'Política de privacidad',
                       onTap: () {
-                        launchUrl(Uri.parse('http://34.122.67.202/terminos/'),
+                        launchUrl(Uri.parse('http://34.122.67.202/politicas/'),
                             mode: LaunchMode.externalApplication);
                       },
                       color: UsefulColor.colorPrimary,

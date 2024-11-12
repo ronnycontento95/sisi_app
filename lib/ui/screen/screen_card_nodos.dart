@@ -6,8 +6,8 @@ import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:sisi_iot_app/ui/useful/useful_label.dart';
 import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
 
-class ScreenCardNodos extends StatelessWidget {
-  const ScreenCardNodos({super.key});
+class ScreenPrincipal extends StatelessWidget {
+  const ScreenPrincipal({super.key});
 
   static const routePage = UsefulLabel.routerScreenCharNodos;
 

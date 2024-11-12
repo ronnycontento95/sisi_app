@@ -14,7 +14,7 @@ import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 class ScreenChartNodos extends StatelessWidget {
   const ScreenChartNodos({super.key});
 
-  static const routePage = UsefulLabel.routerScreenCardNodos;
+  static const routePage = UsefulLabel.routerScreenPrincipal;
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +42,9 @@ class ScreenChartNodos extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(
-                              '${ApiGlobalUrl.generalLinkImagen}${context.watch<ProviderPrincipal>().companyResponse.imagen_app}'),
+                              '${ApiGlobalUrl.generalLinkImagen}${context.watch<ProviderPrincipal>().companyResponse.imagen}'),
                           fit: BoxFit.cover,
+
                         ),
                       ),
                     ),

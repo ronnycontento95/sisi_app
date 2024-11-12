@@ -6,8 +6,6 @@ abstract class ApiRepositoryLoginInterface {
 
   Future getListNodo(int id, VoidCallback? Function(int code, dynamic data) callback);
 
-  Future getBusinessNodo(int id, VoidCallback? Function(int code, dynamic data) callback);
-
   Future getDataDeviceId(int id, VoidCallback? Function(int code, dynamic data) callback);
 
   Future getDataDiccionarioIdNodoID(String idNodo, int idDiccionario,

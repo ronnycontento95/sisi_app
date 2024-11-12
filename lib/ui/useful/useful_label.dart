@@ -17,7 +17,7 @@ class UsefulLabel{
   static const routeScreenMenu = "ScreenMenu";
   static const routeScreenWebView = "ScreenWebView";
   static const routeScreenSpash= "ScreenSpash";
-  static const routerScreenCardNodos="ScreenCardNodos";
+  static const routerScreenPrincipal="ScreenPrincipal";
   static const routerScreenGoogle="ScreenGoogle";
   static const routerScreenCharNodos="ScreenCharNodos";
   static const routerScreenTermCondition="ScreenTermCondition";

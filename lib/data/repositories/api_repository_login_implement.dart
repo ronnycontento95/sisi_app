@@ -40,9 +40,9 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
       int id, VoidCallback? Function(int code, dynamic data) callback) async {
     try {
       final response =
-      await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getListNodo}$id");
+      await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getListNodos}$id");
       if (kDebugMode) {
-        log("url : ${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getListNodo}$id");
+        log("url : ${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getListNodos}$id");
         log("RESPONDE >>> LIST NDOOS $response");
       }
       if (response.data != null) {
@@ -54,25 +54,6 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
     }
   }
 
-
-  @override
-  Future getBusinessNodo(
-      int id, VoidCallback? Function(int code, dynamic data) callback) async {
-    try {
-      final response =
-          await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getBusinessNodo}$id");
-      if (kDebugMode) {
-        log("url : ${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getBusinessNodo}$id");
-        log("RESPONDE DATA NODOS ID $response");
-      }
-      if (response.data != null) {
-        callback(1, ModelBusinessNodo.fromMap(response.data));
-      }
-    } on DioError catch (e) {
-      final errorMessage = DioExceptions.fromDioError(e).toString();
-      callback(-1, errorMessage);
-    }
-  }
 
   @override
   Future getDataDeviceId(
