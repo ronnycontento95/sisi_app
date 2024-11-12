@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:sisi_iot_app/ui/useful/useful_label.dart';
-import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
+
 
 class WidgetProgress extends StatefulWidget {
   const WidgetProgress({super.key});
@@ -22,11 +22,11 @@ class _WidgetProgressState extends State<WidgetProgress> {
   Widget build(BuildContext context) {
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(
-          statusBarColor: UsefulColor.colorWhite,
+          statusBarColor: Colors.white,
           statusBarIconBrightness: Brightness.dark,
           statusBarBrightness: Brightness.dark,
           systemNavigationBarIconBrightness: Brightness.dark,
-          systemNavigationBarColor: UsefulColor.colorWhite),
+          systemNavigationBarColor:Colors.white),
       child: Scaffold(
         backgroundColor: Colors.black38,
         body: Container(
@@ -37,13 +37,9 @@ class _WidgetProgressState extends State<WidgetProgress> {
             children: [
               LoadingAnimationWidget.stretchedDots(
                 size: 50,
-                color: UsefulColor.colorPrimary,
+                color: CommonColor.colorPrimary,
               ),
               const SizedBox(height: 10),
-              // const Text(
-              //   UsefulLabel.txtWait,
-              //   style: TextStyle(fontSize: 16),
-              // )
             ],
           ),
         ),

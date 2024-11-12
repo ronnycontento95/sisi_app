@@ -16,19 +16,20 @@ import 'package:sisi_iot_app/domain/entities/model_location.dart';
 import 'package:sisi_iot_app/domain/entities/model_nodos_diccionario.dart';
 import 'package:sisi_iot_app/domain/entities/model_list_nodos.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
+import 'package:sisi_iot_app/ui/common/common.dart';
 import 'package:sisi_iot_app/ui/screen/screen_Google.dart';
 import 'package:sisi_iot_app/ui/screen/screen_card_nodos.dart';
 import 'package:sisi_iot_app/ui/screen/screen_principal.dart';
 import 'package:sisi_iot_app/ui/screen/screen_detail_nodo.dart';
 import 'package:sisi_iot_app/ui/screen/screen_detail_diccionario.dart';
 import 'package:sisi_iot_app/ui/screen/screen_login.dart';
-import 'package:sisi_iot_app/ui/useful/useful_label.dart';
-import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
+import 'package:sisi_iot_app/ui/common/common_label.dart';
+
 import 'package:sisi_iot_app/ui/screen/screen_profile.dart';
 
 import '../../domain/entities/model_diccionario_nodo.dart';
 import '../screen/screen_home.dart';
-import '../useful/useful.dart';
 
 class ProviderPrincipal extends ChangeNotifier {
   final ApiRepositoryLoginInterface? apiRepositoryLoginInterface;
@@ -109,8 +110,7 @@ class ProviderPrincipal extends ChangeNotifier {
   }
 
   ProviderPrincipal(this.apiRepositoryLoginInterface) {
-    Useful()
-        .assetsCoverToBytes("${UsefulLabel.assetsImages}water-drop.png")
+    Common().assetsCoverToBytes("${CommonLabel.assetsImages}water-drop.png")
         .then((value) {
       final bitmap = BitmapDescriptor.fromBytes(value);
       iconLocation.complete(bitmap);
@@ -237,22 +237,22 @@ class ProviderPrincipal extends ChangeNotifier {
 
   Future login(BuildContext context) async {
     if (_editUser.text.trim().isEmpty) {
-      return Useful().messageAlert(context, UsefulLabel.txtEmptyUser);
+      return Common().messageAlert(context, CommonLabel.txtEmptyUser);
     }
 
     if (_editPassword.text.trim().isEmpty) {
-      return Useful().messageAlert(context, UsefulLabel.txtEmptyUser);
+      return Common().messageAlert(context, CommonLabel.txtEmptyUser);
     }
-    Useful().showProgress();
+    Common().showProgress();
     await apiRepositoryLoginInterface!
         .login(_editUser.text.trim(), _editPassword.text.trim(), (code, data) {
       _companyResponse = data;
-      Useful().hideProgress(context);
+      Common().hideProgress(context);
       if (_companyResponse!.bandera!) {
         GlobalPreference().setIdEmpresa(_companyResponse!);
-        Useful().nextScreenViewUntil(const ScreenHome());
+        Common().nextScreenViewUntil(const ScreenHome());
       } else {
-        Useful().messageAlert(context, UsefulLabel.txtFailPassword);
+        Common().messageAlert(context, CommonLabel.txtFailPassword);
       }
       return null;
     });
@@ -274,20 +274,20 @@ class ProviderPrincipal extends ChangeNotifier {
 
   /// Get nodos id bussiness
   getDataBusiness() async {
-    Useful().showProgress();
+    Common().showProgress();
     var dataBusiness = await GlobalPreference().getIdEmpresa();
     if (dataBusiness != null) {
       companyResponse = dataBusiness;
       await apiRepositoryLoginInterface?.getListNodo(dataBusiness.id_empresas!,
           (code, data) {
-        Useful().hideProgress(Useful.globalContext.currentContext!);
+        Common().hideProgress(Common.globalContext.currentContext!);
         if (code == 1) {
           modelListNodos = data;
         }
         return null;
       });
     } else {
-      Useful().hideProgress(Useful.globalContext.currentContext!);
+      Common().hideProgress(Common.globalContext.currentContext!);
     }
   }
 
@@ -347,13 +347,13 @@ class ProviderPrincipal extends ChangeNotifier {
     editUser.text = "";
     editPassword.text = "";
     GlobalPreference().deleteUser();
-    Useful().nextScreenViewUntil(ScreenLogin());
+    Common().nextScreenViewUntil(ScreenLogin());
   }
 
   void getDataDeviceId(int id, BuildContext context) {
-    Useful().showProgress();
+    Common().showProgress();
     apiRepositoryLoginInterface?.getDataDeviceId(id, (code, data) {
-      Useful().hideProgress(context);
+      Common().hideProgress(context);
       if (data != null) {
         datosDiccionario = data;
         datosDiccionarioFilterType = datosDiccionario!.data!
@@ -459,10 +459,10 @@ class ProviderPrincipal extends ChangeNotifier {
 
   void getDataDiccionarioIdNodoId(
       String idNodo, int idDiccionario, BuildContext context) {
-    Useful().showProgress();
+    Common().showProgress();
     apiRepositoryLoginInterface?.getDataDiccionarioIdNodoID(idNodo, idDiccionario,
         (code, data) {
-      Useful().hideProgress(context);
+      Common().hideProgress(context);
       if (data != null) {
         modelDiccionarioNodo = data;
 
@@ -480,7 +480,7 @@ class ProviderPrincipal extends ChangeNotifier {
       items: items,
       backgroundColor: Colors.white,
       color: Colors.black38,
-      colorSelected: UsefulColor.colorPrimary,
+      colorSelected: CommonColor.colorPrimary,
       indexSelected: pageScreen,
       onTap: (int index) {
         pageScreen = index;
@@ -526,7 +526,7 @@ class ProviderPrincipal extends ChangeNotifier {
   void addMarkerNodos(markers, String idMarker, LatLng latLng,
       {Function? function,
       String? text = "",
-      int size = UsefulLabel.targetWidth,
+      int size = CommonLabel.targetWidth,
       bool draggable = false,
       String? networkImage,
       Function(LatLng)? onDragEnd}) async {

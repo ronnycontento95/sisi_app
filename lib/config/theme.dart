@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sisi_iot_app/ui/useful/useful_label.dart';
-import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
-import 'package:sisi_iot_app/ui/useful/useful_style_text.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
+import 'package:sisi_iot_app/ui/common/common_label.dart';
+import 'package:sisi_iot_app/ui/common/common_style_text.dart';
 
 ThemeData lightThemeData(BuildContext context) {
   return ThemeData.light().copyWith(
-    primaryColor: UsefulColor.colorPrimary,
+    primaryColor: CommonColor.colorPrimary,
     // #C1A9F1
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: const AppBarTheme(
       centerTitle: true,
       elevation: 0,
-      color: UsefulColor.colorPrimary,
+      color: CommonColor.colorPrimary,
       systemOverlayStyle: SystemUiOverlayStyle(
         statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.light,
@@ -21,13 +21,13 @@ ThemeData lightThemeData(BuildContext context) {
     ),
     textTheme: Theme.of(context).textTheme.apply(
           bodyColor: Colors.black87, // Texto oscuro para un fondo claro
-          fontFamily: UsefulLabel.letterWalkwayBold,
+          fontFamily: CommonLabel.letterWalkwayBold,
         ),
     checkboxTheme: CheckboxThemeData(
-      fillColor: MaterialStateProperty.resolveWith<Color?>(
-        (Set<MaterialState> states) {
+      fillColor: WidgetStateProperty.resolveWith<Color?>(
+        (Set<WidgetState> states) {
           if (states.contains(MaterialState.selected)) {
-            return UsefulColor.colorPrimary;
+            return CommonColor.colorPrimary;
           }
           return Colors.grey[400]; // Gris para no seleccionado
         },
@@ -37,18 +37,18 @@ ThemeData lightThemeData(BuildContext context) {
     // Fondo claro para tarjetas
     dividerTheme: DividerThemeData(color: Colors.grey[350]),
     switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.resolveWith<Color?>(
-        (Set<MaterialState> states) {
-          if (states.contains(MaterialState.selected)) {
-            return UsefulColor.colorPrimary; // Color principal para el switch activo
+      thumbColor: WidgetStateProperty.resolveWith<Color?>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.selected)) {
+            return CommonColor.colorPrimary; // Color principal para el switch activo
           }
           return Colors.grey; // Gris para el switch no activo
         },
       ),
     ),
-    colorScheme: ColorScheme.fromSeed(seedColor: UsefulColor.colorPrimary).copyWith(
+    colorScheme: ColorScheme.fromSeed(seedColor: CommonColor.colorPrimary).copyWith(
       background: Colors.white,
-      primary: UsefulColor.colorPrimary,
+      primary: CommonColor.colorPrimary,
       secondary: const Color(0xFF6A4D8E),
       // Púrpura oscuro como color secundario
       error: Colors.red,
@@ -58,10 +58,10 @@ ThemeData lightThemeData(BuildContext context) {
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
-      selectedItemColor: UsefulColor.colorPrimary,
+      selectedItemColor: CommonColor.colorPrimary,
       unselectedItemColor: Colors.grey[600],
       // Menos énfasis en iconos no seleccionados
-      selectedIconTheme: IconThemeData(color: UsefulColor.colorPrimary),
+      selectedIconTheme: IconThemeData(color: CommonColor.colorPrimary),
       showUnselectedLabels: true,
     ),
   );
@@ -69,7 +69,7 @@ ThemeData lightThemeData(BuildContext context) {
 
 ThemeData darkThemeData(BuildContext context) {
   return ThemeData.dark().copyWith(
-    primaryColor: UsefulColor.colorPrimary,
+    primaryColor: CommonColor.colorPrimary,
     // #C1A9F1
     scaffoldBackgroundColor: const Color(0xFF03182B),
     // Fondo oscuro profundo
@@ -82,17 +82,17 @@ ThemeData darkThemeData(BuildContext context) {
         statusBarBrightness: Brightness.dark,
       ),
       titleTextStyle:
-          TitleStyle(color: UsefulColor.colorPrimary), // Título con el color principal
+          TitleStyle(color: CommonColor.colorPrimary), // Título con el color principal
     ),
     textTheme: Theme.of(context).textTheme.apply(
           bodyColor: Colors.white70, // Texto claro para fondo oscuro
-          fontFamily: UsefulLabel.letterWalkwayBold,
+          fontFamily: CommonLabel.letterWalkwayBold,
         ),
     checkboxTheme: CheckboxThemeData(
       fillColor: MaterialStateProperty.resolveWith<Color?>(
         (Set<MaterialState> states) {
           if (states.contains(MaterialState.selected)) {
-            return UsefulColor.colorPrimary;
+            return CommonColor.colorPrimary;
           }
           return Colors.grey[700]; // Gris oscuro para no seleccionado
         },
@@ -102,7 +102,7 @@ ThemeData darkThemeData(BuildContext context) {
       thumbColor: MaterialStateProperty.resolveWith<Color?>(
         (Set<MaterialState> states) {
           if (states.contains(MaterialState.selected)) {
-            return UsefulColor.colorPrimary; // El lila para el switch activo
+            return CommonColor.colorPrimary; // El lila para el switch activo
           }
           return Colors.grey; // Gris para el switch no activo
         },
@@ -117,10 +117,10 @@ ThemeData darkThemeData(BuildContext context) {
       ),
     ),
     colorScheme: ColorScheme.fromSeed(
-      seedColor: UsefulColor.colorPrimary,
+      seedColor: CommonColor.colorPrimary,
       brightness: Brightness.dark,
     ).copyWith(
-      primary: UsefulColor.colorPrimary,
+      primary: CommonColor.colorPrimary,
       // Color principal en el tema oscuro
       secondary: const Color(0xFF6A4D8E),
       // Púrpura oscuro como color secundario
@@ -134,10 +134,10 @@ ThemeData darkThemeData(BuildContext context) {
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: const Color(0xFF03182B),
       // Fondo oscuro para la barra inferior
-      selectedItemColor: UsefulColor.colorPrimary,
+      selectedItemColor: CommonColor.colorPrimary,
       unselectedItemColor: Colors.white70.withOpacity(0.6),
       // Blanco claro para no seleccionados
-      selectedIconTheme: const IconThemeData(color: UsefulColor.colorPrimary),
+      selectedIconTheme: const IconThemeData(color: CommonColor.colorPrimary),
       showUnselectedLabels: true,
     ),
   );

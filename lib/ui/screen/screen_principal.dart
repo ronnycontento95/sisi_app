@@ -4,17 +4,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/config/global_url.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:sisi_iot_app/ui/screen/screen_home.dart';
-import 'package:sisi_iot_app/ui/useful/useful_label.dart';
-import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
+import 'package:sisi_iot_app/ui/common/common_label.dart';
+
 import 'package:sisi_iot_app/ui/widgets/widget_network.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
 
 class ScreenChartNodos extends StatelessWidget {
   const ScreenChartNodos({super.key});
 
-  static const routePage = UsefulLabel.routerScreenPrincipal;
+  static const routePage = CommonLabel.routerScreenPrincipal;
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +127,7 @@ class ListChartNodos extends StatelessWidget {
             ? Colors.redAccent
             : valor <= device.valorMinimo!
                 ? Colors.orangeAccent
-                : UsefulColor.colorPrimary;
+                : CommonColor.colorPrimary;
 
         return GestureDetector(
           onTap: () {

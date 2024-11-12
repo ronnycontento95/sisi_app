@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
 
-import '../useful/useful_palette.dart';
 
 
 class WidgetViewCarousel extends StatelessWidget {
@@ -15,8 +14,8 @@ class WidgetViewCarousel extends StatelessWidget {
     this.btnText,
     this.imageHeight,
     this.imageWidth = 65,
-    this.buttonColor = UsefulColor.colorPrimary,
-    this.color = UsefulColor.colorWhite,
+    this.buttonColor = CommonColor.colorPrimary,
+    this.color = Colors.white,
     this.onPressed,
     this.onTap,
   }) : super(key: key);

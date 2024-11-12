@@ -5,15 +5,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
-import 'package:sisi_iot_app/ui/useful/useful_label.dart';
-import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
+import 'package:sisi_iot_app/ui/common/common_label.dart';
+
 
 import '../../config/global_url.dart';
 
 class ScreenGoogle extends StatelessWidget {
   const ScreenGoogle({Key? key}) : super(key: key);
-  static const routePage = UsefulLabel.routerScreenGoogle;
+  static const routePage = CommonLabel.routerScreenGoogle;
 
   @override
   @override
@@ -86,7 +87,7 @@ class _ListCardNodosState extends State<ListCardNodos> {
                 ? Colors.redAccent
                 : item.valor! <= item.valorMinimo!
                 ? Colors.orangeAccent
-                : UsefulColor.colorPrimary;
+                : CommonColor.colorPrimary;
             return Card(
               margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
               shape: RoundedRectangleBorder(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sisi_iot_app/ui/common/formatters.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../provider/provider_principal.dart';
-import '../useful/useful_formatters.dart';
-import '../useful/useful_label.dart';
-import '../useful/useful_palette.dart';
+import 'package:sisi_iot_app/ui/common/common_label.dart';
 
 import '../widgets/widget_button_view.dart';
 import '../widgets/widget_text_form_field.dart';
@@ -14,16 +14,16 @@ final _formKey = GlobalKey<FormState>();
 
 class ScreenLogin extends StatelessWidget {
   ScreenLogin({Key? key}) : super(key: key);
-  static const routePage = UsefulLabel.routeScreenLogin;
+  static const routePage = CommonLabel.routeScreenLogin;
   ProviderPrincipal? _providerPrincipal;
 
   @override
   Widget build(BuildContext context) {
     _providerPrincipal ??= Provider.of<ProviderPrincipal>(context);
     return AnnotatedRegion(
-      value: UsefulColor.colorWhite,
+      value: Colors.white,
       child: Scaffold(
-        backgroundColor: UsefulColor.colorWhite,
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: Stack(children: [
             Center(
@@ -71,7 +71,7 @@ class ContTextPassword extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       obscureText: providerPrincipal.visiblePassword,
       controller: providerPrincipal.editPassword,
-      labelTitle: UsefulLabel.lblPassword,
+      labelTitle: CommonLabel.lblPassword,
       keyboardType: TextInputType.visiblePassword,
       inputFormatters: formattersPassword(),
       colorWhenFocus: true,
@@ -82,7 +82,7 @@ class ContTextPassword extends StatelessWidget {
         providerPrincipal.visiblePassword
             ? Icons.remove_red_eye_outlined
             : Icons.visibility_off_outlined,
-        color: UsefulColor.colorPrimary,
+        color: CommonColor.colorPrimary,
       ),
       onTapSufixIcon: () {
         providerPrincipal.visiblePassword =
@@ -91,7 +91,7 @@ class ContTextPassword extends StatelessWidget {
       validator: (val) {
         String text = val!.trim();
         if (text.isEmpty) {
-          return UsefulLabel.lblTextEnterPassword;
+          return CommonLabel.lblTextEnterPassword;
         }
         return null;
       },
@@ -108,7 +108,7 @@ class ContentUser extends StatelessWidget {
     return WidgetTextFormField(
       padding: const EdgeInsets.symmetric(vertical: 10),
       controller: providerPrincipal.editUser,
-      labelTitle: UsefulLabel.lblUser,
+      labelTitle: CommonLabel.lblUser,
       keyboardType: TextInputType.emailAddress,
       // inputFormatters: formattersUser(),
       hintText: 'Ingrese su usuario',
@@ -118,7 +118,7 @@ class ContentUser extends StatelessWidget {
       validator: (val) {
         String text = val!.trim();
         if (text.isEmpty) {
-          return UsefulLabel.lblTextEnterUser;
+          return CommonLabel.lblTextEnterUser;
         }
         return null;
       },
@@ -134,13 +134,13 @@ class TitleHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
-        Image(image: AssetImage("${UsefulLabel.assetsImages}login.png")),
+        Image(image: AssetImage("${CommonLabel.assetsImages}login.png")),
 
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: [Text( UsefulLabel.lblWelcome, style: TextStyle(fontSize: 25))],
+          children: [Text( CommonLabel.lblWelcome, style: TextStyle(fontSize: 25))],
         ),
-        Text( UsefulLabel.lblSubWelcome,),
+        Text( CommonLabel.lblSubWelcome,),
         SizedBox(
           height: 10,
         )
@@ -164,15 +164,15 @@ class WidgetButtonLogin extends StatelessWidget {
           },
           child: Align(
             alignment: Alignment.centerRight,
-            child: Text( UsefulLabel.txtTemCond),
+            child: Text( CommonLabel.txtTemCond),
           ),
         ),
         const SizedBox(
           height: 10,
         ),
         WidgetButtonView(
-          text: UsefulLabel.txtLogin,
-          color: UsefulColor.colorPrimary,
+          text: CommonLabel.txtLogin,
+          color: CommonColor.colorPrimary,
           onTap: () {
             prPrincipalRead.login(context);
           },

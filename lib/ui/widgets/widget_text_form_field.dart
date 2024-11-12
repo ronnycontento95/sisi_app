@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
 
-import '../useful/useful_label.dart';
-import '../useful/useful_palette.dart';
+import 'package:sisi_iot_app/ui/common/common_label.dart';
 
 enum enumTypeText {
   text,
@@ -115,8 +115,8 @@ class _WidgetTextFormFieldState extends State<WidgetTextFormField> {
                   child: Text(
                     widget.labelTitle,
                     style: const TextStyle(
-                        color: UsefulColor.colorPrimary,
-                        fontFamily: UsefulLabel.letterWalkwayBold,
+                        color: CommonColor.colorPrimary,
+                        fontFamily: CommonLabel.letterWalkwayBold,
                         fontSize: 12),
                   ))
               : const SizedBox(),
@@ -145,12 +145,12 @@ class _WidgetTextFormFieldState extends State<WidgetTextFormField> {
             style: TextStyle(
                 fontSize: widget.fontSize,
                 // color: Theme.of(context).primaryColor,
-                fontFamily: UsefulLabel.letterWalkwayBold),
+                fontFamily: CommonLabel.letterWalkwayBold),
             decoration: InputDecoration(
               filled: true,
               fillColor: isSelectedText
-                  ? UsefulColor.colorfocus
-                  : UsefulColor.colorfillcolor,
+                  ? CommonColor.colorfocus
+                  : CommonColor.colorfillcolor,
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               enabledBorder: widget.borderEnable
@@ -185,8 +185,8 @@ class _WidgetTextFormFieldState extends State<WidgetTextFormField> {
                         )
                       : null,
               hintText: widget.hintText,
-              focusColor: UsefulColor.colorPrimary,
-              hintStyle: const TextStyle(color: UsefulColor.colorhintstyletext),
+              focusColor: CommonColor.colorPrimary,
+              hintStyle: const TextStyle(color: CommonColor.colorhintstyletext),
               labelStyle: const TextStyle(fontWeight: FontWeight.w500),
               errorStyle: const TextStyle(color: Colors.red),
               errorBorder: const OutlineInputBorder(
@@ -194,7 +194,7 @@ class _WidgetTextFormFieldState extends State<WidgetTextFormField> {
                   borderRadius: BorderRadius.all(Radius.circular(10.0))),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: UsefulColor.colorhintstyletext.withOpacity(0.2)),
+                      color: CommonColor.colorhintstyletext.withOpacity(0.2)),
                   borderRadius: const BorderRadius.all(Radius.circular(10.0))),
               focusedErrorBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.red),

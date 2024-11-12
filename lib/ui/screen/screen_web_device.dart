@@ -3,10 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../useful/useful_label.dart';
+import 'package:sisi_iot_app/ui/common/common_label.dart';
 
 class ScreenWebView extends StatefulWidget {
-  static const routePage = UsefulLabel.routeScreenWebView;
+  static const routePage = CommonLabel.routeScreenWebView;
 
   const ScreenWebView({Key? key}) : super(key: key);
 

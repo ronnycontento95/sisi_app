@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
+import 'package:sisi_iot_app/ui/common/common.dart';
 import 'package:sisi_iot_app/ui/screen/screen_home.dart';
 import 'package:sisi_iot_app/ui/screen/screen_onboarding.dart';
-import 'package:sisi_iot_app/ui/useful/useful.dart';
 
-import '../useful/useful_label.dart';
-import '../useful/useful_palette.dart';
+import 'package:sisi_iot_app/ui/common/common_label.dart';
 
 class ScreenSpash extends StatefulWidget {
   const ScreenSpash({Key? key}) : super(key: key);
-  static const routePage = UsefulLabel.routeScreenSpash;
+  static const routePage = CommonLabel.routeScreenSpash;
 
   @override
   State<ScreenSpash> createState() => _ScreenSpashState();
@@ -24,7 +24,7 @@ class _ScreenSpashState extends State<ScreenSpash> {
         String initialRoute =
             idEmpresa != null ? ScreenHome.routePage : ScreenOnBoarding.routePage;
         if (idEmpresa != null) {
-          Useful.globalContext.currentState!.pushAndRemoveUntil(
+          Common.globalContext.currentState!.pushAndRemoveUntil(
               MaterialPageRoute(
                   settings: RouteSettings(
                     name: initialRoute,
@@ -32,7 +32,7 @@ class _ScreenSpashState extends State<ScreenSpash> {
                   builder: (_) => const ScreenHome()),
               (_) => false);
         } else {
-          Useful.globalContext.currentState!.pushAndRemoveUntil(
+          Common.globalContext.currentState!.pushAndRemoveUntil(
               MaterialPageRoute(
                   settings: RouteSettings(
                     name: initialRoute,
@@ -49,7 +49,7 @@ class _ScreenSpashState extends State<ScreenSpash> {
     return const AnnotatedRegion(
       value: Colors.white,
       child: Scaffold(
-        backgroundColor: UsefulColor.colorPrimary,
+        backgroundColor: CommonColor.colorPrimary,
         body: SafeArea(
           child: Stack(
             children: [
@@ -57,7 +57,7 @@ class _ScreenSpashState extends State<ScreenSpash> {
                 alignment: Alignment.center,
                 child: Image(
                   width: 150,
-                  image: AssetImage("${UsefulLabel.assetsImages}app.png", ),
+                  image: AssetImage("${CommonLabel.assetsImages}app.png", ),
                 ),
               ),
               Padding(
@@ -65,7 +65,7 @@ class _ScreenSpashState extends State<ScreenSpash> {
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Text(
-                    UsefulLabel.txtCopy,
+                    CommonLabel.txtCopy,
                     style: TextStyle(color: Colors.white),
                   ),
                 ),

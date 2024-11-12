@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:sisi_iot_app/ui/common/common_style_text.dart';
 
 import '../../config/network_status.dart';
-import '../useful/useful_style_text.dart';
 
 class WidgetNetwork extends StatefulWidget {
   final Widget? child;

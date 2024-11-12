@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/config/network_status.dart';
-import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
+import 'package:sisi_iot_app/ui/common/common.dart';
 import 'package:sisi_iot_app/ui/provider/provider_setting.dart';
 import 'package:sisi_iot_app/config/theme.dart';
 import 'package:sisi_iot_app/ui/screen/screen_splash.dart';
@@ -19,8 +18,7 @@ import 'ui/routes/routes_pages.dart';
 import 'ui/routes/routes_provider.dart';
 import 'ui/screen/screen_home.dart';
 import 'ui/screen/screen_onboarding.dart';
-import 'ui/useful/useful.dart';
-import 'ui/useful/useful_palette.dart';
+
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,7 +61,7 @@ class MyApp extends StatelessWidget {
           builder: (context, _) => MaterialApp(
             title: 'Sentinel IoT',
             debugShowCheckedModeBanner: false,
-            navigatorKey: Useful.globalContext,
+            navigatorKey: Common.globalContext,
             initialRoute: ScreenSpash.routePage,
             routes: routes(),
             theme: lightThemeData(context),

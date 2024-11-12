@@ -1,15 +1,15 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:sisi_iot_app/ui/common/common.dart';
 
-import '../useful/useful.dart';
-import '../useful/useful_label.dart';
-import '../useful/useful_palette.dart';
+import 'package:sisi_iot_app/ui/common/common_label.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
 import '../widgets/widget_button_view.dart';
 import 'screen_login.dart';
 
 class ScreenOnBoarding extends StatelessWidget {
   const ScreenOnBoarding({Key? key}) : super(key: key);
-  static const routePage = UsefulLabel.routeScreenOnBoarding;
+  static const routePage = CommonLabel.routeScreenOnBoarding;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class ScreenOnBoarding extends StatelessWidget {
                     controller: null,
                     children: <Widget>[
                       widgetSlider(
-                          context, UsefulLabel.lblTitleMoni, UsefulLabel.lblSubMoni),
+                          context, CommonLabel.lblTitleMoni, CommonLabel.lblSubMoni),
                     ],
                   ),
                 ),
@@ -67,7 +67,7 @@ class ScreenOnBoarding extends StatelessWidget {
     return const Padding(
         padding: EdgeInsets.all(15),
         child: Image(
-          image: AssetImage("${UsefulLabel.assetsImages}connect.png"),
+          image: AssetImage("${CommonLabel.assetsImages}connect.png"),
         ));
   }
 
@@ -81,7 +81,7 @@ class ScreenOnBoarding extends StatelessWidget {
           activeSize: const Size(18.0, 9.0),
           activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
           color: Colors.grey.shade300,
-          activeColor: UsefulColor.colorPrimary,
+          activeColor: CommonColor.colorPrimary,
         ),
         dotsCount: 3,
       ),
@@ -100,23 +100,23 @@ class ScreenOnBoarding extends StatelessWidget {
                 text: "!",
                 style: const TextStyle(
                     fontSize: 30,
-                    fontFamily: UsefulLabel.letterWalkwayBold,
-                    color: UsefulColor.colorPrimary),
+                    fontFamily: CommonLabel.letterWalkwayBold,
+                    color: CommonColor.colorPrimary),
                 children: <TextSpan>[
                   TextSpan(
                     text: text,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontFamily: UsefulLabel.letterWalkwayBold,
-                      color: UsefulColor.colorPrimary,
+                      fontFamily: CommonLabel.letterWalkwayBold,
+                      color: CommonColor.colorPrimary,
                     ),
                   ),
                   const TextSpan(
                     text: '!',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontFamily: UsefulLabel.letterWalkwayBold,
-                        color: UsefulColor.colorPrimary),
+                        fontFamily: CommonLabel.letterWalkwayBold,
+                        color: CommonColor.colorPrimary),
                   )
                 ]),
           ),
@@ -131,10 +131,10 @@ class ScreenOnBoarding extends StatelessWidget {
       child: Column(
         children: [
           WidgetButtonView(
-            text: UsefulLabel.lblStartNow,
-            color: UsefulColor.colorPrimary,
+            text: CommonLabel.lblStartNow,
+            color: CommonColor.colorPrimary,
             onTap: () {
-              Navigator.of(Useful.globalContext.currentContext!)
+              Navigator.of(Common.globalContext.currentContext!)
                   .pushNamed(ScreenLogin.routePage);
             },
           ),

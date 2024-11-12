@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
-import 'package:sisi_iot_app/ui/useful/useful_label.dart';
-import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
+import 'package:sisi_iot_app/ui/common/common_label.dart';
+
 import 'package:sisi_iot_app/ui/widgets/widget_water_volumen.dart';
 
 class ScreenDetailNodo extends StatefulWidget {
   const ScreenDetailNodo({super.key});
 
-  static const routePage = UsefulLabel.routerScreenDetailNodo;
+  static const routePage = CommonLabel.routerScreenDetailNodo;
 
   @override
   State<ScreenDetailNodo> createState() => _ScreenDataDeviceIdState();
@@ -256,7 +257,7 @@ class DiccionarioItemCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: UsefulColor.colorPrimary,
+                color: CommonColor.colorPrimary,
               ),
             ),
             const SizedBox(height: 15),

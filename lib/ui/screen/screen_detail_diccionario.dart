@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/main.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
-import 'package:sisi_iot_app/ui/useful/useful_label.dart';
-import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
+import 'package:sisi_iot_app/ui/common/common_label.dart';
+
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ScreenDetailDiccionario extends StatelessWidget {
-  static const routePage = UsefulLabel.routerScreenDataDeviceId;
+  static const routePage = CommonLabel.routerScreenDataDeviceId;
 
   const ScreenDetailDiccionario({super.key});
 
@@ -77,9 +78,9 @@ class CustomChartLine extends StatelessWidget {
           xValueMapper: (SalesData sales, _) => sales.year,
           yValueMapper: (SalesData sales, _) => sales.sales,
           dataLabelSettings: const DataLabelSettings(isVisible: true),
-          color: UsefulColor.colorPrimary,
+          color: CommonColor.colorPrimary,
           markerSettings: const MarkerSettings(
-            color: UsefulColor.colorPrimary,
+            color: CommonColor.colorPrimary,
             isVisible: true, // Habilita los marcadores
             shape: DataMarkerType.circle, // Forma del marcador
             width: 5, // Ancho del marcador
@@ -127,7 +128,7 @@ class TablaDiccionarioNodo extends StatelessWidget {
               color: Colors.grey, // Color del borde
               width: 1.0, // Ancho del borde
             ),
-            color: UsefulColor.colorPrimary,
+            color: CommonColor.colorPrimary,
           ),
           columnSpacing: 40,
           headingRowColor: WidgetStateProperty.resolveWith(

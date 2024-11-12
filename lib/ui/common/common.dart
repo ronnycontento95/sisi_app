@@ -5,12 +5,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:sisi_iot_app/ui/useful/useful_label.dart';
+import 'package:sisi_iot_app/ui/common/common_label.dart';
 
 import '../widgets/widget_progress.dart';
-import 'useful_palette.dart';
+import 'color.dart';
 
-class Useful {
+class Common {
   static GlobalKey<NavigatorState> globalContext = GlobalKey<NavigatorState>();
 
   /// Cover to bytes imagen
@@ -28,24 +28,24 @@ class Useful {
   /// Show message alter
   void messageAlert(BuildContext context, String message) {
     final snackBar = SnackBar(
-        backgroundColor: UsefulColor.colorPrimary,
+        backgroundColor: CommonColor.colorPrimary,
         content: Text(message,
             style: const TextStyle(
-                fontFamily: UsefulLabel.letterWalkwayBold,
+                fontFamily: CommonLabel.letterWalkwayBold,
                 fontSize: 14,
-                color: UsefulColor.colorWhite),
+                color: Colors.white),
             textAlign: TextAlign.center));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   messageErrorScaffold(BuildContext context, String message) {
     final snackBar = SnackBar(
-        backgroundColor: UsefulColor.colorPrimary,
+        backgroundColor: CommonColor.colorPrimary,
         content: Text(message,
             style: const TextStyle(
-                fontFamily: UsefulLabel.letterWalkwayBold,
+                fontFamily: CommonLabel.letterWalkwayBold,
                 fontSize: 14,
-                color: UsefulColor.colorWhite),
+                color: Colors.white),
             textAlign: TextAlign.center));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
@@ -64,7 +64,7 @@ class Useful {
 
   void nextScreenViewTransition(Widget newPage) {
     Navigator.push(
-        Useful.globalContext.currentContext!,
+        Common.globalContext.currentContext!,
         PageTransition(
             type: PageTransitionType.fade,
             duration: const Duration(milliseconds: 1),
@@ -73,7 +73,7 @@ class Useful {
   }
 
   void nextScreenViewUntil(Widget newPage) {
-    Navigator.of(Useful.globalContext.currentContext!).pushAndRemoveUntil(
+    Navigator.of(Common.globalContext.currentContext!).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => newPage),
         (Route<dynamic> route) => false);
   }

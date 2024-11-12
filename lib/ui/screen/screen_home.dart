@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
+
 import '../provider/provider_principal.dart';
-import '../useful/useful_label.dart';
+import 'package:sisi_iot_app/ui/common/common_label.dart';
 
 class ScreenHome extends StatefulWidget {
   const ScreenHome({Key? key}) : super(key: key);
-  static const routePage = UsefulLabel.routeHome;
+  static const routePage = CommonLabel.routeHome;
 
   @override
   State<ScreenHome> createState() => _ScreenHomeState();

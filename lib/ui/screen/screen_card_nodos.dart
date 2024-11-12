@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
-import 'package:sisi_iot_app/ui/useful/useful_label.dart';
-import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
+import 'package:sisi_iot_app/ui/common/common_label.dart';
+
 
 class ScreenPrincipal extends StatelessWidget {
   const ScreenPrincipal({super.key});
 
-  static const routePage = UsefulLabel.routerScreenCharNodos;
+  static const routePage = CommonLabel.routerScreenCharNodos;
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +111,7 @@ class ListCardNodos extends StatelessWidget {
           } else if (valor < 70) {
             valorColor = Colors.orangeAccent;
           } else {
-            valorColor = UsefulColor.colorPrimary;
+            valorColor = CommonColor.colorPrimary;
           }
 
           return InkWell(

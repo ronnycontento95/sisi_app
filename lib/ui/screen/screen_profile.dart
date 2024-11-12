@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/config/global_url.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:sisi_iot_app/ui/screen/screen_terms.dart';
-import 'package:sisi_iot_app/ui/useful/useful_palette.dart';
+
 import 'package:sisi_iot_app/ui/widgets/widget_alert_dialog.dart';
 
 class ScreenProfile extends StatefulWidget {
@@ -69,7 +70,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
                     children: [
                       ListTile(
                         leading:
-                            Icon(Icons.info_outline, color: UsefulColor.colorPrimary),
+                            Icon(Icons.info_outline, color: CommonColor.colorPrimary),
                         title: const Text(
                           "Acerca de la app",
                           style: TextStyle(color: Colors.black),
@@ -80,7 +81,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
                       ),
                       ListTile(
                         leading: const Icon(Icons.description_outlined,
-                            color: UsefulColor.colorPrimary),
+                            color: CommonColor.colorPrimary),
                         title: const Text(
                           "Términos y condiciones",
                           style: TextStyle(color: Colors.black),
@@ -91,7 +92,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
                       ),
                       ListTile(
                         leading:
-                            const Icon(Icons.logout, color: UsefulColor.colorPrimary),
+                            const Icon(Icons.logout, color: CommonColor.colorPrimary),
                         title: const Text(
                           "Cerrar sesión",
                           style: TextStyle(color: Colors.black),

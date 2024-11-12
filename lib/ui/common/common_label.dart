@@ -1,4 +1,4 @@
-class UsefulLabel{
+class CommonLabel{
 
   //Routes Images
   static const assetsIcons = "assets/icons/";
