@@ -8,7 +8,7 @@ import 'package:sisi_iot_app/domain/entities/model_business.dart';
 import 'package:sisi_iot_app/domain/entities/model_nodos_diccionario.dart';
 import 'package:sisi_iot_app/domain/entities/device.dart';
 import 'package:sisi_iot_app/domain/entities/model_diccionario_nodo.dart';
-import 'package:sisi_iot_app/domain/entities/model_list_nodos.dart';
+import 'package:sisi_iot_app/domain/entities/models/model_nodos.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 
 class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
@@ -39,14 +39,14 @@ class ApiRepositorieLoginImplement implements ApiRepositoryLoginInterface {
   Future getListNodo(
       int id, VoidCallback? Function(int code, dynamic data) callback) async {
     try {
+        print("url : ${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getListNodos}$id");
       final response =
       await dio.get("${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getListNodos}$id");
       if (kDebugMode) {
-        log("url : ${ApiGlobalUrl.generalLink}${ApiGlobalUrl.getListNodos}$id");
-        log("RESPONDE >>> LIST NDOOS $response");
+        print("RESPONDE >>> LIST NDOOS $response");
       }
       if (response.data != null) {
-        callback(1, ModelListNodos.fromMap(response.data));
+        callback(1, ModelNodos.fromMap(response.data));
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();

@@ -48,8 +48,8 @@ class TitleCardNodos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final nombreEmpresa = context.read<ProviderPrincipal>().companyResponse?.nombre_empresa ?? "Empresa";
-    final nodosCount = context.watch<ProviderPrincipal>().modelListNodos?.nodos?.length ?? 0;
+    final nombreEmpresa = context.read<ProviderPrincipal>().companyResponse.nombre_empresa ?? "Empresa";
+    final nodosCount = context.watch<ProviderPrincipal>().modelNodos.nodos!.length ?? 0;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
@@ -83,7 +83,7 @@ class ListCardNodos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pvPrincipal = context.watch<ProviderPrincipal>();
-    final nodos = pvPrincipal.modelListNodos?.nodos;
+    final nodos = pvPrincipal.modelNodos.nodos;
 
     if (nodos == null || nodos.isEmpty) {
       return const Center(
@@ -101,7 +101,7 @@ class ListCardNodos extends StatelessWidget {
       delegate: SliverChildBuilderDelegate(
             (context, index) {
           final itemNodo = nodos[index];
-          final nombre = itemNodo.nombrePresentar?.isNotEmpty == true ? itemNodo.nombrePresentar! : "Sin nombre";
+          final nombre = itemNodo.nombre?.isNotEmpty == true ? itemNodo.nombre! : "Sin nombre";
           final valor = itemNodo.valor ?? 0.0;
 
           // Definir colores basados en el valor del nodo
@@ -116,8 +116,8 @@ class ListCardNodos extends StatelessWidget {
 
           return InkWell(
             onTap: () {
-              if (itemNodo.idNodos != null) {
-                pvPrincipal.getDataDeviceId(itemNodo.idNodos!, context);
+              if (itemNodo.ide != null) {
+                pvPrincipal.getDataDeviceId(itemNodo.ide!, context);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("ID de nodo no disponible.")),
@@ -174,12 +174,12 @@ class ListCardNodos extends StatelessWidget {
                               color: Colors.black87,
                             ),
                           ),
+
                           const SizedBox(height: 4),
                           Text(
-                            "${valor}",
+                            "$valor ${itemNodo.tipoDato}",
                             style: TextStyle(
                               fontSize: 14,
-                              color: valorColor,
                               fontWeight: FontWeight.w500,
                             ),
                           ),

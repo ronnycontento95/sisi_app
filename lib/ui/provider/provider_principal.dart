@@ -14,7 +14,7 @@ import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
 import 'package:sisi_iot_app/domain/entities/model_business.dart';
 import 'package:sisi_iot_app/domain/entities/model_location.dart';
 import 'package:sisi_iot_app/domain/entities/model_nodos_diccionario.dart';
-import 'package:sisi_iot_app/domain/entities/model_list_nodos.dart';
+import 'package:sisi_iot_app/domain/entities/models/model_nodos.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 import 'package:sisi_iot_app/ui/common/color.dart';
 import 'package:sisi_iot_app/ui/common/common.dart';
@@ -55,9 +55,18 @@ class ProviderPrincipal extends ChangeNotifier {
   bool _visiblePassword = true;
   Timer? _timerDevice;
   ModelDiccionarioNodo? _modelDiccionarioNodo;
-  ModelListNodos? _modelListNodos = ModelListNodos();
   int _pageScreen = 0;
   Position? currentPosition;
+  ModelNodos  _modelNodos = ModelNodos();
+
+
+  ModelNodos get modelNodos => _modelNodos;
+
+  set modelNodos(ModelNodos value) {
+    _modelNodos = value;
+    notifyListeners();
+
+  }
 
   int get pageScreen => _pageScreen;
 
@@ -66,12 +75,6 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
-  ModelListNodos? get modelListNodos => _modelListNodos;
-
-  set modelListNodos(ModelListNodos? value) {
-    _modelListNodos = value;
-    notifyListeners();
-  }
 
   ModelDiccionarioNodo? get modelDiccionarioNodo => _modelDiccionarioNodo;
 
@@ -282,7 +285,7 @@ class ProviderPrincipal extends ChangeNotifier {
           (code, data) {
         Common().hideProgress(Common.globalContext.currentContext!);
         if (code == 1) {
-          modelListNodos = data;
+          modelNodos = data;
         }
         return null;
       });
@@ -497,27 +500,27 @@ class ProviderPrincipal extends ChangeNotifier {
   }
 
   void selectNodoToMap(Nodo item) {
-    if (double.parse(item.latitud ?? "0.0") != 0.0 &&
-        double.parse(item.longitud ?? "0.0") != 0.0) {
+    if (double.parse(item.lat ?? "0.0") != 0.0 &&
+        double.parse(item.lot ?? "0.0") != 0.0) {
       markers.clear();
-      addMarkerNodos(markers, item.idNodos.toString(),
-          LatLng(double.parse(item.latitud!), double.parse(item.longitud!)),
-          text: item.nombrePresentar);
+      addMarkerNodos(markers, item.ide.toString(),
+          LatLng(double.parse(item.lat!), double.parse(item.lot!)),
+          text: item.nombre);
       googleMapController.animateCamera(CameraUpdate.newLatLngZoom(
-          LatLng(double.parse(item.latitud!), double.parse(item.longitud!)), 16));
+          LatLng(double.parse(item.lat!), double.parse(item.lot!)), 16));
     }
   }
 
   void createMarkerMapNodo() {
     markers.clear();
-    final nodos = modelListNodos?.nodos;
+    final nodos = modelNodos.nodos;
     if (nodos == null && nodos!.isEmpty) return;
-    if (modelListNodos?.nodos?.isNotEmpty ?? true) {
-      for (int i = 0; i < modelListNodos!.nodos!.length; i++) {
+    if (modelNodos.nodos?.isNotEmpty ?? true) {
+      for (int i = 0; i < modelNodos.nodos!.length; i++) {
         MarkerId markerId = MarkerId(i.toString());
-        LatLng latLng = LatLng(double.parse(modelListNodos!.nodos![i].latitud!),
-            double.parse(modelListNodos!.nodos![i].longitud!));
-        String text = "${modelListNodos!.nodos![i].nombrePresentar}";
+        LatLng latLng = LatLng(double.parse(modelNodos.nodos![i].lat!),
+            double.parse(modelNodos.nodos![i].lot!));
+        String text = "${modelNodos.nodos![i].nombre}";
         addMarkerNodos(markers, markerId.toString(), latLng, size: 80, text: text);
       }
     }

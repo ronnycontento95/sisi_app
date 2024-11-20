@@ -33,7 +33,7 @@ class ScreenOnBoarding extends StatelessWidget {
                   ),
                 ),
                 // widgetIndicator(),
-                widgetButton(context),
+                const ButtonOnBoarding(),
               ],
             ),
           ),
@@ -124,8 +124,13 @@ class ScreenOnBoarding extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget widgetButton(BuildContext context) {
+class ButtonOnBoarding extends StatelessWidget {
+  const ButtonOnBoarding({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 10),
       child: Column(

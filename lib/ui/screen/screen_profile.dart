@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/config/global_url.dart';
 import 'package:sisi_iot_app/ui/common/color.dart';
+import 'package:sisi_iot_app/ui/common/common_label.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:sisi_iot_app/ui/screen/screen_terms.dart';
 
@@ -10,6 +11,7 @@ import 'package:sisi_iot_app/ui/widgets/widget_alert_dialog.dart';
 
 class ScreenProfile extends StatefulWidget {
   const ScreenProfile({super.key});
+  static const routePage = CommonLabel.routeScreenProfile;
 
   @override
   State<ScreenProfile> createState() => _ScreenProfileState();
@@ -56,14 +58,14 @@ class _ScreenProfileState extends State<ScreenProfile> {
                       color: Colors.black,
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    "${pvPrincipal.companyResponse.descripcion}",
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                  ),
+                  // const SizedBox(height: 4),
+                  // Text(
+                  //   "${pvPrincipal.companyResponse.descripcion}",
+                  //   style: const TextStyle(
+                  //     fontSize: 16,
+                  //     color: Colors.black,
+                  //   ),
+                  // ),
                   const SizedBox(height: 20),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,

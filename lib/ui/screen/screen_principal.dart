@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/config/global_url.dart';
 import 'package:sisi_iot_app/ui/common/color.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
-import 'package:sisi_iot_app/ui/screen/screen_home.dart';
 import 'package:sisi_iot_app/ui/common/common_label.dart';
+import 'package:sisi_iot_app/ui/screen/screen_profile.dart';
 
 import 'package:sisi_iot_app/ui/widgets/widget_network.dart';
-import 'package:sisi_iot_app/ui/widgets/widget_text_view.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ScreenChartNodos extends StatelessWidget {
   const ScreenChartNodos({super.key});
@@ -30,72 +29,80 @@ class ScreenChartNodos extends StatelessWidget {
       value: statusBarIconBrightness,
       child: RefreshIndicator(
         onRefresh: () => context.read<ProviderPrincipal>().getDataBusiness(),
+        color: Colors.blueAccent, // Color del indicador de refresco
         child: Scaffold(
-          backgroundColor: Colors.white,
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Stack(
+          backgroundColor: Colors.grey[100],
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Container(
-                      width: double.infinity,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              '${ApiGlobalUrl.generalLinkImagen}${context.watch<ProviderPrincipal>().companyResponse.imagen}'),
-                          fit: BoxFit.cover,
-
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 20,
-                      left: 20,
+                    InkWell(
+                      onTap: (){
+                        // ScreenProfile();
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => ScreenProfile()),
+                        // );
+                        // Navigator.pushNamed(context, CommonLabel.routeScreenProfile);
+                      },
                       child: Container(
+                        margin: const EdgeInsets.only(top: 16.0),
                         padding:
-                            const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10.0),
+                            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.2),
+                          color: CommonColor.colorPrimary,
                           borderRadius: BorderRadius.circular(12.0),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10.0,
+                              offset: Offset(0, 4),
+                            ),
+                          ],
                         ),
-                        alignment: Alignment.center,
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             const Icon(
                               Icons.business,
                               color: Colors.white,
+                              size: 28.0,
                             ),
-                            Text(
-                              '${context.watch<ProviderPrincipal>().companyResponse.nombre_empresa} ',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 23,
-                                fontWeight: FontWeight.bold,
-                                shadows: [
-                                  Shadow(
-                                    blurRadius: 12.0,
-                                    color: Colors.black45,
-                                    offset: Offset(3, 3),
+                            const SizedBox(width: 10.0),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${context.watch<ProviderPrincipal>().companyResponse.nombre_empresa}",
+                                    style: const TextStyle(fontSize: 18, color: Colors.white),
                                   ),
+                                  const Text("Empresa", style: const TextStyle(fontSize: 14, color: Colors.white)),
                                 ],
                               ),
-                              textAlign: TextAlign.center,
-                            ),
+                            )
                           ],
                         ),
                       ),
                     ),
+
+                    const SizedBox(height: 16.0),
+
+                    // Alerta de red
+                    WidgetNetwork.alert(
+                      textAlert: 'Revisa tu conexión de internet e intenta nuevamente',
+                    ),
+
+                    const SizedBox(height: 16.0),
+
+                    // Contenedor de gráficos
+                    const ListChartNodos(),
                   ],
                 ),
-                WidgetNetwork.alert(
-                  textAlert: 'Revisa tu conexión de internet e intenta nuevamente',
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: ListChartNodos(),
-                ),
-              ],
+              ),
             ),
           ),
         ),
@@ -114,24 +121,23 @@ class ListChartNodos extends StatelessWidget {
     return Wrap(
       spacing: 16,
       runSpacing: 16,
-      children: List.generate(pvPrincipal.modelListNodos?.nodos?.length ?? 0, (index) {
-        final device = pvPrincipal.modelListNodos?.nodos![index];
-        if (device == null) {
+      children: List.generate(pvPrincipal.modelNodos.nodos?.length ?? 0, (index) {
+        final device = pvPrincipal.modelNodos.nodos![index];
+        if (device.ide == null) {
           return const SizedBox.shrink();
         }
 
-        // Configuración de color y porcentaje basado en el valor del nodo
-        final double valor = device.valor ?? 0.0;
+        final int valor = device.valor!;
         final double porcentaje = (valor / 100).clamp(0.0, 1.0);
-        final Color color = valor >= device.valorMaximo!
+        final Color color = valor >= device.valMax!
             ? Colors.redAccent
-            : valor <= device.valorMinimo!
+            : valor <= device.valMin!
                 ? Colors.orangeAccent
                 : CommonColor.colorPrimary;
 
         return GestureDetector(
           onTap: () {
-            pvPrincipal.getDataDeviceId(device.idNodos!, context);
+            pvPrincipal.getDataDeviceId(device.ide!, context);
           },
           child: AnimatedScale(
             scale: 1.0,
@@ -157,34 +163,41 @@ class ListChartNodos extends StatelessWidget {
                 children: [
                   // Encabezado con etiqueta de estado y nombre
                   Padding(
-                    padding: const EdgeInsets.only(top: 8.0, right: 8.0, left: 8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          device.nombrePresentar?.toUpperCase() ?? "SIN NOMBRE",
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87,
-                          ),
-                        ),
-                        Icon(
-                          Icons.circle,
+                        Image(
+                          image: const AssetImage("${CommonLabel.assetsImages}circle.gif"),
+                          width: 15,
                           color: color,
-                          size: 10,
+                        ),
+                        const SizedBox(width: 8.0), // Espaciado entre la imagen y el texto
+                        Expanded( // Asegura que el texto se ajuste al espacio disponible
+                          child: Text(
+                            device.nombre != null ? device.nombre! : "SIN NOMBRE",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87,
+                            ),
+                            maxLines: 1, // Limita el texto a una línea
+                            overflow: TextOverflow.ellipsis, // Agrega los puntos suspensivos (...)
+                          ),
                         ),
                       ],
                     ),
                   ),
+
                   SvgPicture.asset(
-                    pvPrincipal.modelListNodos!.idEmpresa == '2'
-                        ? 'assets/images/glp.svg'
-                        : 'assets/images/tank.svg',
+                    'assets/images/tank.svg',
                     width: 60,
                     height: 60,
                     colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
                   ),
+
+
 
                   // Valor del nodo en el centro
                   Text(
@@ -195,8 +208,15 @@ class ListChartNodos extends StatelessWidget {
                       color: color,
                     ),
                   ),
+                  Text(
+                    "${device.tipoDato ?? 'N/A'}",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      // color: color,
+                    ),
+                  ),
 
-                  // Barra de progreso horizontal en la parte inferior
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: ClipRRect(

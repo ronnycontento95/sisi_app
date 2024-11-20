@@ -60,7 +60,7 @@ class _ListCardNodosState extends State<ListCardNodos> {
   @override
   Widget build(BuildContext context) {
     final pvPrincipal = context.watch<ProviderPrincipal>();
-    if (pvPrincipal.modelListNodos?.nodos?.isEmpty ?? true) {
+    if (pvPrincipal.modelNodos.nodos?.isEmpty ?? true) {
       return const SizedBox.shrink();
     }
 
@@ -72,20 +72,20 @@ class _ListCardNodosState extends State<ListCardNodos> {
         height: 120,
         child: Swiper(
           onTap: (v){
-            pvPrincipal.getDataDeviceId(pvPrincipal.modelListNodos!.nodos![v].idNodos! , context);
+            pvPrincipal.getDataDeviceId(pvPrincipal.modelNodos.nodos![v].ide! , context);
           },
           viewportFraction: 0.85,
-          itemCount: pvPrincipal.modelListNodos!.nodos!.length,
+          itemCount: pvPrincipal.modelNodos.nodos!.length,
           loop: false,
           onIndexChanged: (index) {
-            var item = pvPrincipal.modelListNodos!.nodos![index];
+            var item = pvPrincipal.modelNodos.nodos![index];
             pvPrincipal.selectNodoToMap(item);
           },
           itemBuilder: (context, index) {
-            var item = pvPrincipal.modelListNodos!.nodos![index];
-            final Color color = item.valor! >= item.valorMaximo!
+            var item = pvPrincipal.modelNodos.nodos![index];
+            final Color color = item.valor! >= item.valMax!
                 ? Colors.redAccent
-                : item.valor! <= item.valorMinimo!
+                : item.valor! <= item.valMin!
                 ? Colors.orangeAccent
                 : CommonColor.colorPrimary;
             return Card(
@@ -102,9 +102,7 @@ class _ListCardNodosState extends State<ListCardNodos> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(
-                          pvPrincipal.modelListNodos!.idEmpresa == '2'
-                              ? 'assets/images/glp.svg':'assets/images/tank.svg',
+                        SvgPicture.asset('assets/images/tank.svg',
                           width: 60,
                           height: 60,
                           colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
@@ -120,7 +118,7 @@ class _ListCardNodosState extends State<ListCardNodos> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      item.nombrePresentar ?? "S/n",
+                                      item.nombre ?? "S/n",
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -133,7 +131,7 @@ class _ListCardNodosState extends State<ListCardNodos> {
                               ),
                               const SizedBox(height: 6),
                               Text(
-                                "${item.valor}" ?? "S/n",
+                                "${item.valor}",
                                 style: const TextStyle(
                                   fontSize: 14,
                                 ),
