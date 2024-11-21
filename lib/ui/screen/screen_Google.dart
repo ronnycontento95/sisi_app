@@ -131,7 +131,7 @@ class _ListCardNodosState extends State<ListCardNodos> {
                               ),
                               const SizedBox(height: 6),
                               Text(
-                                "${item.valor}",
+                                "${item.valor} ${item.tipoDato}",
                                 style: const TextStyle(
                                   fontSize: 14,
                                 ),

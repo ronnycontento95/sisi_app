@@ -24,7 +24,7 @@ class CustomChartBom extends StatelessWidget {
 
     // Mapea los datos a la lista de SalesData
     final List<SalesData> chartData = pvPrincipal.modelosNodosGraficos!.lineData!
-        .where((item) => item.nombre!.startsWith("vol")) // Filtrar por las primeras tres letras
+        .where((item) => item.nombre!.startsWith("bom")) // Filtrar por las primeras tres letras
         .expand((item) => List.generate(
         item.x!.length,
             (index) => SalesData(DateTime.parse('${item.x![index]}'), item.y![index])))
@@ -56,7 +56,9 @@ class CustomChartBom extends StatelessWidget {
       title: ChartTitle(
         text: "Bomba",
         textStyle: const TextStyle(
-          color: Colors.black, // Color negro para el título del gráfico
+          color: Colors.black, // Título del gráfico
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
         ),
       ),
       tooltipBehavior: TooltipBehavior(
@@ -64,7 +66,7 @@ class CustomChartBom extends StatelessWidget {
         header: 'Dato',
         format: 'point.x : point.y',
         textStyle: const TextStyle(
-          color: Colors.black, // Color negro para el texto del tooltip
+          color: Colors.white, // Color negro para el texto del tooltip
         ),
       ),
       zoomPanBehavior: ZoomPanBehavior(

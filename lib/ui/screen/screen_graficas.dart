@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sisi_iot_app/main.dart';
 import 'package:sisi_iot_app/ui/common/common_label.dart';
+import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:sisi_iot_app/ui/screen/graficas/chart_line_std.dart';
 
 import 'graficas/chart_line_bom.dart';
@@ -22,15 +25,16 @@ class ScreenGraficas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pvPrincipalRead = context.read<ProviderPrincipal>();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          "Graficas",
-          style: TextStyle(
+        title: Text(
+          pvPrincipalRead.modelosNodosGraficos?.nodoIndividual?.nombre_nodo ?? "Graficas",
+          style: const  TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
-              fontSize: 16,
+              fontSize: 20,
               letterSpacing: 1.5),
         ),
         elevation: 2, // Añade profundidad

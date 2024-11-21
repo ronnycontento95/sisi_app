@@ -27,13 +27,14 @@ class ChartFocoGrafica extends StatelessWidget {
         alignment: WrapAlignment.center, // Centrar las filas
         children: [
           for (int i = 0; i < pvPrincipal.modelosNodosGraficos!.focoGrafica!.length; i++)
+
             Container(
               width: MediaQuery.of(context).size.width / 2.5, // Tamaño de cada tarjeta
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12), // Bordes redondeados
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black26,
                     blurRadius: 4,
@@ -44,6 +45,7 @@ class ChartFocoGrafica extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const SizedBox(height: 10,),
                   Container(
                     width: 70,
                     height: 70,
@@ -51,8 +53,8 @@ class ChartFocoGrafica extends StatelessWidget {
                       color: pvPrincipal.modelosNodosGraficos!.focoGrafica![i].valor == 0.0
                           ? Colors.red
                           : Colors.green,
-                      shape: BoxShape.circle,
-                      boxShadow: [
+                      shape: BoxShape.rectangle,
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
                           blurRadius: 6,
@@ -72,18 +74,10 @@ class ChartFocoGrafica extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10,),
-
                   Text(
-                    "Valor: ${pvPrincipal.modelosNodosGraficos!.focoGrafica![i].valor}",
+                    pvPrincipal.capitalize("${pvPrincipal.modelosNodosGraficos!.focoGrafica![i].alias}"),
                     style: const TextStyle(
-                      color: Colors.black54,
-                      fontSize: 12,
-                    ),
-                  ),
-                  Text(
-                    "${pvPrincipal.modelosNodosGraficos!.focoGrafica![i].alias}",
-                    style: const TextStyle(
-                      color: Colors.black87,
+                      color: Colors.black45,
                       fontSize: 12,
                     ),
                   ),

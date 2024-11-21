@@ -67,7 +67,7 @@ class CustomChartVol2 extends StatelessWidget {
         header: 'Dato',
         format: 'point.x : point.y',
         textStyle: const TextStyle(
-          color: Colors.black, // Tooltip
+          color: Colors.white, // Tooltip
         ),
       ),
       zoomPanBehavior: ZoomPanBehavior(

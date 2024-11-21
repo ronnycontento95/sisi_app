@@ -67,7 +67,7 @@ class CustomChartLineWp1 extends StatelessWidget {
         header: 'Dato',
         format: 'point.x : point.y',
         textStyle: const TextStyle(
-          color: Colors.black, // Tooltip
+          color: Colors.white, // Tooltip
         ),
       ),
       zoomPanBehavior: ZoomPanBehavior(
@@ -79,16 +79,16 @@ class CustomChartLineWp1 extends StatelessWidget {
           dataSource: chartData,
           xValueMapper: (SalesData sales, _) => sales.year,
           yValueMapper: (SalesData sales, _) => sales.sales,
-          dataLabelSettings: DataLabelSettings(
+          dataLabelSettings: const DataLabelSettings(
             isVisible: true,
             labelAlignment: ChartDataLabelAlignment.top,
-            textStyle: const TextStyle(
+            textStyle: TextStyle(
               color: Colors.black, // Etiquetas de datos
               fontSize: 10,
             ),
           ),
           color: Colors.blueAccent,
-          markerSettings: MarkerSettings(
+          markerSettings: const MarkerSettings(
             isVisible: true,
             shape: DataMarkerType.circle,
             borderColor: Colors.black,
@@ -98,7 +98,7 @@ class CustomChartLineWp1 extends StatelessWidget {
           ),
         ),
       ],
-    ) : SizedBox.shrink();
+    ) : const SizedBox.shrink();
 
   }
 }

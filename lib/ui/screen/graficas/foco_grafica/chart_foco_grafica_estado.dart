@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -33,7 +34,7 @@ class ChartGraficaStatus extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12), // Bordes redondeados
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black26,
                     blurRadius: 4,
@@ -44,12 +45,13 @@ class ChartGraficaStatus extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const SizedBox(height: 10,),
                   Container(
                     width: 70,
                     height: 70,
-                    decoration: BoxDecoration(
-                      color: Colors.lightBlue,
-                      shape: BoxShape.circle,
+                    decoration: const BoxDecoration(
+                      color: CommonColor.colorPrimary,
+                      shape: BoxShape.rectangle,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
@@ -71,9 +73,9 @@ class ChartGraficaStatus extends StatelessWidget {
                   ),
                   const SizedBox(height: 10,),
                   Text(
-                    "${pvPrincipal.modelosNodosGraficos!.graficosEstado![i].nombre}",
+                    pvPrincipal.capitalize('${pvPrincipal.modelosNodosGraficos!.graficosEstado![i].nombre}'),
                     style: const TextStyle(
-                      color: Colors.black,
+                      color: Colors.black45,
                       fontSize: 12,
                     ),
                   ),

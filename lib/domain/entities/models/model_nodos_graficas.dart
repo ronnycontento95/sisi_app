@@ -181,10 +181,12 @@ class LineDatum {
 class NodoIndividual {
   String? nombre;
   int? id;
+  String? nombre_nodo;
 
   NodoIndividual({
     this.nombre,
     this.id,
+    this.nombre_nodo
   });
 
   factory NodoIndividual.fromJson(String str) => NodoIndividual.fromMap(json.decode(str));
@@ -195,11 +197,13 @@ class NodoIndividual {
       NodoIndividual(
         nombre: json["nombre"],
         id: json["id"],
+        nombre_nodo: json["nombre_nodo"],
       );
 
   Map<String, dynamic> toMap() =>
       {
         "nombre": nombre,
         "id": id,
+        "nombre_nodo": nombre_nodo,
       };
 }

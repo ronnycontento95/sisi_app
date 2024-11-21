@@ -56,7 +56,9 @@ class CustomChartFse extends StatelessWidget {
       title: ChartTitle(
         text: "Fase",
         textStyle: const TextStyle(
-          color: Colors.black, // Color negro para el título del gráfico
+          color: Colors.black, // Título del gráfico
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
         ),
       ),
       tooltipBehavior: TooltipBehavior(
@@ -64,7 +66,7 @@ class CustomChartFse extends StatelessWidget {
         header: 'Dato',
         format: 'point.x : point.y',
         textStyle: const TextStyle(
-          color: Colors.black, // Color negro para el texto del tooltip
+          color: Colors.white, // Color negro para el texto del tooltip
         ),
       ),
       zoomPanBehavior: ZoomPanBehavior(
