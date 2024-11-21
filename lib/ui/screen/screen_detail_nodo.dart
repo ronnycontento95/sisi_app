@@ -254,7 +254,7 @@ class DiccionarioItemCard extends StatelessWidget {
             ),
             Text(
               "${valor ?? "N/A"}",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: CommonColor.colorPrimary,

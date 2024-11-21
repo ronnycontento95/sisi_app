@@ -15,6 +15,7 @@ class ApiGlobalUrl {
   /// NEW APIS
   static const getLogin="aplicacion/celular/authenticate/";
   static const getListNodos = "aplicacion/celular/lista_nodos/";
+  static const getGraficas = "aplicacion/celular/nodos/";
 
 
 }

@@ -72,7 +72,7 @@ class _ListCardNodosState extends State<ListCardNodos> {
         height: 120,
         child: Swiper(
           onTap: (v){
-            pvPrincipal.getDataDeviceId(pvPrincipal.modelNodos.nodos![v].ide! , context);
+            pvPrincipal.getGraficasNodos(pvPrincipal.modelNodos.nodos![v].ide! , context);
           },
           viewportFraction: 0.85,
           itemCount: pvPrincipal.modelNodos.nodos!.length,

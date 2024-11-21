@@ -117,7 +117,8 @@ class ListCardNodos extends StatelessWidget {
           return InkWell(
             onTap: () {
               if (itemNodo.ide != null) {
-                pvPrincipal.getDataDeviceId(itemNodo.ide!, context);
+                pvPrincipal.getGraficasNodos(itemNodo.ide!, context);
+                // pvPrincipal.getDataDeviceId(itemNodo.ide!, context);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("ID de nodo no disponible.")),
@@ -178,7 +179,7 @@ class ListCardNodos extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             "$valor ${itemNodo.tipoDato}",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),

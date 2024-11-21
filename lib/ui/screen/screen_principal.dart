@@ -137,7 +137,7 @@ class ListChartNodos extends StatelessWidget {
 
         return GestureDetector(
           onTap: () {
-            pvPrincipal.getDataDeviceId(device.ide!, context);
+            pvPrincipal.getGraficasNodos(device.ide!, context);
           },
           child: AnimatedScale(
             scale: 1.0,
@@ -201,7 +201,7 @@ class ListChartNodos extends StatelessWidget {
 
                   // Valor del nodo en el centro
                   Text(
-                    "${device.valor ?? 'N/A'}",
+                    "${device.valor ?? 'N/A'} %",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,

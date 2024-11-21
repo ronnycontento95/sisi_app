@@ -134,13 +134,13 @@ class TitleHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
-        Image(image: AssetImage("${CommonLabel.assetsImages}login.png")),
+        Image(image: AssetImage("${CommonLabel.assetsImages}login.png"),width: 300,),
 
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: [Text( CommonLabel.lblWelcome, style: TextStyle(fontSize: 25))],
+          children: [Text( CommonLabel.lblWelcome, style: TextStyle(fontSize: 25, color: Colors.black))],
         ),
-        Text( CommonLabel.lblSubWelcome,),
+        Text(CommonLabel.lblSubWelcome,style: TextStyle( color: Colors.black),),
         SizedBox(
           height: 10,
         )

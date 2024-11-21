@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sisi_iot_app/ui/screen/screen_Google.dart';
 import 'package:sisi_iot_app/ui/screen/screen_card_nodos.dart';
+import 'package:sisi_iot_app/ui/screen/screen_graficas.dart';
 import 'package:sisi_iot_app/ui/screen/screen_principal.dart';
 import 'package:sisi_iot_app/ui/screen/screen_detail_nodo.dart';
 import 'package:sisi_iot_app/ui/screen/screen_detail_diccionario.dart';
@@ -24,8 +25,7 @@ Map<String, WidgetBuilder> routes() {
     ScreenDetailNodo.routePage:(_) => const ScreenDetailNodo(),
     ScreenChartNodos.routePage:(_) => const ScreenChartNodos(),
     ScreenTermCondition.routePage:(_) => const ScreenTermCondition(),
-    ScreenDetailDiccionario.routePage:(_) => const ScreenDetailDiccionario()
-
-
+    ScreenDetailDiccionario.routePage:(_) => const ScreenDetailDiccionario(),
+    ScreenGraficas.routePage:(_) => const ScreenGraficas(),
   };
 }

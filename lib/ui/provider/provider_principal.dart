@@ -15,11 +15,13 @@ import 'package:sisi_iot_app/domain/entities/model_business.dart';
 import 'package:sisi_iot_app/domain/entities/model_location.dart';
 import 'package:sisi_iot_app/domain/entities/model_nodos_diccionario.dart';
 import 'package:sisi_iot_app/domain/entities/models/model_nodos.dart';
+import 'package:sisi_iot_app/domain/entities/models/model_nodos_graficas.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 import 'package:sisi_iot_app/ui/common/color.dart';
 import 'package:sisi_iot_app/ui/common/common.dart';
 import 'package:sisi_iot_app/ui/screen/screen_Google.dart';
 import 'package:sisi_iot_app/ui/screen/screen_card_nodos.dart';
+import 'package:sisi_iot_app/ui/screen/screen_graficas.dart';
 import 'package:sisi_iot_app/ui/screen/screen_principal.dart';
 import 'package:sisi_iot_app/ui/screen/screen_detail_nodo.dart';
 import 'package:sisi_iot_app/ui/screen/screen_detail_diccionario.dart';
@@ -39,6 +41,7 @@ class ProviderPrincipal extends ChangeNotifier {
   PageController _controller = PageController(initialPage: 1);
   Company? _companyResponse = Company();
   ModelNodosDiccionario? _datosDiccionario;
+  ModelosNodosGraficos? _modelosNodosGraficos;
   List<DataDiccionario>? _datosDiccionarioFilterType;
   String? _errorMessage;
   Map<MarkerId, Marker> _markersNodo = {};
@@ -110,6 +113,15 @@ class ProviderPrincipal extends ChangeNotifier {
   set version(String value) {
     _version = value;
     notifyListeners();
+  }
+
+
+  ModelosNodosGraficos? get modelosNodosGraficos => _modelosNodosGraficos;
+
+  set modelosNodosGraficos(ModelosNodosGraficos? value) {
+    _modelosNodosGraficos = value;
+    notifyListeners();
+
   }
 
   ProviderPrincipal(this.apiRepositoryLoginInterface) {
@@ -351,6 +363,21 @@ class ProviderPrincipal extends ChangeNotifier {
     editPassword.text = "";
     GlobalPreference().deleteUser();
     Common().nextScreenViewUntil(ScreenLogin());
+  }
+
+  void getGraficasNodos(int id, BuildContext context){
+    Common().showProgress();
+    apiRepositoryLoginInterface?.getGraficas(id, (code, data) {
+      Common().hideProgress(context);
+      if (data != null) {
+        modelosNodosGraficos = data;
+
+        Navigator.of(context).pushNamed(
+            ScreenGraficas.routePage,
+        );
+      }
+      return null;
+    });
   }
 
   void getDataDeviceId(int id, BuildContext context) {
