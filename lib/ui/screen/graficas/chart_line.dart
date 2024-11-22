@@ -1,62 +1,56 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../../common/color.dart';
-import '../../provider/provider_principal.dart';
 
-class CustomChartPsi extends StatelessWidget {
-  const CustomChartPsi({super.key});
+class CustomChartLineWp extends StatelessWidget {
+  const CustomChartLineWp({super.key, this.topic, this.titulo});
+
+  final String? topic;
+  final String? titulo;
 
   @override
   Widget build(BuildContext context) {
     final pvPrincipal = context.watch<ProviderPrincipal>();
-
-    // Control de carga si no hay datos
-    if (pvPrincipal.modelosNodosGraficos == null ||
-        pvPrincipal.modelosNodosGraficos!.lineData == null) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    // Mapea los datos a la lista de SalesData
     final List<SalesData> chartData = pvPrincipal.modelosNodosGraficos!.lineData!
-        .where((item) => item.nombre == "psi") // Filtrar por nombre
+        .where((item) => item.nombre == topic) // Filtrar por nombre
         .expand((item) => List.generate(item.x!.length,
             (index) => SalesData(DateTime.parse('${item.x![index]}'), item.y![index])))
         .toList();
 
     return chartData.isNotEmpty
         ? SfCartesianChart(
+            title: ChartTitle(
+              text: "$titulo",
+              textStyle: const TextStyle(
+                color: Colors.black, // Título del gráfico
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             primaryXAxis: DateTimeAxis(
               intervalType: DateTimeIntervalType.auto,
               dateFormat: DateFormat("dd/MM HH:mm"),
               edgeLabelPlacement: EdgeLabelPlacement.shift,
               majorGridLines: const MajorGridLines(width: 0),
               labelStyle: const TextStyle(
-                color: Colors.black, // Color negro para las etiquetas del eje X
+                color: Colors.black, // Etiquetas del eje X
+                fontSize: 10,
               ),
             ),
             primaryYAxis: NumericAxis(
               title: AxisTitle(
-                text: 'Presión del agua [PSI]',
+                text: '$titulo',
                 textStyle: const TextStyle(
-                  color: Colors.black, // Color negro para el título del eje Y
+                  color: Colors.black, // Título del eje Y
+                  fontSize: 12,
                 ),
               ),
               labelStyle: const TextStyle(
-                color: Colors.black, // Color negro para las etiquetas del eje Y
-              ),
-            ),
-            title: ChartTitle(
-              text: "Presión del agua",
-              textStyle: const TextStyle(
-                color: Colors.black, // Título del gráfico
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
+                color: Colors.black, // Etiquetas del eje Y
+                fontSize: 10,
               ),
             ),
             tooltipBehavior: TooltipBehavior(
@@ -64,7 +58,7 @@ class CustomChartPsi extends StatelessWidget {
               header: 'Dato',
               format: 'point.x : point.y',
               textStyle: const TextStyle(
-                color: Colors.white, // Color negro para el texto del tooltip
+                color: Colors.white, // Tooltip
               ),
             ),
             zoomPanBehavior: ZoomPanBehavior(
@@ -80,7 +74,8 @@ class CustomChartPsi extends StatelessWidget {
                   isVisible: true,
                   labelAlignment: ChartDataLabelAlignment.top,
                   textStyle: TextStyle(
-                    color: Colors.black, // Color negro para las etiquetas de datos
+                    color: Colors.black, // Etiquetas de datos
+                    fontSize: 10,
                   ),
                 ),
                 color: Colors.blueAccent,

@@ -144,82 +144,110 @@ class ListChartNodos extends StatelessWidget {
             duration: const Duration(milliseconds: 150),
             child: Container(
               width: (MediaQuery.of(context).size.width / 2) - 24,
-              height: 200,
+              height: 270, // Altura ajustada para una mejor distribución
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withOpacity(0.08),
                     spreadRadius: 2,
-                    blurRadius: 6,
-                    offset: const Offset(0, 4),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
                   ),
                 ],
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Encabezado con etiqueta de estado y nombre
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0), // Espaciado uniforme
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Image(
                           image: const AssetImage("${CommonLabel.assetsImages}circle.gif"),
-                          width: 15,
+                          width: 16,
                           color: color,
                         ),
-                        const SizedBox(width: 8.0), // Espaciado entre la imagen y el texto
-                        Expanded( // Asegura que el texto se ajuste al espacio disponible
+                        const SizedBox(width: 8.0),
+                        Expanded(
                           child: Text(
-                            device.nombre != null ? device.nombre! : "SIN NOMBRE",
+                            device.nombre ?? "SIN NOMBRE",
                             style: const TextStyle(
                               fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.bold,
                               color: Colors.black87,
                             ),
-                            maxLines: 1, // Limita el texto a una línea
-                            overflow: TextOverflow.ellipsis, // Agrega los puntos suspensivos (...)
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
+                        ),
+                        Icon(
+                          Icons.more_vert, // Menú para posibles acciones futuras
+                          color: Colors.grey.shade500,
+                          size: 20,
                         ),
                       ],
                     ),
-                  ),
-
-                  SvgPicture.asset(
-                    'assets/images/tank.svg',
-                    width: 60,
-                    height: 60,
-                    colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
-                  ),
 
 
+                    const SizedBox(height: 10), // Separador entre encabezado y el icono
 
-                  // Valor del nodo en el centro
-                  Text(
-                    "${device.valor ?? 'N/A'} %",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: color,
+                    // Icono central (tanque)
+                    SvgPicture.asset(
+                      'assets/images/tank.svg',
+                      width: 80,
+                      height: 80,
+                      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
                     ),
-                  ),
-                  Text(
-                    "${device.tipoDato ?? 'N/A'}",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      // color: color,
-                    ),
-                  ),
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: ClipRRect(
+                    const SizedBox(height: 12), // Separador entre icono y datos principales
+
+                    // Fila con porcentaje y hora
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            const Text(
+                              "Nivel:",
+                              style: TextStyle(fontSize: 12, color: Colors.black54),
+                            ),
+                            Text(
+                              "${device.valor ?? 'N/A'}%",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: color,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const Text(
+                              "Última Hora:",
+                              style: TextStyle(fontSize: 12, color: Colors.black54),
+                            ),
+                            Text(
+                              device.hora ?? '',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 8), // Espaciado entre fila y barra de progreso
+
+                    // Barra de progreso
+                    ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: LinearProgressIndicator(
                         value: porcentaje,
@@ -228,13 +256,38 @@ class ListChartNodos extends StatelessWidget {
                         minHeight: 8,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                ],
+
+                    const SizedBox(height: 12), // Separador entre barra y tipo de dato
+
+                    // Tipo de dato y fecha
+                    Column(
+                      children: [
+                        Text(
+                          device.tipoDato ?? 'N/A',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          device.fecha ?? '',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.black45,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         );
+
+
       }),
     );
   }

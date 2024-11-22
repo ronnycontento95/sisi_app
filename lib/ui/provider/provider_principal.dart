@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
-import 'package:awesome_bottom_bar/tab_item.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sisi_iot_app/config/location_provider.dart';
 import 'package:sisi_iot_app/data/repositories/repository_implement.dart';
@@ -372,9 +372,22 @@ class ProviderPrincipal extends ChangeNotifier {
       if (data != null) {
         modelosNodosGraficos = data;
 
-        Navigator.of(context).pushNamed(
+        if (modelosNodosGraficos != null &&
+            modelosNodosGraficos!.lineData != null &&
+            modelosNodosGraficos!.lineData!.isNotEmpty &&
+            modelosNodosGraficos!.focoGrafica != null &&
+            modelosNodosGraficos!.focoGrafica!.isNotEmpty &&
+            modelosNodosGraficos!.graficosEstado != null &&
+            modelosNodosGraficos!.graficosEstado!.isNotEmpty) {
+          Navigator.of(context).pushNamed(
             ScreenGraficas.routePage,
-        );
+          );
+        } else {
+          Common().messageAlert(context, "No existen datos actualmente");
+        }
+
+
+
       }
       return null;
     });

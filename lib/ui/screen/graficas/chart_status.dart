@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sisi_iot_app/ui/common/color.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 
-class ChartFocoGrafica extends StatelessWidget {
-  const ChartFocoGrafica({super.key});
+class ChartGraficaStatus extends StatelessWidget {
+  const ChartGraficaStatus({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class ChartFocoGrafica extends StatelessWidget {
 
     // Control de carga si no hay datos
     if (pvPrincipal.modelosNodosGraficos == null ||
-        pvPrincipal.modelosNodosGraficos!.focoGrafica == null) {
+        pvPrincipal.modelosNodosGraficos!.graficosEstado == null) {
       return const Center(
         child: CircularProgressIndicator(),
       );
@@ -26,8 +27,7 @@ class ChartFocoGrafica extends StatelessWidget {
         runSpacing: 16, // Espaciado vertical entre las filas
         alignment: WrapAlignment.center, // Centrar las filas
         children: [
-          for (int i = 0; i < pvPrincipal.modelosNodosGraficos!.focoGrafica!.length; i++)
-
+          for (int i = 0; i < pvPrincipal.modelosNodosGraficos!.graficosEstado!.length; i++)
             Container(
               width: MediaQuery.of(context).size.width / 2.5, // Tamaño de cada tarjeta
               padding: const EdgeInsets.all(8),
@@ -49,12 +49,10 @@ class ChartFocoGrafica extends StatelessWidget {
                   Container(
                     width: 70,
                     height: 70,
-                    decoration: BoxDecoration(
-                      color: pvPrincipal.modelosNodosGraficos!.focoGrafica![i].valor == 0.0
-                          ? Colors.red
-                          : Colors.green,
-                      shape: BoxShape.rectangle,
-                      boxShadow: const [
+                    decoration: const BoxDecoration(
+                      color: CommonColor.colorPrimary,
+                      shape: BoxShape.circle,
+                      boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
                           blurRadius: 6,
@@ -64,7 +62,7 @@ class ChartFocoGrafica extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        pvPrincipal.modelosNodosGraficos!.focoGrafica![i].valor == 0.0 ? "OFF" : "ON",
+                        '${pvPrincipal.modelosNodosGraficos!.graficosEstado![i].valor}',
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -75,14 +73,14 @@ class ChartFocoGrafica extends StatelessWidget {
                   ),
                   const SizedBox(height: 10,),
                   Text(
-                    pvPrincipal.capitalize("${pvPrincipal.modelosNodosGraficos!.focoGrafica![i].alias}"),
+                    pvPrincipal.capitalize('${pvPrincipal.modelosNodosGraficos!.graficosEstado![i].nombre}'),
                     style: const TextStyle(
                       color: Colors.black45,
                       fontSize: 12,
                     ),
                   ),
                   Text(
-                    "${pvPrincipal.modelosNodosGraficos!.focoGrafica![i].fechahora}",
+                    "${pvPrincipal.modelosNodosGraficos!.graficosEstado![i].fechahora}",
                     style: const TextStyle(
                       color: Colors.black45,
                       fontSize: 10,

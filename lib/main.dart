@@ -19,9 +19,9 @@ import 'ui/routes/routes_provider.dart';
 import 'ui/screen/screen_home.dart';
 import 'ui/screen/screen_onboarding.dart';
 
-
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -53,6 +53,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var localeMode = 'es';
+
     return MultiProvider(
       providers: providers(),
       child: OKToast(
@@ -67,9 +69,9 @@ class MyApp extends StatelessWidget {
             theme: lightThemeData(context),
             darkTheme: darkThemeData(context),
             themeMode: context.watch<ProviderSetting>().themeMode,
+            locale: Locale(localeMode),
           ),
         ),
-
       ),
     );
   }

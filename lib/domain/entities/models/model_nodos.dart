@@ -30,7 +30,8 @@ class Nodo {
   int? valor;
   double? valMin;
   double? valMax;
-  String? fechahora;
+  String? fecha;
+  String? hora;
   String? tipoDato;
 
   Nodo({
@@ -41,7 +42,8 @@ class Nodo {
     this.valor,
     this.valMin,
     this.valMax,
-    this.fechahora,
+    this.fecha,
+    this.hora,
     this.tipoDato,
   });
 
@@ -71,7 +73,8 @@ class Nodo {
                     ? double.tryParse(json["val_max"]) ?? 0.0
                     : json["val_max"] as double))
             : 0.0,
-        fechahora: json["fechahora"],
+        fecha: json["fecha"],
+        hora: json["hora"],
         tipoDato: json["tipo_dato"],
       );
 
@@ -83,7 +86,8 @@ class Nodo {
         "valor": valor,
         "val_min": valMin,
         "val_max": valMax,
-        "fechahora": fechahora,
+        "fecha": fecha,
+        "hora": hora,
         "tipo_dato": tipoDato,
       };
 }

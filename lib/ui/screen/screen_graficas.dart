@@ -1,23 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sisi_iot_app/main.dart';
 import 'package:sisi_iot_app/ui/common/common_label.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
-import 'package:sisi_iot_app/ui/screen/graficas/chart_line_std.dart';
+import 'graficas/chart_line.dart';
+import 'graficas/chart_status.dart';
+import 'graficas/chart_foco.dart';
 
-import 'graficas/chart_line_bom.dart';
-import 'graficas/chart_line_fse.dart';
-import 'graficas/chart_line_psi.dart';
-import 'graficas/chart_line_vol.dart';
-import 'graficas/chart_line_vol1.dart';
-import 'graficas/chart_line_vol2.dart';
-import 'graficas/chart_line_wp.dart';
-import 'graficas/chart_line_wp1.dart';
-import 'graficas/chart_line_wp2.dart';
-import 'graficas/foco_grafica/chart_foco_grafica_estado.dart';
-import 'graficas/foco_grafica/chart_foco_grafica_std.dart';
-
+ScrollController controllerScroll = ScrollController();
 class ScreenGraficas extends StatelessWidget {
   const ScreenGraficas({super.key});
 
@@ -31,7 +20,7 @@ class ScreenGraficas extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           pvPrincipalRead.modelosNodosGraficos?.nodoIndividual?.nombre_nodo ?? "Graficas",
-          style: const  TextStyle(
+          style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 20,
@@ -41,49 +30,50 @@ class ScreenGraficas extends StatelessWidget {
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black), // Color de iconos de AppBar
       ),
-      body: const SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              ChartFocoGrafica(),
-              SizedBox(
-                height: 10,
-              ),
-              ChartGraficaStatus(),
-              CustomChartLineWp1(),
-              CustomChartLineWp2(),
-              SizedBox(
-                height: 10,
-              ),
-              CustomChartLine(),
-              CustomChartVol1(),
-              CustomChartVol2(),
-              SizedBox(
-                height: 10,
-              ),
-              CustomChartVol(),
-              SizedBox(
-                height: 10,
-              ),
-              CustomChartPsi(),
-              SizedBox(
-                height: 10,
-              ),
-              CustomChartStd(),
-              SizedBox(
-                height: 10,
-              ),
-              CustomChartFse(),
-              SizedBox(
-                height: 10,
-              ),
-              CustomChartBom(),
-            ],
-          ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          controller:  controllerScroll,
+          children: [
+            const ChartGraficaStatus(),
+            const SizedBox(
+              height: 10,
+            ),
+            const ChartFocoGrafica(),
+            ChartLine(controllerScroll: controllerScroll),
+
+          ],
         ),
       ),
     );
+  }
+}
+
+class ChartLine extends StatelessWidget {
+  const ChartLine({super.key, this.controllerScroll});
+
+  final ScrollController? controllerScroll;
+  @override
+  Widget build(BuildContext context) {
+    final pvPrincipalRead = context.watch<ProviderPrincipal>();
+    if (pvPrincipalRead.modelosNodosGraficos != null &&
+        pvPrincipalRead.modelosNodosGraficos!.lineData != null &&
+        pvPrincipalRead.modelosNodosGraficos!.lineData!.isNotEmpty) {
+      return ListView.builder(
+        controller: controllerScroll,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: pvPrincipalRead.modelosNodosGraficos!.lineData!.length,
+        itemBuilder: (context, index) {
+          final item = pvPrincipalRead.modelosNodosGraficos!.lineData![index];
+          return CustomChartLineWp(
+            topic: item.nombre,
+            titulo: item.titulo,
+          );
+        },
+      );
+    }
+    return const SizedBox.shrink();
+
   }
 }
