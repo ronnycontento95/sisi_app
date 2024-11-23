@@ -7,96 +7,102 @@ class ChartFocoGrafica extends StatelessWidget {
   const ChartFocoGrafica({super.key});
 
   @override
+  @override
   Widget build(BuildContext context) {
     final pvPrincipal = context.watch<ProviderPrincipal>();
+    print('ronny >>> 1');
 
-    if (pvPrincipal.modelosNodosGraficos?.focoGrafica == [] ||
-        pvPrincipal.modelosNodosGraficos!.focoGrafica!.isEmpty) {
-      return const WidgetEmpty();
+    // Validación inicial para mostrar datos o un contenedor vacío
+    final focoGrafica = pvPrincipal.modelosNodosGraficos?.focoGrafica;
+    if (focoGrafica == null || focoGrafica.isEmpty) {
+      return const SizedBox.shrink();
     }
-    return SingleChildScrollView(
-      child: Wrap(
-        spacing: 16, // Espaciado horizontal entre los elementos
-        runSpacing: 16, // Espaciado vertical entre las filas
-        alignment: WrapAlignment.center, // Centrar las filas
-        children: [
-          for (int i = 0; i < pvPrincipal.modelosNodosGraficos!.focoGrafica!.length; i++)
-            Container(
-              width: MediaQuery.of(context).size.width / 2.5, // Tamaño de cada tarjeta
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12), // Bordes redondeados
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 4,
-                    offset: Offset(2, 2), // Sombra para la tarjeta
-                  ),
-                ],
+
+    // Construcción de la lista de elementos
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const BouncingScrollPhysics(), // Animación más fluida
+      itemCount: focoGrafica.length,
+      itemBuilder: (context, index) {
+        final item = focoGrafica[index];
+        return _buildItemCard(context, item, pvPrincipal);
+      },
+    );
+  }
+
+// Método para construir cada tarjeta
+  Widget _buildItemCard(BuildContext context, dynamic item, ProviderPrincipal pvPrincipal) {
+    return InkWell(
+      onTap: () {
+        // Acción cuando se toca la tarjeta
+      },
+      borderRadius: BorderRadius.circular(16), // Borde redondeado
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              blurRadius: 8,
+              spreadRadius: 2,
+              offset: const Offset(0, 4), // Sombra suave
+            ),
+          ],
+          border: Border.all(
+            color: Colors.grey.shade200, // Bordes ligeros
+          ),
+        ),
+        child: Row(
+          children: [
+            // Ícono
+            Center(
+              child: Icon(
+                Icons.crisis_alert_outlined,
+                size: 40,
+                color: item.valor == 0 ? Colors.black : Colors.red,
               ),
+            ),
+            const SizedBox(width: 16), // Espacio entre ícono y texto
+            // Información textual
+            Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start, // Texto alineado a la izquierda
                 children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: 70,
-                    height: 70,
-                    decoration: BoxDecoration(
-                      color:
-                          pvPrincipal.modelosNodosGraficos!.focoGrafica![i].valor == 0.0
-                              ? Colors.green
-                              : Colors.red,
-                      shape: BoxShape.circle,
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 6,
-                          offset: Offset(2, 4),
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.info,
-                        color:
-                            pvPrincipal.modelosNodosGraficos!.focoGrafica![i].valor == 0.0
-                                ? Colors.green
-                                : Colors.red,
-                      ),
-                      // child: Text(,
-                      //   style: const TextStyle(
-                      //     color: Colors.white,
-                      //     fontWeight: FontWeight.bold,
-                      //     fontSize: 14,
-                      //   ),
-                      // ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  // Alias
                   Text(
-                    pvPrincipal.capitalize(
-                        "${pvPrincipal.modelosNodosGraficos!.focoGrafica![i].alias}"),
+                    pvPrincipal.capitalize('${item.alias}'),
                     style: const TextStyle(
-                      color: Colors.black45,
+                      color: Colors.black87,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  // Fecha y hora
+                  Text(
+                    'Fecha y hora: ${item.fechahora}',
+                    style: const TextStyle(
+                      color: Colors.grey,
                       fontSize: 12,
                     ),
                   ),
+                  const SizedBox(height: 4),
+                  // Descripción
                   Text(
-                    "${pvPrincipal.modelosNodosGraficos!.focoGrafica![i].fechahora}",
+                    'Descripción: ${pvPrincipal.capitalize('${item.descripcion}')}',
                     style: const TextStyle(
-                      color: Colors.black45,
-                      fontSize: 10,
+                      color: Colors.grey,
+                      fontSize: 12,
                     ),
                   ),
                 ],
               ),
             ),
-        ],
+          ],
+        ),
       ),
     );
   }

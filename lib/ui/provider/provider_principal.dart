@@ -19,6 +19,7 @@ import 'package:sisi_iot_app/domain/entities/models/model_nodos_graficas.dart';
 import 'package:sisi_iot_app/domain/repositories/api_repository_login_interface.dart';
 import 'package:sisi_iot_app/ui/common/color.dart';
 import 'package:sisi_iot_app/ui/common/common.dart';
+import 'package:sisi_iot_app/ui/screen/graficas/chart_status.dart';
 import 'package:sisi_iot_app/ui/screen/screen_Google.dart';
 import 'package:sisi_iot_app/ui/screen/screen_card_nodos.dart';
 import 'package:sisi_iot_app/ui/screen/screen_graficas.dart';
@@ -60,15 +61,23 @@ class ProviderPrincipal extends ChangeNotifier {
   ModelDiccionarioNodo? _modelDiccionarioNodo;
   int _pageScreen = 0;
   Position? currentPosition;
-  ModelNodos  _modelNodos = ModelNodos();
+  ModelNodos _modelNodos = ModelNodos();
+  int _selectPosition = 1;
 
+
+  int get selectPosition => _selectPosition;
+
+  set selectPosition(int value) {
+    _selectPosition = value;
+    notifyListeners();
+
+  }
 
   ModelNodos get modelNodos => _modelNodos;
 
   set modelNodos(ModelNodos value) {
     _modelNodos = value;
     notifyListeners();
-
   }
 
   int get pageScreen => _pageScreen;
@@ -77,7 +86,6 @@ class ProviderPrincipal extends ChangeNotifier {
     _pageScreen = value;
     notifyListeners();
   }
-
 
   ModelDiccionarioNodo? get modelDiccionarioNodo => _modelDiccionarioNodo;
 
@@ -115,17 +123,16 @@ class ProviderPrincipal extends ChangeNotifier {
     notifyListeners();
   }
 
-
   ModelosNodosGraficos? get modelosNodosGraficos => _modelosNodosGraficos;
 
   set modelosNodosGraficos(ModelosNodosGraficos? value) {
     _modelosNodosGraficos = value;
     notifyListeners();
-
   }
 
   ProviderPrincipal(this.apiRepositoryLoginInterface) {
-    Common().assetsCoverToBytes("${CommonLabel.assetsImages}water-drop.png")
+    Common()
+        .assetsCoverToBytes("${CommonLabel.assetsImages}water-drop.png")
         .then((value) {
       final bitmap = BitmapDescriptor.fromBytes(value);
       iconLocation.complete(bitmap);
@@ -365,28 +372,22 @@ class ProviderPrincipal extends ChangeNotifier {
     Common().nextScreenViewUntil(ScreenLogin());
   }
 
-  void getGraficasNodos(int id, BuildContext context){
+  void getGraficasNodos(int id, BuildContext context) {
     Common().showProgress();
     apiRepositoryLoginInterface?.getGraficas(id, (code, data) {
       Common().hideProgress(context);
       if (data != null) {
         modelosNodosGraficos = data;
-
         if (modelosNodosGraficos != null &&
-            modelosNodosGraficos!.lineData != null &&
-            modelosNodosGraficos!.lineData!.isNotEmpty &&
-            modelosNodosGraficos!.focoGrafica != null &&
-            modelosNodosGraficos!.focoGrafica!.isNotEmpty &&
-            modelosNodosGraficos!.graficosEstado != null &&
-            modelosNodosGraficos!.graficosEstado!.isNotEmpty) {
+            ((modelosNodosGraficos!.lineData != null && modelosNodosGraficos!.lineData!.isNotEmpty) ||
+                (modelosNodosGraficos!.focoGrafica != null && modelosNodosGraficos!.focoGrafica!.isNotEmpty) ||
+                (modelosNodosGraficos!.graficosEstado != null && modelosNodosGraficos!.graficosEstado!.isNotEmpty))) {
           Navigator.of(context).pushNamed(
-            ScreenGraficas.routePage,
+            ScreenGraphics.routePage,
           );
         } else {
           Common().messageAlert(context, "No existen datos actualmente");
         }
-
-
 
       }
       return null;
@@ -597,4 +598,7 @@ class ProviderPrincipal extends ChangeNotifier {
     return input[0].toUpperCase() + input.substring(1).toLowerCase();
   }
 
+  void updatePosition(int selectValue){
+    selectPosition = selectValue;
+  }
 }

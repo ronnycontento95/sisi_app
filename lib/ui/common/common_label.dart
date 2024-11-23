@@ -24,7 +24,7 @@ class CommonLabel{
   static const routerScreenDataDeviceId="ScreenDataDeviceId";
   static const routerScreenDetailNodo="ScreenDetailNodo";
   static const routeScreenProfile="ScreenProfile";
-  static const routerScreenGraficas="ScreenGraficas";
+  static const routerScreenGraphins="ScreenGraphics";
 
   /// Global Target Marker
   static const targetWidth = 80;

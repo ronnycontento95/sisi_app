@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/common/common_label.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
+import 'package:sisi_iot_app/ui/widgets/widget_custom_sliding_segment.dart';
 import 'graficas/chart_line.dart';
 import 'graficas/chart_status.dart';
 import 'graficas/chart_foco.dart';
 
 ScrollController controllerScroll = ScrollController();
-class ScreenGraficas extends StatelessWidget {
-  const ScreenGraficas({super.key});
 
-  static const routePage = CommonLabel.routerScreenGraficas;
+class ScreenGraphics extends StatelessWidget {
+  const ScreenGraphics({super.key});
+
+  static const routePage = CommonLabel.routerScreenGraphins;
 
   @override
   Widget build(BuildContext context) {
-    final pvPrincipalRead = context.read<ProviderPrincipal>();
+    final pvPrincipalRead = context.watch<ProviderPrincipal>();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -33,15 +35,20 @@ class ScreenGraficas extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
-          controller:  controllerScroll,
+          controller: controllerScroll,
           children: [
-            const ChartGraficaStatus(),
-            const SizedBox(
-              height: 10,
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Example6(),
+              ],
             ),
-            const ChartFocoGrafica(),
-            ChartLine(controllerScroll: controllerScroll),
-
+            if (pvPrincipalRead.selectPosition == 1) ...[
+              const ChartStatus(),
+              const ChartFocoGrafica(),
+            ] else ...[
+              ChartLine(controllerScroll: controllerScroll),
+            ]
           ],
         ),
       ),
@@ -53,6 +60,7 @@ class ChartLine extends StatelessWidget {
   const ChartLine({super.key, this.controllerScroll});
 
   final ScrollController? controllerScroll;
+
   @override
   Widget build(BuildContext context) {
     final pvPrincipalRead = context.watch<ProviderPrincipal>();
@@ -62,7 +70,7 @@ class ChartLine extends StatelessWidget {
       return ListView.builder(
         controller: controllerScroll,
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: pvPrincipalRead.modelosNodosGraficos!.lineData!.length,
         itemBuilder: (context, index) {
           final item = pvPrincipalRead.modelosNodosGraficos!.lineData![index];
@@ -74,6 +82,5 @@ class ChartLine extends StatelessWidget {
       );
     }
     return const SizedBox.shrink();
-
   }
 }

@@ -26,6 +26,6 @@ Map<String, WidgetBuilder> routes() {
     ScreenChartNodos.routePage:(_) => const ScreenChartNodos(),
     ScreenTermCondition.routePage:(_) => const ScreenTermCondition(),
     ScreenDetailDiccionario.routePage:(_) => const ScreenDetailDiccionario(),
-    ScreenGraficas.routePage:(_) => const ScreenGraficas(),
+    ScreenGraphics.routePage:(_) => const ScreenGraphics(),
   };
 }
