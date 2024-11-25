@@ -21,10 +21,14 @@ class _Example6State extends State<Example6> {
       initialValue: pvPrincipal.selectPosition,
       children: const {
         1: Text(
-          'Estado',
+          'Tarjetas',
           textAlign: TextAlign.center,
         ),
         2: Text(
+          'Estado',
+          textAlign: TextAlign.center,
+        ),
+        3: Text(
           'Gráficas',
           textAlign: TextAlign.center,
         ),

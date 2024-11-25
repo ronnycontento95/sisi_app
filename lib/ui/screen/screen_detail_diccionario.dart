@@ -106,16 +106,6 @@ class TablaDiccionarioNodo extends StatelessWidget {
   Widget build(BuildContext context) {
     final pvPrincipal = context.watch<ProviderPrincipal>();
 
-    if (pvPrincipal.modelDiccionarioNodo == null ||
-        pvPrincipal.modelDiccionarioNodo!.data == null) {
-      return const Center(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
     int contador = pvPrincipal.modelDiccionarioNodo!.data!.length; // Inicia el contador en 1
 
     return SingleChildScrollView(

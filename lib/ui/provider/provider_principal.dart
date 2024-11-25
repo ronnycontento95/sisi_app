@@ -601,4 +601,13 @@ class ProviderPrincipal extends ChangeNotifier {
   void updatePosition(int selectValue){
     selectPosition = selectValue;
   }
+
+  String formateDate(String date) {
+    return date.split(" ")[0];
+  }
+
+  String formateHours(String hours) {
+    return hours.split(" ")[1].substring(0,5);
+
+  }
 }

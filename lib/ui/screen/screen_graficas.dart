@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sisi_iot_app/ui/common/common_label.dart';
 import 'package:sisi_iot_app/ui/provider/provider_principal.dart';
+import 'package:sisi_iot_app/ui/screen/graficas/chart_card.dart';
 import 'package:sisi_iot_app/ui/widgets/widget_custom_sliding_segment.dart';
 import 'graficas/chart_line.dart';
 import 'graficas/chart_status.dart';
@@ -44,6 +45,8 @@ class ScreenGraphics extends StatelessWidget {
               ],
             ),
             if (pvPrincipalRead.selectPosition == 1) ...[
+              ChartCard(controllerScroll: controllerScroll)
+            ] else if (pvPrincipalRead.selectPosition == 2) ...[
               const ChartStatus(),
               const ChartFocoGrafica(),
             ] else ...[

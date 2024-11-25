@@ -162,7 +162,7 @@ class WidgetButtonLogin extends StatelessWidget {
             launchUrl(Uri.parse('http://34.122.67.202/terminos/'),
                 mode: LaunchMode.externalApplication);
           },
-          child: Align(
+          child: const Align(
             alignment: Alignment.centerRight,
             child: Text( CommonLabel.txtTemCond),
           ),

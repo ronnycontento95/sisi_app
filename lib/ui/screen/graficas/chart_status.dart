@@ -31,7 +31,7 @@ class _ChartStatusState extends State<ChartStatus> {
             if (item.valor! < 20) {
               valorColor = Colors.orangeAccent;
             } else if (item.valor! > 100) {
-              valorColor = Colors.redAccent;
+              valorColor = Colors.redAccent  ;
             } else {
               valorColor = CommonColor.colorPrimary;
             }
