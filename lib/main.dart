@@ -29,16 +29,13 @@ Future main() async {
   if (Platform.isAndroid) {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
-    if (androidDeviceInfo.version.sdkInt! < 30) {
+    if (androidDeviceInfo.version.sdkInt < 30) {
       HttpOverrides.global = MyHttpOverrides();
     }
   }
   NetworkStatus().init();
   await GlobalPreference().getIdEmpresa().then((idEmpresa) {
     if (idEmpresa != null) {
-      if (kDebugMode) {
-        ///print('GET SAVE >>> ID EMPRESA  $idEmpresa');
-      }
       runApp(MyApp(ScreenHome.routePage));
     } else {
       runApp(MyApp(ScreenOnBoarding.routePage));
