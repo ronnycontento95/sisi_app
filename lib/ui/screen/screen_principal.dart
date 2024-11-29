@@ -197,7 +197,7 @@ class ListChartNodos extends StatelessWidget {
 
                     // Icono central (tanque)
                     SvgPicture.asset(
-                      'assets/images/tank.svg',
+                      pvPrincipal.companyResponse.id_empresas  == 1? 'assets/images/tank.svg': 'assets/images/glp.svg',
                       width: 80,
                       height: 80,
                       colorFilter: ColorFilter.mode(color, BlendMode.srcIn),

@@ -102,7 +102,7 @@ class _ListCardNodosState extends State<ListCardNodos> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SvgPicture.asset('assets/images/tank.svg',
+                        SvgPicture.asset(pvPrincipal.companyResponse.id_empresas  == 1? 'assets/images/tank.svg': 'assets/images/glp.svg',
                           width: 60,
                           height: 60,
                           colorFilter: ColorFilter.mode(color, BlendMode.srcIn),

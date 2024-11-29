@@ -29,8 +29,9 @@ class ScreenTermCondition extends StatelessWidget {
                   children: [
                     const Image(image: AssetImage("${CommonLabel.assetsImages}term.png")),
                     const Text(
-                      "En un mundo cada vez más conectado, la gestión eficiente de dispositivos "
-                      "IoT puede ser un reto. ¿Te gustaría tener una herramienta que te permita monitorear y controlar tus dispositivos de forma centralizada? Con {name}, puedes gestionar fácilmente tus dispositivos IoT desde cualquier lugar. {name} te ofrece una solución integral para visualizar el estado, rendimiento y datos de tus dispositivos conectados.\n\n{name} es tu aliado para tomar decisiones informadas en tiempo real, asegurando que tu red de dispositivos funcione de manera eficiente y segura. Perfecto para la gestión de sensores, actuadores y otros dispositivos IoT en proyectos empresariales o industriales.",
+                      "En un mundo cada vez más interconectado, la gestión eficiente de dispositivos IoT (Internet de las Cosas) puede presentar varios desafíos. Sentinel IoT está diseñado para ofrecerte una solución integral que te permite monitorear y controlar todos tus dispositivos IoT desde una única plataforma, accesible desde cualquier lugar y en cualquier momento.\n"
+                      "Sentinel IoT te proporciona herramientas avanzadas para gestionar el estado, rendimiento y datos de tus dispositivos conectados de forma centralizada. Ya sea para la supervisión de sensores, actuadores u otros dispositivos IoT, nuestra plataforma te ofrece la flexibilidad y control necesarios para optimizar tus operaciones en entornos empresariales o industriales.\n"
+                      "Con Sentinel IoT, tendrás acceso a información en tiempo real que te permitirá tomar decisiones informadas y garantizar la eficiencia, seguridad y confiabilidad de tu red de dispositivos. Nuestra solución está diseñada para simplificar la gestión de dispositivos IoT, promoviendo la productividad y la toma de decisiones estratégicas en cualquier proyecto relacionado con la tecnología IoT.",
                       style: TextStyle(color: Colors.black),
                     ),
                     const SizedBox(

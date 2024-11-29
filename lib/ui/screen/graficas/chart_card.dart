@@ -9,7 +9,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ChartCard extends StatefulWidget {
   const ChartCard({super.key, this.controllerScroll});
+
   final ScrollController? controllerScroll;
+
   @override
   State<ChartCard> createState() => _ChartCardState();
 }
@@ -27,6 +29,9 @@ class _ChartCardState extends State<ChartCard> {
         itemCount: pvPrincipal.modelosNodosGraficos!.lineData!.length,
         itemBuilder: (context, index) {
           final item = pvPrincipal.modelosNodosGraficos!.lineData![index];
+          if (item.y == null || item.y!.isEmpty && item.x == null || item.x!.isEmpty) {
+            return const SizedBox.shrink();
+          }
           return Container(
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
             padding: const EdgeInsets.all(16),
@@ -54,7 +59,7 @@ class _ChartCardState extends State<ChartCard> {
                     width: 70,
                     height: 70,
                     decoration: BoxDecoration(
-                      color: Colors.blueAccent,
+                      color: CommonColor.colorPrimary,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
@@ -164,7 +169,7 @@ class _ChartCardState extends State<ChartCard> {
                       // Relleno dinámico de datos
                       ...List.generate(
                         item.x!.length,
-                            (i) => TableRow(
+                        (i) => TableRow(
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -200,11 +205,9 @@ class _ChartCardState extends State<ChartCard> {
       );
     }
 
-
     return const SizedBox.shrink();
   }
 }
-
 
 class TablaDiccionarioNodo extends StatelessWidget {
   const TablaDiccionarioNodo({super.key});
@@ -213,7 +216,8 @@ class TablaDiccionarioNodo extends StatelessWidget {
   Widget build(BuildContext context) {
     final pvPrincipal = context.watch<ProviderPrincipal>();
 
-    int contador = pvPrincipal.modelDiccionarioNodo!.data!.length; // Inicia el contador en 1
+    int contador =
+        pvPrincipal.modelDiccionarioNodo!.data!.length; // Inicia el contador en 1
 
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -229,7 +233,7 @@ class TablaDiccionarioNodo extends StatelessWidget {
           ),
           columnSpacing: 40,
           headingRowColor: WidgetStateProperty.resolveWith(
-                (states) => Colors.deepPurpleAccent.withOpacity(0.1),
+            (states) => Colors.deepPurpleAccent.withOpacity(0.1),
           ),
           columns: const [
             DataColumn(
@@ -263,22 +267,27 @@ class TablaDiccionarioNodo extends StatelessWidget {
               ),
             ),
           ],
-          rows: pvPrincipal.modelDiccionarioNodo!.data!.map((item) {
-            final fila = DataRow(
-              cells: [
-                DataCell(Text(contador.toString(), style: const TextStyle(fontSize: 12))),
-                DataCell(Text(item.nombreDiccionario ?? "Sin Nombre",
-                    style: const TextStyle(fontSize: 12))),
-                DataCell(
-                    Text(item.valor.toString(), style: const TextStyle(fontSize: 12))),
-                DataCell(Text(item.hora!, style: const TextStyle(fontSize: 12))),
-                DataCell(Text(DateFormat('yyyy-MM-dd').format(item.fechahora!),
-                    style: const TextStyle(fontSize: 12))),
-              ],
-            );
-            contador--;
-            return fila;
-          }).toList().reversed.toList(),
+          rows: pvPrincipal.modelDiccionarioNodo!.data!
+              .map((item) {
+                final fila = DataRow(
+                  cells: [
+                    DataCell(
+                        Text(contador.toString(), style: const TextStyle(fontSize: 12))),
+                    DataCell(Text(item.nombreDiccionario ?? "Sin Nombre",
+                        style: const TextStyle(fontSize: 12))),
+                    DataCell(Text(item.valor.toString(),
+                        style: const TextStyle(fontSize: 12))),
+                    DataCell(Text(item.hora!, style: const TextStyle(fontSize: 12))),
+                    DataCell(Text(DateFormat('yyyy-MM-dd').format(item.fechahora!),
+                        style: const TextStyle(fontSize: 12))),
+                  ],
+                );
+                contador--;
+                return fila;
+              })
+              .toList()
+              .reversed
+              .toList(),
           dividerThickness: 1,
           dataRowColor: WidgetStateProperty.resolveWith((states) => Colors.white),
           dataRowMaxHeight: 20,

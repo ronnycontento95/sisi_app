@@ -382,6 +382,7 @@ class ProviderPrincipal extends ChangeNotifier {
             ((modelosNodosGraficos!.lineData != null && modelosNodosGraficos!.lineData!.isNotEmpty) ||
                 (modelosNodosGraficos!.focoGrafica != null && modelosNodosGraficos!.focoGrafica!.isNotEmpty) ||
                 (modelosNodosGraficos!.graficosEstado != null && modelosNodosGraficos!.graficosEstado!.isNotEmpty))) {
+          selectPosition = 1;
           Navigator.of(context).pushNamed(
             ScreenGraphics.routePage,
           );
