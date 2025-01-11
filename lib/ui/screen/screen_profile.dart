@@ -104,8 +104,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
                             context: context,
                             title: "Aviso",
                             subtitle: "¿Estás seguro de que deseas continuar?",
-                            onConfirm: () => pvPrincipal.logoOut()
-                            ,
+                            onConfirm: () => pvPrincipal.logoOut(),
                           );
 
                         },

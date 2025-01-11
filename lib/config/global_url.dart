@@ -12,9 +12,9 @@ class ApiGlobalUrl {
   static const getDataDiccionarioNodo = "aplicacion/api/nodo_type/";
 
   /// NEW APIS
-  static const getLogin="aplicacion/celular/authenticate/";
-  static const getListNodos = "aplicacion/celular/lista_nodos/";
-  static const getGraficas = "aplicacion/celular/nodos/";
+  static const getLogin="aplicacion/api/authenticate/";
+  static const getListNodos = "aplicacion/api/lista_nodos/";
+  static const getGraficas = "aplicacion/api/nodos/";
 
 
 }
